@@ -8,5 +8,4 @@ Esse projeto tem como base a integração da API ja pronta do Scryfall [Scryfall
 - Express
 - Swagger
 - DB Postgress
-**A API Utiizará da seguinte forma de modelação**
 - DDD (Domain-Driver Design)
