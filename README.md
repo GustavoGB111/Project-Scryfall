@@ -10,3 +10,7 @@ Esse projeto tem como base a integração da API ja pronta do Scryfall [Scryfall
 - Swagger (Para Documentação e Teste de API)
 - DB Postgresql (Para DataBase)
 - DDD (Domain-Driver Design)
+# Como devo atualizar instâncias do projeto?
+**O projeto deve ser atualizado em instâncias por meio de scrips** 
+- npm run dev (inicia o servidor onde a API rodará)
+- npm run build (atualiza o typescript, consequentemente atualizando o dist para JS)
