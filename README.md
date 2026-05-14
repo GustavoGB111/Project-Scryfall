@@ -4,8 +4,9 @@ Esse projeto tem como base a integração da API ja pronta do Scryfall [Scryfall
 **A API moldada com a integração de outra API (Scryfall API) deve cumprir as seguinte funções:**
 - buscar cartas no Scryfall (lista e páginas)
 # Quais tecnologias e modelagens a API vai utilizar?
-**A API irá Utilizar das seguintes tecnologias para sua modelação:**
-- Express
-- Swagger
-- DB Postgress
+**A API irá utilizar das seguintes tecnologias para sua modelação:**
+- Express (Para criação da API)
+- Typeorm (Para integração com o DataBase)
+- Swagger (Para Documentação e Teste de API)
+- DB Postgresql (Para DataBase)
 - DDD (Domain-Driver Design)
