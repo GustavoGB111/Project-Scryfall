@@ -22,6 +22,7 @@
   "homepage": "https://github.com/GustavoGB111/Project-Scryfall#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.20.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "typescript": "^6.0.3"
   }
 }
