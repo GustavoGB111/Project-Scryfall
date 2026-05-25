@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch dist/server.js", 
+    "dev": "node --watch dist/server.js",
     "build": "npx tsc"
   },
   "repository": {
@@ -21,12 +21,14 @@
   },
   "homepage": "https://github.com/GustavoGB111/Project-Scryfall#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "pg": "^8.20.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.29"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
     "typescript": "^6.0.3"
   }

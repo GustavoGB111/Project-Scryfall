@@ -9,7 +9,7 @@ app.use('/user', publicRoutes);
 //inicializando o banco de dados
 AppDataSource.initialize().then(() => {
 });
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('Servidor iniciado');
 });
 //# sourceMappingURL=server.js.map
