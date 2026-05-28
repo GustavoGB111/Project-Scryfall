@@ -18,5 +18,18 @@ Esse projeto tem como base a integração da API ja pronta do Scryfall [Scryfall
 # Processo de desenvolvimento do projeto
 **O Projeto está sendo desenvolvido da seguinte forma:**
 - 1-Criação das rotas e estrutura (express e BCrypt) 
-- 2-Criação do banco de dado (TypeORM)
-- 3-Documentação e testes (Swagger)
+- 2-Criação do banco de dados (TypeORM) 
+- 3-Documentação e testes (Swagger) 
+# Organização do projeto 
+**O Projeto está sendo organizado da seguinte forma:**
+- server.ts (Onde o servidor rodá e onde o express está sendo majoritariamente utilizado)
+- App (Pasta onde fica localizado a parte funcional do projeto)
+- Controllers ()
+- Entities (Onde ficam os modelos de estrutura do banco de dados)
+- Interface (Onde ficam os modelos de estrutura das classes e objetos e define como devem se comportar quando utilizadas )
+- Middlewares (Onde fica o verificador do token JWT)
+- Repositories (onde ficam os metodos pra alterar registros no banco de dados)
+- Routes (onde ficam as rotas da API)
+- DB (onde fica o DataBase)
+- Migrations (Onde ficam as migrações pro banco de dados)
+- databaseConexion (Onde fica a conexão entre o DB e o código)

@@ -1,7 +1,2 @@
-import "express";
-declare module "express-serve-static-core" {
-    interface Request {
-        userId?: string;
-    }
-}
+export {};
 //# sourceMappingURL=types.d.ts.map

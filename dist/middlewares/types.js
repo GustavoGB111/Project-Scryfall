@@ -1,2 +1,2 @@
-import "express";
+export {};
 //# sourceMappingURL=types.js.map

@@ -4,12 +4,16 @@
     // File Layout
      "rootDir": "./src",
      "outDir": "./dist",
+     "experimentalDecorators": true,
+     "emitDecoratorMetadata": true,
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
+    "module": "commonjs",
+    "moduleResolution": "bundler",
     "target": "esnext",
-    "types": [],
+    "esModuleInterop": true,
+    "types": ["node"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -35,7 +39,7 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    //"verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
