@@ -1,0 +1,20 @@
+import { Router } from "express";
+import { container } from "tsyringe";
+import UserController from "../controllers/user.controller";
+
+const userRoutes = Router();
+
+const userController = container.resolve(UserController);
+
+// o bind serve pra função sempre conseguir utilizar o this independentemente de como ela é chamada
+userRoutes.get("/", userController.getUsers.bind(userController)); // você precisa redeclarar a função como param
+
+// get 123 route
+
+// put route
+
+userRoutes.post("/", userController.createUser.bind(userController)); // após o post é tudo url
+
+// delete route
+
+export default userRoutes;

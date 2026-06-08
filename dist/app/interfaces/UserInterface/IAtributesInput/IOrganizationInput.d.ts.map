@@ -1,0 +1,1 @@
+{"version":3,"file":"IOrganizationInput.d.ts","sourceRoot":"","sources":["../../../../../src/app/interfaces/UserInterface/IAtributesInput/IOrganizationInput.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,UAAU,MAAM,cAAc,CAAC;AAC3C,OAAO,KAAK,kBAAkB,MAAM,sBAAsB,CAAC;AAC3D,OAAO,KAAK,eAAe,MAAM,mBAAmB,CAAC;AAErD,YAAY,EAAE,UAAU,EAAE,kBAAkB,EAAE,eAAe,EAAE,CAAC"}

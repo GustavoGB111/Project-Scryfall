@@ -14,7 +14,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     logging: true,
     entities: [__dirname + "/entities/*.ts"], // forma pra selecionar todas as entidades
     subscribers: [],
-    migrations: [__dirname + '/migrations/*.ts'] // forma para selecionar todas as migration
+    migrations: [__dirname + "/migrations/*.ts"], // forma para selecionar todas as migration
 });
 //Comando para executar a migration e cria-la
 // npm run typeorm -- -d ./src/DB/databaseConexion.ts migration:run

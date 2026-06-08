@@ -1,0 +1,1 @@
+{"version":3,"file":"IOrganizationOutput.d.ts","sourceRoot":"","sources":["../../../../../src/app/interfaces/UserInterface/IAtributesOutput/IOrganizationOutput.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,WAAW,MAAM,eAAe,CAAC;AAC7C,OAAO,KAAK,mBAAmB,MAAM,uBAAuB,CAAC;AAC7D,OAAO,KAAK,gBAAgB,MAAM,oBAAoB,CAAC;AAEvD,YAAY,EAAE,WAAW,EAAE,gBAAgB,EAAE,mBAAmB,EAAE,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"IUserRegisterInput.d.ts","sourceRoot":"","sources":["../../../../../src/app/interfaces/UserInterface/IAtributesInput/IUserRegisterInput.ts"],"names":[],"mappings":"AAAA,UAAU,kBAAkB;IAC1B,EAAE,CAAC,EAAE,MAAM,CAAC;IACZ,IAAI,EAAE,MAAM,CAAC;IACb,KAAK,EAAE,MAAM,CAAC;IACd,QAAQ,EAAE,MAAM,CAAC;CAClB;AAED,eAAe,kBAAkB,CAAC"}

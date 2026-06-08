@@ -1,0 +1,1 @@
+{"version":3,"file":"IUserInput.d.ts","sourceRoot":"","sources":["../../../../../src/app/interfaces/user/IAtributesInput/IUserInput.ts"],"names":[],"mappings":"AAAA,UAAU,UAAU;IAChB,EAAE,EAAE,MAAM,CAAC;IACX,IAAI,EAAE,MAAM,CAAC;IACb,KAAK,EAAE,MAAM,CAAC;IACd,QAAQ,EAAE,MAAM,CAAC;CACpB;AAED,eAAe,UAAU,CAAC"}

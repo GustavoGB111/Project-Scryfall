@@ -1,1 +1,1 @@
-{"version":3,"file":"databaseConexion.d.ts","sourceRoot":"","sources":["../../src/DB/databaseConexion.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,SAAS,CAAC;AACrC,OAAO,eAAe,CAAA;AAEtB,eAAO,MAAM,aAAa,YAYxB,CAAA"}
+{"version":3,"file":"databaseConexion.d.ts","sourceRoot":"","sources":["../../src/DB/databaseConexion.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,SAAS,CAAC;AACrC,OAAO,eAAe,CAAC;AAEvB,eAAO,MAAM,aAAa,YAYxB,CAAC"}
