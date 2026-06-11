@@ -36,7 +36,7 @@ let UserService = class UserService {
             const userEntity = await this.userRepository.createUser(input);
             return {
                 email: userEntity.email,
-                status: 200,
+                status: 201,
             };
         }
         catch (error) {

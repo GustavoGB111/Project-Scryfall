@@ -9,7 +9,7 @@ class CreateUserTable1779815565535 {
             columns: [
                 {
                     name: "id",
-                    type: "number",
+                    type: "integer",
                     isPrimary: true,
                     isGenerated: true,
                     generationStrategy: "increment",
@@ -25,6 +25,7 @@ class CreateUserTable1779815565535 {
                     name: "email", //nome
                     type: "varchar", // tipo
                     isPrimary: false, // se é uma chave primaria
+                    isUnique: true,
                     length: "100", //tamanho maximo do
                     isNullable: false, // não permite ser nulo
                 },

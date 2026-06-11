@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json()); // pro app entender o json enviado no corpo (body) da requisição
 
-app.use(userRoutes); // onde o app(variável q representa o express usa a rota user)
+app.use("/user", userRoutes); // onde o app(variável q representa o express usa a rota user)
 
 // banco de dados deve iniciar antes do servidor, caso ocorra o contrário poderá dar erro
 //inicializando o banco de dados

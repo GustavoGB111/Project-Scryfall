@@ -10,21 +10,23 @@ import {
 export default class UserController {
   constructor(
     @inject("UserService") // indica q está sendo utilizado um injetavel aqui
-    private userService: UserService,
+    private readonly userService: UserService,
   ) {}
 
-  async getUsers(res: Response): Promise<Response> {
+  async getUsers(req: Request, res: Response): Promise<Response> {
     const users = await this.userService.getAll();
     return res.status(200).json(users);
   }
 
-  async createUser(req: Request): Promise<UserCreateOutputDto> {
+  async createUser(req: Request, res: Response): Promise<Response> {
     const input: UserCreateInputDto = {
       email: req.body.email,
       name: req.body.name,
       password: req.body.password,
     };
 
-    return await this.userService.createUser(input);
+    const { status, email } = await this.userService.createUser(input);
+
+    return res.status(status).json(email);
   }
 }

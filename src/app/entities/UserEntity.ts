@@ -8,7 +8,7 @@ export class UserEntity {
   @Column("varchar", { length: 100, nullable: false }) // tamanho 100 e não nula
   name!: string;
 
-  @Column("varchar", { length: 100, nullable: false })
+  @Column("varchar", { length: 100, nullable: false, unique: true })
   email!: string;
 
   @Column("varchar", { length: 100, nullable: false })

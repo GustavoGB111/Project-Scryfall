@@ -19,17 +19,18 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async getUsers(res) {
+    async getUsers(req, res) {
         const users = await this.userService.getAll();
         return res.status(200).json(users);
     }
-    async createUser(req) {
+    async createUser(req, res) {
         const input = {
             email: req.body.email,
             name: req.body.name,
             password: req.body.password,
         };
-        return await this.userService.createUser(input);
+        const { status, email } = await this.userService.createUser(input);
+        return res.status(status).json(email);
     }
 };
 UserController = __decorate([

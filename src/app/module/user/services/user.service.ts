@@ -26,7 +26,7 @@ export class UserService {
 
       return {
         email: userEntity.email,
-        status: 200,
+        status: 201,
       };
     } catch (error) {
       throw new Error("Deu erro aqui");

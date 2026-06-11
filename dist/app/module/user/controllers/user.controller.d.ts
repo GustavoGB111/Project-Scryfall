@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
-import { UserCreateOutputDto } from "../dto/user-create.dto";
 export default class UserController {
-    private userService;
+    private readonly userService;
     constructor(userService: UserService);
-    getUsers(res: Response): Promise<Response>;
-    createUser(req: Request): Promise<UserCreateOutputDto>;
+    getUsers(req: Request, res: Response): Promise<Response>;
+    createUser(req: Request, res: Response): Promise<Response>;
 }
 //# sourceMappingURL=user.controller.d.ts.map

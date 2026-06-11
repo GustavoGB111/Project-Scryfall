@@ -23,7 +23,8 @@ Esse projeto tem como base a integração da API ja pronta do Scryfall [Scryfall
 **O Projeto está sendo organizado da seguinte forma:**
 - server.ts (Onde o banco de dados e o servidor inicializará por meio do express, além de onde serão utilizadas as rotas (que foram exportadas pelo 'Routes'))
 - App (Pasta onde fica localizado a parte funcional do projeto)
-- Controllers (Onde ficam a lógica de funcionamento e o cerne principal do código)
+- Service (Onde ficam a lógica de funcionamento e o cerne principal do código)
+- Controller (onde vai ficar a tradução de dados, ele vai adptar dados do HTTP e vai transformar pra lógica da aplicação);
 - Entities (Onde ficam os modelos de estrutura do banco de dados)
 - Interface (Onde ficam os modelos de estrutura das classes e objetos e define como devem se comportar quando utilizadas )
 - Middlewares (Onde fica o verificador do token JWT, é uma função que ocorre antes de algumas rotas serem executadas)
