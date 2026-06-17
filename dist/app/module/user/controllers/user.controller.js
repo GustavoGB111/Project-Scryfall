@@ -20,17 +20,58 @@ let UserController = class UserController {
         this.userService = userService;
     }
     async getUsers(req, res) {
-        const users = await this.userService.getAll();
-        return res.status(200).json(users);
+        try {
+            const users = await this.userService.getAll();
+            return res.status(200).json(users);
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "Erro interno",
+            });
+        }
+    }
+    async getUser(req, res) {
+        try {
+            const input = { email: req.body.email };
+            const user = await this.userService.getOne(input);
+            return res.status(200).json(user);
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "Erro interno",
+            });
+        }
     }
     async createUser(req, res) {
-        const input = {
-            email: req.body.email,
-            name: req.body.name,
-            password: req.body.password,
-        };
-        const { status, email } = await this.userService.createUser(input);
-        return res.status(status).json(email);
+        try {
+            const input = {
+                email: req.body.email,
+                name: req.body.name,
+                password: req.body.password,
+            };
+            const { email } = await this.userService.createUser(input);
+            return res.status(201).json(email);
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            });
+        }
+    }
+    async updateUserName(req, res) {
+        try {
+            const input = {
+                id: req.userId,
+                name: req.body.name,
+            };
+            const user = this.userService.updateUserName(input);
+            return res.status(201).json(user);
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            });
+        }
     }
 };
 UserController = __decorate([

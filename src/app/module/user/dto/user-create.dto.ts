@@ -6,5 +6,4 @@ export interface UserCreateInputDto {
 
 export interface UserCreateOutputDto {
   email: string;
-  status: number;
 }

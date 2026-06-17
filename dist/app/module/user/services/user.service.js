@@ -18,6 +18,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const tsyringe_1 = require("tsyringe");
 const user_repository_interface_1 = __importDefault(require("../repositories/interfaces/user.repository.interface"));
+const bcrypt_1 = require("bcrypt");
 let UserService = class UserService {
     userRepository;
     constructor(userRepository) {
@@ -31,13 +32,67 @@ let UserService = class UserService {
             throw new Error("Erro aqui");
         }
     }
+    async getOne(input) {
+        try {
+            const { email } = input;
+            if (!email) {
+                throw new Error("email ou id inválidos");
+            }
+            if (email?.trim() === "") {
+                throw new Error("Email não pode ser vazio");
+            }
+            const user = await this.userRepository.getOne({ email });
+            if (!user) {
+                throw new Error("User not found");
+            }
+            return user;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
     async createUser(input) {
         try {
-            const userEntity = await this.userRepository.createUser(input);
+            const { name, email, password } = input;
+            if (!name || !email || !password) {
+                throw new Error("Algum campo nulo");
+            }
+            if (name.trim() === "" || email.trim() === "" || password.trim() === "") {
+                throw new Error("Algum campo é vazio");
+            }
+            const userExisting = await this.userRepository.getOne({
+                email: input.email,
+            });
+            if (!userExisting) {
+                throw new Error("User not found");
+            }
+            if (password.trim().length < 8) {
+                throw new Error("Sua senha não pode ter menos de 8 caracteres");
+            }
+            const hashedPassword = await (0, bcrypt_1.hash)(password, 10);
+            const userEntity = await this.userRepository.createUser({
+                name,
+                email,
+                password: hashedPassword,
+            });
             return {
                 email: userEntity.email,
-                status: 201,
             };
+        }
+        catch (error) {
+            throw new Error("Deu erro aqui");
+        }
+    }
+    async updateUserName(input) {
+        try {
+            if (!input.name || !input.id) {
+                throw new Error("O nome ou id não pode ser nulo");
+            }
+            const userEntity = await this.userRepository.updateUserName(input);
+            if (input.name !== userEntity.name) {
+                throw new Error("Usuário não atualizado");
+            }
+            return { name: userEntity.name };
         }
         catch (error) {
             throw new Error("Deu erro aqui");

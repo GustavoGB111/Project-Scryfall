@@ -5,6 +5,5 @@ export interface UserCreateInputDto {
 }
 export interface UserCreateOutputDto {
     email: string;
-    status: number;
 }
 //# sourceMappingURL=user-create.dto.d.ts.map
