@@ -5,8 +5,9 @@ import {
   UserCreateInputDto,
   UserCreateOutputDto,
 } from "../dto/user-create.dto";
-import { UserUpdateNameInputDto } from "../dto/user-update.name.dto";
+import { UserUpdateNameInputDto } from "../dto/user-update.dto";
 import { UserGetOneInputDto } from "../dto/user-get.dto";
+import { UserLoginInputDto } from "../dto/user-login.dto";
 
 @injectable() // serve para que permita q a classe seja injetável (decorator)
 export default class UserController {
@@ -55,6 +56,30 @@ export default class UserController {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "erro Interno",
       });
+    }
+  }
+
+  async loginUser(req: Request, res: Response): Promise<Response> {
+    try {
+      const input: UserLoginInputDto = {
+        email: req.body.email,
+        password: req.body.password,
+      };
+
+      const user = await this.userService.loginUser(input);
+
+      return res.status(200).json({
+        token: user.token,
+        user: {
+          email: user.user.email,
+          name: user.user.name,
+          id: user.user.id,
+        },
+      });
+    } catch (error) {
+      return res.status(400).json({
+        message: error instanceof Error ? error.message : "erro Interno",
+      }); // pega a instancia do erro e manda como mensagem no json se existir
     }
   }
 

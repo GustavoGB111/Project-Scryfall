@@ -1,4 +1,4 @@
-export interface UserGetOneInputDto {
+export declare class UserGetOneInputDto {
     email: string;
 }
 //# sourceMappingURL=user-get.dto.d.ts.map

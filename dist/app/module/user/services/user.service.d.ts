@@ -1,8 +1,9 @@
 import IUserRepository from "../repositories/interfaces/user.repository.interface";
 import { UserCreateInputDto, UserCreateOutputDto } from "../dto/user-create.dto";
-import { UserUpdateNameInputDto, UserUpdateNameOutputDto } from "../dto/user-update.name.dto";
+import { UserUpdateNameInputDto, UserUpdateNameOutputDto } from "../dto/user-update.dto";
 import { UserGetOneInputDto } from "../dto/user-get.dto";
 import { UserEntity } from "../../../entities/UserEntity";
+import { UserLoginInputDto, UserLoginoutputDto } from "../dto/user-login.dto";
 export declare class UserService {
     private readonly userRepository;
     constructor(userRepository: IUserRepository);
@@ -10,5 +11,6 @@ export declare class UserService {
     getOne(input: UserGetOneInputDto): Promise<UserEntity>;
     createUser(input: UserCreateInputDto): Promise<UserCreateOutputDto>;
     updateUserName(input: UserUpdateNameInputDto): Promise<UserUpdateNameOutputDto>;
+    loginUser(input: UserLoginInputDto): Promise<UserLoginoutputDto>;
 }
 //# sourceMappingURL=user.service.d.ts.map

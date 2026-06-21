@@ -6,9 +6,9 @@ import { UserCreateInputDto } from "../dto/user-create.dto";
 import {
   UserUpdateNameInputDto,
   UserUpdateNameOutputDto,
-} from "../dto/user-update.name.dto";
+} from "../dto/user-update.dto";
 
-import { UserUpdatePasswordInputDto } from "../dto/user-update.password.dto";
+import { UserUpdatePasswordInputDto } from "../dto/user-update.dto";
 import { UserGetOneInputDto } from "../dto/user-get.dto";
 
 export class UserRepository extends IUserRepository {
@@ -37,14 +37,14 @@ export class UserRepository extends IUserRepository {
   async updateUserName(
     input: UserUpdateNameInputDto,
   ): Promise<UserUpdateNameOutputDto> {
-    const { id, name } = input;
-    await this.userRepository.update({ id: id }, { name: name });
+    await this.userRepository.update({ id: input.id }, { name: input.name });
 
-    const user = await this.userRepository.findOne({ where: { id: id } });
+    const user = await this.userRepository.findOne({ where: { id: input.id } });
 
     if (!user) {
       throw new Error("usuário não encontrado");
     }
+
     return { name: user.name };
   }
 

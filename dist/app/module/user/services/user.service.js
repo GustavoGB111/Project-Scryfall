@@ -18,7 +18,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const tsyringe_1 = require("tsyringe");
 const user_repository_interface_1 = __importDefault(require("../repositories/interfaces/user.repository.interface"));
+const user_create_dto_1 = require("../dto/user-create.dto");
+const user_update_dto_1 = require("../dto/user-update.dto");
 const bcrypt_1 = require("bcrypt");
+const user_get_dto_1 = require("../dto/user-get.dto");
+const user_login_dto_1 = require("../dto/user-login.dto");
+const validate_erros_1 = require("../../../../common/validate.erros");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const secret = process.env.JWT_SECRET;
 let UserService = class UserService {
     userRepository;
     constructor(userRepository) {
@@ -29,18 +36,13 @@ let UserService = class UserService {
             return this.userRepository.getAll();
         }
         catch (error) {
-            throw new Error("Erro aqui");
+            throw error;
         }
     }
     async getOne(input) {
         try {
+            await (0, validate_erros_1.validateErros)(user_get_dto_1.UserGetOneInputDto, input);
             const { email } = input;
-            if (!email) {
-                throw new Error("email ou id inválidos");
-            }
-            if (email?.trim() === "") {
-                throw new Error("Email não pode ser vazio");
-            }
             const user = await this.userRepository.getOne({ email });
             if (!user) {
                 throw new Error("User not found");
@@ -53,21 +55,13 @@ let UserService = class UserService {
     }
     async createUser(input) {
         try {
+            await (0, validate_erros_1.validateErros)(user_create_dto_1.UserCreateInputDto, input);
             const { name, email, password } = input;
-            if (!name || !email || !password) {
-                throw new Error("Algum campo nulo");
-            }
-            if (name.trim() === "" || email.trim() === "" || password.trim() === "") {
-                throw new Error("Algum campo é vazio");
-            }
-            const userExisting = await this.userRepository.getOne({
+            const user = await this.userRepository.getOne({
                 email: input.email,
             });
-            if (!userExisting) {
-                throw new Error("User not found");
-            }
-            if (password.trim().length < 8) {
-                throw new Error("Sua senha não pode ter menos de 8 caracteres");
+            if (!!user) {
+                throw new Error("User already exist");
             }
             const hashedPassword = await (0, bcrypt_1.hash)(password, 10);
             const userEntity = await this.userRepository.createUser({
@@ -80,14 +74,12 @@ let UserService = class UserService {
             };
         }
         catch (error) {
-            throw new Error("Deu erro aqui");
+            throw error;
         }
     }
     async updateUserName(input) {
         try {
-            if (!input.name || !input.id) {
-                throw new Error("O nome ou id não pode ser nulo");
-            }
+            await (0, validate_erros_1.validateErros)(user_update_dto_1.UserUpdateNameInputDto, input);
             const userEntity = await this.userRepository.updateUserName(input);
             if (input.name !== userEntity.name) {
                 throw new Error("Usuário não atualizado");
@@ -95,7 +87,41 @@ let UserService = class UserService {
             return { name: userEntity.name };
         }
         catch (error) {
-            throw new Error("Deu erro aqui");
+            throw error;
+        }
+    }
+    async loginUser(input) {
+        try {
+            await (0, validate_erros_1.validateErros)(user_login_dto_1.UserLoginInputDto, input); // ta parando aq
+            const { email, password } = input;
+            const user = await this.userRepository.getOne({ email });
+            if (!user) {
+                throw new Error("Credenciais inválidas");
+            }
+            const passwordCompare = await (0, bcrypt_1.compare)(password, user.password);
+            if (!passwordCompare) {
+                throw new Error("Credenciais inválidas");
+            }
+            /**
+             * primeira {} -> serve pra guardar dentro do token o id e o emai (payload)
+             * depois guarda o token (signature)
+             * por ultimo diz em quanto tempo ele vai expirar
+             */
+            const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, secret, {
+                expiresIn: "1h",
+            });
+            // Usar o verify com o token e o secret pra pegar o payload
+            return {
+                token,
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                },
+            };
+        }
+        catch (error) {
+            throw error;
         }
     }
 };

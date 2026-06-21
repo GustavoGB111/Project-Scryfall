@@ -1,11 +1,11 @@
 import { UserEntity } from "../../../../entities/UserEntity";
 import { UserCreateInputDto } from "../../dto/user-create.dto";
+import { UserGetOneInputDto } from "../../dto/user-get.dto";
 import {
   UserUpdateNameInputDto,
   UserUpdateNameOutputDto,
-} from "../../dto/user-update.name.dto";
-import { UserUpdatePasswordInputDto } from "../../dto/user-update.password.dto";
-import { UserGetOneInputDto } from "../../dto/user-get.dto";
+} from "../../dto/user-update.dto";
+import { UserUpdatePasswordInputDto } from "../../dto/user-update.dto";
 
 export default abstract class IUserRepository {
   abstract getAll(): Promise<UserEntity[]>;

@@ -33,3 +33,4 @@ Esse projeto tem como base a integração da API ja pronta do Scryfall [Scryfall
 - DB (onde fica o DataBase)
 - Migrations (Onde ficam as migrações pro banco de dados)
 - databaseConexion (Onde fica a conexão entre o DB e o código)
+- Commom (pasta onde ficará classes e funções q podem ser reutilizadas por diversos services)

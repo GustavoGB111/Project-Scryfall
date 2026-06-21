@@ -18,7 +18,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
 
     next(); //next é a permissão de continuar após o middleware
   } catch (error) {
-    return res.status(500).json({ message: "Erro no servidor" });
+    return res.status(401).json({ message: "Erro no servidor" });
   }
 };
 

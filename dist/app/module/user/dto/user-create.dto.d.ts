@@ -1,9 +1,9 @@
-export interface UserCreateInputDto {
-    name: string;
+export declare class UserCreateInputDto {
     email: string;
+    name: string;
     password: string;
 }
-export interface UserCreateOutputDto {
+export declare abstract class UserCreateOutputDto {
     email: string;
 }
 //# sourceMappingURL=user-create.dto.d.ts.map

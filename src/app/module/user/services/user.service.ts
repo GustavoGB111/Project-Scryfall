@@ -7,10 +7,15 @@ import {
 import {
   UserUpdateNameInputDto,
   UserUpdateNameOutputDto,
-} from "../dto/user-update.name.dto";
-import { hash } from "bcrypt";
+} from "../dto/user-update.dto";
+import { compare, hash } from "bcrypt";
 import { UserGetOneInputDto } from "../dto/user-get.dto";
 import { UserEntity } from "../../../entities/UserEntity";
+import { UserLoginInputDto, UserLoginoutputDto } from "../dto/user-login.dto";
+import { validateErros } from "../../../../common/validate.erros";
+import jwt from "jsonwebtoken";
+
+const secret = process.env.JWT_SECRET;
 
 @injectable()
 export class UserService {
@@ -23,20 +28,15 @@ export class UserService {
     try {
       return this.userRepository.getAll();
     } catch (error) {
-      throw new Error("Erro aqui");
+      throw error;
     }
   }
 
   async getOne(input: UserGetOneInputDto): Promise<UserEntity> {
     try {
-      const { email } = input;
-      if (!email) {
-        throw new Error("email ou id inválidos");
-      }
-      if (email?.trim() === "") {
-        throw new Error("Email não pode ser vazio");
-      }
+      await validateErros(UserGetOneInputDto, input);
 
+      const { email } = input;
       const user = await this.userRepository.getOne({ email });
 
       if (!user) {
@@ -51,25 +51,15 @@ export class UserService {
 
   async createUser(input: UserCreateInputDto): Promise<UserCreateOutputDto> {
     try {
+      await validateErros(UserCreateInputDto, input);
       const { name, email, password } = input;
 
-      if (!name || !email || !password) {
-        throw new Error("Algum campo nulo");
-      }
-      if (name.trim() === "" || email.trim() === "" || password.trim() === "") {
-        throw new Error("Algum campo é vazio");
-      }
-
-      const userExisting = await this.userRepository.getOne({
+      const user = await this.userRepository.getOne({
         email: input.email,
       });
 
-      if (!userExisting) {
-        throw new Error("User not found");
-      }
-
-      if (password.trim().length < 8) {
-        throw new Error("Sua senha não pode ter menos de 8 caracteres");
+      if (!!user) {
+        throw new Error("User already exist");
       }
 
       const hashedPassword = await hash(password, 10);
@@ -84,7 +74,7 @@ export class UserService {
         email: userEntity.email,
       };
     } catch (error) {
-      throw new Error("Deu erro aqui");
+      throw error;
     }
   }
 
@@ -92,9 +82,7 @@ export class UserService {
     input: UserUpdateNameInputDto,
   ): Promise<UserUpdateNameOutputDto> {
     try {
-      if (!input.name || !input.id) {
-        throw new Error("O nome ou id não pode ser nulo");
-      }
+      await validateErros(UserUpdateNameInputDto, input);
 
       const userEntity = await this.userRepository.updateUserName(input);
 
@@ -104,7 +92,47 @@ export class UserService {
 
       return { name: userEntity.name };
     } catch (error) {
-      throw new Error("Deu erro aqui");
+      throw error;
+    }
+  }
+
+  async loginUser(input: UserLoginInputDto): Promise<UserLoginoutputDto> {
+    try {
+      await validateErros(UserLoginInputDto, input); // ta parando aq
+
+      const { email, password } = input;
+      const user = await this.userRepository.getOne({ email });
+
+      if (!user) {
+        throw new Error("Credenciais inválidas");
+      }
+
+      const passwordCompare = await compare(password, user.password);
+
+      if (!passwordCompare) {
+        throw new Error("Credenciais inválidas");
+      }
+
+      /**
+       * primeira {} -> serve pra guardar dentro do token o id e o emai (payload)
+       * depois guarda o token (signature)
+       * por ultimo diz em quanto tempo ele vai expirar
+       */
+      const token = jwt.sign({ id: user.id, email: user.email }, secret!, {
+        expiresIn: "1h",
+      });
+      // Usar o verify com o token e o secret pra pegar o payload
+
+      return {
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+      };
+    } catch (error) {
+      throw error;
     }
   }
 }

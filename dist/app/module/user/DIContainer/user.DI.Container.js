@@ -12,9 +12,12 @@ const user_controller_1 = __importDefault(require("../controllers/user.controlle
  * Injetable -> indica que uma classe pode ser injetavel, a classe só pode ser injetada se tiver esse decorator
  **/
 // Registro de Instância por meio de injeção
+// Registrando instancia do UserRepository
 tsyringe_1.container.registerInstance("UserRepository", // Key que representa a instancia de UserRepository
 new user_repository_1.UserRepository());
+// Registrando instancia do UserService
 tsyringe_1.container.registerInstance("UserService", // Key que representa a instancia de UserService
 new user_service_1.UserService(tsyringe_1.container.resolve("UserRepository")));
+// Registrando instancia do UserController
 tsyringe_1.container.registerInstance("UserController", new user_controller_1.default(tsyringe_1.container.resolve("UserService")));
 //# sourceMappingURL=user.DI.Container.js.map

@@ -26,9 +26,8 @@ class UserRepository extends user_repository_interface_1.default {
         return await this.userRepository.save(user); // Salva o User no Banco de Dados(como se salvasse o registro)
     }
     async updateUserName(input) {
-        const { id, name } = input;
-        await this.userRepository.update({ id: id }, { name: name });
-        const user = await this.userRepository.findOne({ where: { id: id } });
+        await this.userRepository.update({ id: input.id }, { name: input.name });
+        const user = await this.userRepository.findOne({ where: { id: input.id } });
         if (!user) {
             throw new Error("usuário não encontrado");
         }

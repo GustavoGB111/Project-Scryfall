@@ -12,7 +12,7 @@ userRoutes.get("/getUsers", userController.getUsers.bind(userController)); // vo
 
 userRoutes.get("/getUser", userController.getUser.bind(userController));
 
-// login
+userRoutes.put("/loginUser", userController.loginUser.bind(userController));
 
 userRoutes.put(
   "/updateNameUser",

@@ -9,16 +9,19 @@ import UserController from "../controllers/user.controller";
  **/
 
 // Registro de Instância por meio de injeção
+// Registrando instancia do UserRepository
 container.registerInstance(
   "UserRepository", // Key que representa a instancia de UserRepository
   new UserRepository(), // instância(value)
 );
 
+// Registrando instancia do UserService
 container.registerInstance(
   "UserService", // Key que representa a instancia de UserService
   new UserService(container.resolve("UserRepository")), // puxando a instancia do UserRepository pra aplicar em UserService
 );
 
+// Registrando instancia do UserController
 container.registerInstance(
   "UserController",
   new UserController(container.resolve("UserService")),

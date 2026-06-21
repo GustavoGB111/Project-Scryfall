@@ -58,6 +58,28 @@ let UserController = class UserController {
             });
         }
     }
+    async loginUser(req, res) {
+        try {
+            const input = {
+                email: req.body.email,
+                password: req.body.password,
+            };
+            const user = await this.userService.loginUser(input);
+            return res.status(200).json({
+                token: user.token,
+                user: {
+                    email: user.user.email,
+                    name: user.user.name,
+                    id: user.user.id,
+                },
+            });
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            }); // pega a instancia do erro e manda como mensagem no json se existir
+        }
+    }
     async updateUserName(req, res) {
         try {
             const input = {
