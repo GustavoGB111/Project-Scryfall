@@ -25,6 +25,7 @@ const user_get_dto_1 = require("../dto/user-get.dto");
 const user_login_dto_1 = require("../dto/user-login.dto");
 const validate_erros_1 = require("../../../../common/validate.erros");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const user_delete_dto_1 = require("../dto/user-delete.dto");
 const secret = process.env.JWT_SECRET;
 let UserService = class UserService {
     userRepository;
@@ -103,12 +104,12 @@ let UserService = class UserService {
                 throw new Error("Credenciais inválidas");
             }
             /**
-             * primeira {} -> serve pra guardar dentro do token o id e o emai (payload)
+             * primeira {} -> serve pra guardar dentro do token o id (payload)
              * depois guarda o token (signature)
              * por ultimo diz em quanto tempo ele vai expirar
              */
-            const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, secret, {
-                expiresIn: "1h",
+            const token = jsonwebtoken_1.default.sign({ id: user.id }, secret, {
+                expiresIn: "1h", // funciona como criação de token
             });
             // Usar o verify com o token e o secret pra pegar o payload
             return {
@@ -119,6 +120,18 @@ let UserService = class UserService {
                     email: user.email,
                 },
             };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async deleteUser(input) {
+        try {
+            (0, validate_erros_1.validateErros)(user_delete_dto_1.UserDeleteInputDto, input);
+            const { affected } = await this.userRepository.deleteUser(input);
+            if (affected != 1) {
+                throw new Error("Falha ao deletar");
+            }
         }
         catch (error) {
             throw error;

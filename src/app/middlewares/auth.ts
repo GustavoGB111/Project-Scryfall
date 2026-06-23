@@ -15,6 +15,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
     ) as authOutputDTO;
 
     req.userId = Number(decoded.id);
+    req.userEmail = String(decoded.email);
 
     next(); //next é a permissão de continuar após o middleware
   } catch (error) {

@@ -8,5 +8,6 @@ export default class UserController {
     createUser(req: Request, res: Response): Promise<Response>;
     loginUser(req: Request, res: Response): Promise<Response>;
     updateUserName(req: Request, res: Response): Promise<Response>;
+    deleteUser(req: Request, res: Response): Promise<Response>;
 }
 //# sourceMappingURL=user.controller.d.ts.map

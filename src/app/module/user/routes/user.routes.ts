@@ -22,6 +22,10 @@ userRoutes.put(
 
 userRoutes.post("/create", userController.createUser.bind(userController)); // após o post é tudo url
 
-// delete route
+userRoutes.delete(
+  "/delete",
+  auth,
+  userController.deleteUser.bind(userController),
+);
 
 export default userRoutes;

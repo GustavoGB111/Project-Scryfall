@@ -15,6 +15,6 @@ userRoutes.get("/getUser", userController.getUser.bind(userController));
 userRoutes.put("/loginUser", userController.loginUser.bind(userController));
 userRoutes.put("/updateNameUser", auth_1.default, userController.updateUserName.bind(userController));
 userRoutes.post("/create", userController.createUser.bind(userController)); // após o post é tudo url
-// delete route
+userRoutes.delete("/delete", auth_1.default, userController.deleteUser.bind(userController));
 exports.default = userRoutes;
 //# sourceMappingURL=user.routes.js.map

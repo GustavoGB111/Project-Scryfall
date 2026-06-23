@@ -4,6 +4,7 @@ import { UserCreateInputDto } from "../dto/user-create.dto";
 import { UserUpdateNameInputDto, UserUpdateNameOutputDto } from "../dto/user-update.dto";
 import { UserUpdatePasswordInputDto } from "../dto/user-update.dto";
 import { UserGetOneInputDto } from "../dto/user-get.dto";
+import { UserDeleteInputDto, UserDeleteOutputDto } from "../dto/user-delete.dto";
 export declare class UserRepository extends IUserRepository {
     private userRepository;
     constructor();
@@ -12,5 +13,6 @@ export declare class UserRepository extends IUserRepository {
     createUser(input: UserCreateInputDto): Promise<UserEntity>;
     updateUserName(input: UserUpdateNameInputDto): Promise<UserUpdateNameOutputDto>;
     updateUserPassword(input: UserUpdatePasswordInputDto): Promise<void>;
+    deleteUser(input: UserDeleteInputDto): Promise<UserDeleteOutputDto>;
 }
 //# sourceMappingURL=user.repository.d.ts.map

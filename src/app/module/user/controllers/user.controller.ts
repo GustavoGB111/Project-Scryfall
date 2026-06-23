@@ -8,6 +8,7 @@ import {
 import { UserUpdateNameInputDto } from "../dto/user-update.dto";
 import { UserGetOneInputDto } from "../dto/user-get.dto";
 import { UserLoginInputDto } from "../dto/user-login.dto";
+import { UserDeleteInputDto } from "../dto/user-delete.dto";
 
 @injectable() // serve para que permita q a classe seja injetável (decorator)
 export default class UserController {
@@ -92,6 +93,22 @@ export default class UserController {
       const user = this.userService.updateUserName(input);
 
       return res.status(201).json(user);
+    } catch (error) {
+      return res.status(400).json({
+        message: error instanceof Error ? error.message : "erro Interno",
+      });
+    }
+  }
+
+  async deleteUser(req: Request, res: Response): Promise<Response> {
+    try {
+      const input: UserDeleteInputDto = {
+        id: req.userId,
+      };
+
+      await this.userService.deleteUser(input);
+
+      return res.status(200).json({ message: "User deletado com sucesso!" });
     } catch (error) {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "erro Interno",

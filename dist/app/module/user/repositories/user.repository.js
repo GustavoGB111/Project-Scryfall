@@ -40,6 +40,12 @@ class UserRepository extends user_repository_interface_1.default {
             throw new Error("user not found");
         }
     }
+    async deleteUser(input) {
+        const { affected } = await this.userRepository.delete({
+            id: input.id,
+        });
+        return { affected };
+    }
 }
 exports.UserRepository = UserRepository;
 //# sourceMappingURL=user.repository.js.map

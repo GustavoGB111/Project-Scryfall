@@ -10,6 +10,10 @@ import {
 
 import { UserUpdatePasswordInputDto } from "../dto/user-update.dto";
 import { UserGetOneInputDto } from "../dto/user-get.dto";
+import {
+  UserDeleteInputDto,
+  UserDeleteOutputDto,
+} from "../dto/user-delete.dto";
 
 export class UserRepository extends IUserRepository {
   private userRepository: Repository<UserEntity>;
@@ -58,5 +62,13 @@ export class UserRepository extends IUserRepository {
     if (user.affected !== 1) {
       throw new Error("user not found");
     }
+  }
+
+  async deleteUser(input: UserDeleteInputDto): Promise<UserDeleteOutputDto> {
+    const { affected } = await this.userRepository.delete({
+      id: input.id,
+    });
+
+    return { affected };
   }
 }

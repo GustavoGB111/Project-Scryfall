@@ -95,6 +95,20 @@ let UserController = class UserController {
             });
         }
     }
+    async deleteUser(req, res) {
+        try {
+            const input = {
+                id: req.userId,
+            };
+            await this.userService.deleteUser(input);
+            return res.status(200).json({ message: "User deletado com sucesso!" });
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            });
+        }
+    }
 };
 UserController = __decorate([
     (0, tsyringe_1.injectable)() // serve para que permita q a classe seja injetável (decorator)

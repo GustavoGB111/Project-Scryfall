@@ -12,6 +12,7 @@ const auth = (req, res, next) => {
             return res.status(401).json({ message: "Acesso negado" });
         const decoded = jsonwebtoken_1.default.verify(token.replace("Bearer ", ""), JWT_SECRET);
         req.userId = Number(decoded.id);
+        req.userEmail = String(decoded.email);
         next(); //next é a permissão de continuar após o middleware
     }
     catch (error) {

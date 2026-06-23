@@ -14,6 +14,7 @@ import { UserEntity } from "../../../entities/UserEntity";
 import { UserLoginInputDto, UserLoginoutputDto } from "../dto/user-login.dto";
 import { validateErros } from "../../../../common/validate.erros";
 import jwt from "jsonwebtoken";
+import { UserDeleteInputDto } from "../dto/user-delete.dto";
 
 const secret = process.env.JWT_SECRET;
 
@@ -114,12 +115,12 @@ export class UserService {
       }
 
       /**
-       * primeira {} -> serve pra guardar dentro do token o id e o emai (payload)
+       * primeira {} -> serve pra guardar dentro do token o id (payload)
        * depois guarda o token (signature)
        * por ultimo diz em quanto tempo ele vai expirar
        */
-      const token = jwt.sign({ id: user.id, email: user.email }, secret!, {
-        expiresIn: "1h",
+      const token = jwt.sign({ id: user.id }, secret!, {
+        expiresIn: "1h", // funciona como criação de token
       });
       // Usar o verify com o token e o secret pra pegar o payload
 
@@ -131,6 +132,20 @@ export class UserService {
           email: user.email,
         },
       };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteUser(input: UserDeleteInputDto): Promise<void> {
+    try {
+      validateErros(UserDeleteInputDto, input);
+
+      const { affected } = await this.userRepository.deleteUser(input);
+
+      if (affected != 1) {
+        throw new Error("Falha ao deletar");
+      }
     } catch (error) {
       throw error;
     }
