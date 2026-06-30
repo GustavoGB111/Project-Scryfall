@@ -41,26 +41,26 @@ export class UserRepository extends IUserRepository {
   async updateUserName(
     input: UserUpdateNameInputDto,
   ): Promise<UserUpdateNameOutputDto> {
-    await this.userRepository.update({ id: input.id }, { name: input.name });
-
     const user = await this.userRepository.findOne({ where: { id: input.id } });
 
     if (!user) {
-      throw new Error("usuário não encontrado");
+      throw new Error("erro ao atualizar nome");
     }
 
-    return { name: user.name };
+    Object.assign(user, { name: input.name }); // converte o user antigo atualizando as propriedades do novo "dto"
+
+    const { name } = await this.userRepository.save(user);
+    return { name };
   }
 
   async updateUserPassword(input: UserUpdatePasswordInputDto): Promise<void> {
-    const { id, password } = input;
     const user = await this.userRepository.update(
-      { id: id },
-      { password: password },
+      { id: input.id },
+      { password: input.password },
     );
 
     if (user.affected !== 1) {
-      throw new Error("user not found");
+      throw new Error("Erro na atualização de senha");
     }
   }
 

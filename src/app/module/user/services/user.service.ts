@@ -56,11 +56,11 @@ export class UserService {
       const { name, email, password } = input;
 
       const user = await this.userRepository.getOne({
-        email: input.email,
+        email: email,
       });
 
       if (!!user) {
-        throw new Error("User already exist");
+        throw new Error("Usuário já existe");
       }
 
       const hashedPassword = await hash(password, 10);
@@ -85,9 +85,10 @@ export class UserService {
     try {
       await validateErros(UserUpdateNameInputDto, input);
 
+      const { name } = input;
       const userEntity = await this.userRepository.updateUserName(input);
 
-      if (input.name !== userEntity.name) {
+      if (name !== userEntity.name) {
         throw new Error("Usuário não atualizado");
       }
 
