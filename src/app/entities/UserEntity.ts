@@ -14,3 +14,12 @@ export class UserEntity {
   @Column("varchar", { length: 100, nullable: false })
   password!: string;
 }
+
+@Entity("users_pin")
+export class UserEntityPin {
+  @Column("varchar", { length: 100, nullable: false, primary: true })
+  email!: string;
+
+  @Column("varchar", { length: 100, nullable: false })
+  pin!: string;
+}

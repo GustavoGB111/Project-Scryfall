@@ -42,44 +42,6 @@ let UserController = class UserController {
             });
         }
     }
-    async createUser(req, res) {
-        try {
-            const input = {
-                email: req.body.email,
-                name: req.body.name,
-                password: req.body.password,
-            };
-            const { email } = await this.userService.createUser(input);
-            return res.status(201).json(email);
-        }
-        catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
-            });
-        }
-    }
-    async loginUser(req, res) {
-        try {
-            const input = {
-                email: req.body.email,
-                password: req.body.password,
-            };
-            const user = await this.userService.loginUser(input);
-            return res.status(200).json({
-                token: user.token,
-                user: {
-                    email: user.user.email,
-                    name: user.user.name,
-                    id: user.user.id,
-                },
-            });
-        }
-        catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
-            }); // pega a instancia do erro e manda como mensagem no json se existir
-        }
-    }
     async updateUserName(req, res) {
         try {
             const input = {
@@ -101,7 +63,7 @@ let UserController = class UserController {
                 id: req.userId,
             };
             await this.userService.deleteUser(input);
-            return res.status(200).json({ message: "User deletado com sucesso!" });
+            return res.status(200).json({ message: "User deletado com sucesso" });
         }
         catch (error) {
             return res.status(400).json({

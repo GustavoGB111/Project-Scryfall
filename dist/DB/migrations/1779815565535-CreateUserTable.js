@@ -2,8 +2,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserTable1779815565535 = void 0;
 const typeorm_1 = require("typeorm");
+// querry runner é o executador de codigos sql
 class CreateUserTable1779815565535 {
     async up(queryRunner) {
+        await queryRunner.createTable(new typeorm_1.Table({
+            name: "users_pin",
+            columns: [
+                {
+                    name: "email",
+                    type: "varchar",
+                    isPrimary: true,
+                    length: "100",
+                    isNullable: false,
+                },
+                {
+                    name: "pin",
+                    type: "varchar",
+                    isPrimary: false,
+                    isNullable: false,
+                    length: "100",
+                },
+            ],
+        }));
         await queryRunner.createTable(new typeorm_1.Table({
             name: "users",
             columns: [

@@ -18,15 +18,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const tsyringe_1 = require("tsyringe");
 const user_repository_interface_1 = __importDefault(require("../repositories/interfaces/user.repository.interface"));
-const user_create_dto_1 = require("../dto/user-create.dto");
-const user_update_dto_1 = require("../dto/user-update.dto");
-const bcrypt_1 = require("bcrypt");
-const user_get_dto_1 = require("../dto/user-get.dto");
-const user_login_dto_1 = require("../dto/user-login.dto");
+const user_update_name_dto_1 = require("../dto/controler&service.dto/user-update.name.dto");
+const user_get_dto_1 = require("../dto/controler&service.dto/user-get.dto");
+const user_delete_dto_1 = require("../dto/controler&service.dto/user-delete.dto");
 const validate_erros_1 = require("../../../../common/validate.erros");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const user_delete_dto_1 = require("../dto/user-delete.dto");
-const secret = process.env.JWT_SECRET;
 let UserService = class UserService {
     userRepository;
     constructor(userRepository) {
@@ -54,35 +49,12 @@ let UserService = class UserService {
             throw error;
         }
     }
-    async createUser(input) {
-        try {
-            await (0, validate_erros_1.validateErros)(user_create_dto_1.UserCreateInputDto, input);
-            const { name, email, password } = input;
-            const user = await this.userRepository.getOne({
-                email: input.email,
-            });
-            if (!!user) {
-                throw new Error("User already exist");
-            }
-            const hashedPassword = await (0, bcrypt_1.hash)(password, 10);
-            const userEntity = await this.userRepository.createUser({
-                name,
-                email,
-                password: hashedPassword,
-            });
-            return {
-                email: userEntity.email,
-            };
-        }
-        catch (error) {
-            throw error;
-        }
-    }
     async updateUserName(input) {
         try {
-            await (0, validate_erros_1.validateErros)(user_update_dto_1.UserUpdateNameInputDto, input);
+            await (0, validate_erros_1.validateErros)(user_update_name_dto_1.UserUpdateNameInputDto, input);
+            const { name } = input;
             const userEntity = await this.userRepository.updateUserName(input);
-            if (input.name !== userEntity.name) {
+            if (name !== userEntity.name) {
                 throw new Error("Usuário não atualizado");
             }
             return { name: userEntity.name };
@@ -91,46 +63,12 @@ let UserService = class UserService {
             throw error;
         }
     }
-    async loginUser(input) {
-        try {
-            await (0, validate_erros_1.validateErros)(user_login_dto_1.UserLoginInputDto, input); // ta parando aq
-            const { email, password } = input;
-            const user = await this.userRepository.getOne({ email });
-            if (!user) {
-                throw new Error("Credenciais inválidas");
-            }
-            const passwordCompare = await (0, bcrypt_1.compare)(password, user.password);
-            if (!passwordCompare) {
-                throw new Error("Credenciais inválidas");
-            }
-            /**
-             * primeira {} -> serve pra guardar dentro do token o id (payload)
-             * depois guarda o token (signature)
-             * por ultimo diz em quanto tempo ele vai expirar
-             */
-            const token = jsonwebtoken_1.default.sign({ id: user.id }, secret, {
-                expiresIn: "1h", // funciona como criação de token
-            });
-            // Usar o verify com o token e o secret pra pegar o payload
-            return {
-                token,
-                user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                },
-            };
-        }
-        catch (error) {
-            throw error;
-        }
-    }
     async deleteUser(input) {
         try {
             (0, validate_erros_1.validateErros)(user_delete_dto_1.UserDeleteInputDto, input);
-            const { affected } = await this.userRepository.deleteUser(input);
-            if (affected != 1) {
-                throw new Error("Falha ao deletar");
+            const deleted = await this.userRepository.deleteUser(input);
+            if (!deleted || deleted.affected !== 1) {
+                throw new Error("Usuário não foi deletado");
             }
         }
         catch (error) {

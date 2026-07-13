@@ -1,7 +1,29 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
-
+// querry runner é o executador de codigos sql
 export class CreateUserTable1779815565535 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.createTable(
+      new Table({
+        name: "users_pin",
+        columns: [
+          {
+            name: "email",
+            type: "varchar",
+            isPrimary: true,
+            length: "100",
+            isNullable: false,
+          },
+          {
+            name: "pin",
+            type: "varchar",
+            isPrimary: false,
+            isNullable: false,
+            length: "100",
+          },
+        ],
+      }),
+    );
+
     await queryRunner.createTable(
       new Table({
         name: "users",

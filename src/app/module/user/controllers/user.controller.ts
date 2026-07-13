@@ -1,14 +1,9 @@
 import { Request, Response } from "express";
 import { inject, injectable } from "tsyringe";
 import { UserService } from "../services/user.service";
-import {
-  UserCreateInputDto,
-  UserCreateOutputDto,
-} from "../dto/user-create.dto";
-import { UserUpdateNameInputDto } from "../dto/user-update.dto";
-import { UserGetOneInputDto } from "../dto/user-get.dto";
-import { UserLoginInputDto } from "../dto/user-login.dto";
-import { UserDeleteInputDto } from "../dto/user-delete.dto";
+import { UserGetOneInputDto } from "../dto/controler&service.dto/user-get.dto";
+import { UserDeleteInputDto } from "../dto/controler&service.dto/user-delete.dto";
+import { UserUpdateNameInputDto } from "../dto/controler&service.dto/user-update.name.dto";
 
 @injectable() // serve para que permita q a classe seja injetável (decorator)
 export default class UserController {
@@ -42,48 +37,6 @@ export default class UserController {
     }
   }
 
-  async createUser(req: Request, res: Response): Promise<Response> {
-    try {
-      const input: UserCreateInputDto = {
-        email: req.body.email,
-        name: req.body.name,
-        password: req.body.password,
-      };
-
-      const { email } = await this.userService.createUser(input);
-
-      return res.status(201).json(email);
-    } catch (error) {
-      return res.status(400).json({
-        message: error instanceof Error ? error.message : "erro Interno",
-      });
-    }
-  }
-
-  async loginUser(req: Request, res: Response): Promise<Response> {
-    try {
-      const input: UserLoginInputDto = {
-        email: req.body.email,
-        password: req.body.password,
-      };
-
-      const user = await this.userService.loginUser(input);
-
-      return res.status(200).json({
-        token: user.token,
-        user: {
-          email: user.user.email,
-          name: user.user.name,
-          id: user.user.id,
-        },
-      });
-    } catch (error) {
-      return res.status(400).json({
-        message: error instanceof Error ? error.message : "erro Interno",
-      }); // pega a instancia do erro e manda como mensagem no json se existir
-    }
-  }
-
   async updateUserName(req: Request, res: Response): Promise<Response> {
     try {
       const input: UserUpdateNameInputDto = {
@@ -108,7 +61,7 @@ export default class UserController {
 
       await this.userService.deleteUser(input);
 
-      return res.status(200).json({ message: "User deletado com sucesso!" });
+      return res.status(200).json({ message: "User deletado com sucesso" });
     } catch (error) {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "erro Interno",

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserEntity = void 0;
+exports.UserEntityPin = exports.UserEntity = void 0;
 const typeorm_1 = require("typeorm");
 let UserEntity = class UserEntity {
     id;
@@ -39,4 +39,20 @@ __decorate([
 exports.UserEntity = UserEntity = __decorate([
     (0, typeorm_1.Entity)("users")
 ], UserEntity);
+let UserEntityPin = class UserEntityPin {
+    email;
+    pin;
+};
+exports.UserEntityPin = UserEntityPin;
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 100, nullable: false, primary: true }),
+    __metadata("design:type", String)
+], UserEntityPin.prototype, "email", void 0);
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 100, nullable: false }),
+    __metadata("design:type", String)
+], UserEntityPin.prototype, "pin", void 0);
+exports.UserEntityPin = UserEntityPin = __decorate([
+    (0, typeorm_1.Entity)("users_pin")
+], UserEntityPin);
 //# sourceMappingURL=UserEntity.js.map

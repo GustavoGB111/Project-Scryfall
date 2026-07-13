@@ -4,4 +4,8 @@ export declare class UserEntity {
     email: string;
     password: string;
 }
+export declare class UserEntityPin {
+    email: string;
+    pin: string;
+}
 //# sourceMappingURL=UserEntity.d.ts.map

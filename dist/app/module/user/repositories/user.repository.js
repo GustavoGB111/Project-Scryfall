@@ -9,9 +9,12 @@ const UserEntity_1 = require("../../../entities/UserEntity");
 const databaseConexion_1 = require("../../../../DB/databaseConexion");
 class UserRepository extends user_repository_interface_1.default {
     userRepository;
+    userPinRepository;
     constructor() {
         super();
+        // pegar um objeto que faz requisição ao banco de dados para o repositorio x
         this.userRepository = databaseConexion_1.AppDataSource.getRepository(UserEntity_1.UserEntity);
+        this.userPinRepository = databaseConexion_1.AppDataSource.getRepository(UserEntity_1.UserEntityPin);
     }
     async getAll() {
         return this.userRepository.find();
@@ -21,29 +24,17 @@ class UserRepository extends user_repository_interface_1.default {
             where: { email: input.email },
         });
     }
-    async createUser(input) {
-        const user = await this.userRepository.create(input); // Cria na mémoria o user(como se criasse um registro)
-        return await this.userRepository.save(user); // Salva o User no Banco de Dados(como se salvasse o registro)
-    }
     async updateUserName(input) {
-        await this.userRepository.update({ id: input.id }, { name: input.name });
         const user = await this.userRepository.findOne({ where: { id: input.id } });
         if (!user) {
-            throw new Error("usuário não encontrado");
+            throw new Error("erro ao atualizar nome");
         }
-        return { name: user.name };
-    }
-    async updateUserPassword(input) {
-        const { id, password } = input;
-        const user = await this.userRepository.update({ id: id }, { password: password });
-        if (user.affected !== 1) {
-            throw new Error("user not found");
-        }
+        Object.assign(user, { name: input.name }); // converte o user antigo atualizando as propriedades do novo "dto"
+        const { name } = await this.userRepository.save(user);
+        return { name };
     }
     async deleteUser(input) {
-        const { affected } = await this.userRepository.delete({
-            id: input.id,
-        });
+        const { affected } = await this.userRepository.delete({ id: input.id });
         return { affected };
     }
 }

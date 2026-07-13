@@ -1,26 +1,26 @@
 import { Repository } from "typeorm";
 import IUserRepository from "./interfaces/user.repository.interface";
-import { UserEntity } from "../../../entities/UserEntity";
+import { UserEntity, UserEntityPin } from "../../../entities/UserEntity";
 import { AppDataSource } from "../../../../DB/databaseConexion";
-import { UserCreateInputDto } from "../dto/user-create.dto";
 import {
   UserUpdateNameInputDto,
   UserUpdateNameOutputDto,
-} from "../dto/user-update.dto";
-
-import { UserUpdatePasswordInputDto } from "../dto/user-update.dto";
-import { UserGetOneInputDto } from "../dto/user-get.dto";
+} from "../dto/repository.dto/user-update-name.dto";
+import { UserGetOneInputDto } from "../dto/repository.dto/user-get.dto";
 import {
   UserDeleteInputDto,
   UserDeleteOutputDto,
-} from "../dto/user-delete.dto";
+} from "../dto/repository.dto/user-delete.dto";
 
 export class UserRepository extends IUserRepository {
   private userRepository: Repository<UserEntity>;
+  private userPinRepository: Repository<UserEntityPin>;
 
   constructor() {
     super();
+    // pegar um objeto que faz requisição ao banco de dados para o repositorio x
     this.userRepository = AppDataSource.getRepository(UserEntity);
+    this.userPinRepository = AppDataSource.getRepository(UserEntityPin);
   }
 
   async getAll(): Promise<UserEntity[]> {
@@ -31,11 +31,6 @@ export class UserRepository extends IUserRepository {
     return await this.userRepository.findOne({
       where: { email: input.email },
     });
-  }
-
-  async createUser(input: UserCreateInputDto): Promise<UserEntity> {
-    const user = await this.userRepository.create(input); // Cria na mémoria o user(como se criasse um registro)
-    return await this.userRepository.save(user); // Salva o User no Banco de Dados(como se salvasse o registro)
   }
 
   async updateUserName(
@@ -53,22 +48,8 @@ export class UserRepository extends IUserRepository {
     return { name };
   }
 
-  async updateUserPassword(input: UserUpdatePasswordInputDto): Promise<void> {
-    const user = await this.userRepository.update(
-      { id: input.id },
-      { password: input.password },
-    );
-
-    if (user.affected !== 1) {
-      throw new Error("Erro na atualização de senha");
-    }
-  }
-
   async deleteUser(input: UserDeleteInputDto): Promise<UserDeleteOutputDto> {
-    const { affected } = await this.userRepository.delete({
-      id: input.id,
-    });
-
+    const { affected } = await this.userRepository.delete({ id: input.id });
     return { affected };
   }
 }

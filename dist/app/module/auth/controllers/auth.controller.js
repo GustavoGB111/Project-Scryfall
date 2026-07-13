@@ -1,0 +1,106 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const tsyringe_1 = require("tsyringe");
+const auth_service_1 = require("../services/auth.service");
+let AuthController = class AuthController {
+    authService;
+    constructor(authService) {
+        this.authService = authService;
+    }
+    async createUser(req, res) {
+        try {
+            const input = {
+                email: req.body.email,
+                name: req.body.name,
+                password: req.body.password,
+            };
+            const { email } = await this.authService.registerUser(input);
+            return res.status(201).json(email);
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            });
+        }
+    }
+    async login(req, res) {
+        try {
+            const input = {
+                email: req.body.email,
+                name: req.body.email,
+                password: req.body.password,
+            };
+            await this.authService.login(input);
+            return res.status(200).json({ message: "User logado com sucesso" });
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            });
+        }
+    }
+    async requestPin(req, res) {
+        try {
+            const input = {
+                email: req.body.email,
+            };
+            await this.authService.requestPin(input);
+            return res.status(200).json();
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            });
+        }
+    }
+    async sendPin(req, res) {
+        try {
+            const input = {
+                email: req.body.email,
+                pin: req.body.pin,
+            };
+            await this.authService.sendPin(input);
+            return res.status(200).json({ message: "Pin aceito" });
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            });
+        }
+    }
+    async resetPassword(req, res) {
+        try {
+            const input = {
+                email: req.userEmail,
+                password: req.body.password,
+                confirmPassword: req.body.confirmPassword,
+            };
+            await this.authService.resetPassword(input);
+            return res.status(200).json({ message: "Senha alterada com sucesso" });
+        }
+        catch (error) {
+            return res.status(400).json({
+                message: error instanceof Error ? error.message : "erro Interno",
+            });
+        }
+    }
+};
+AuthController = __decorate([
+    (0, tsyringe_1.injectable)(),
+    __param(0, (0, tsyringe_1.inject)("AuthService")),
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
+], AuthController);
+exports.default = AuthController;
+//# sourceMappingURL=auth.controller.js.map
