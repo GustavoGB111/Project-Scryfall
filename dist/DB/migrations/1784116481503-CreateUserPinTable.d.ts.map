@@ -1,0 +1,1 @@
+{"version":3,"file":"1784116481503-CreateUserPinTable.d.ts","sourceRoot":"","sources":["../../../src/DB/migrations/1784116481503-CreateUserPinTable.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,WAAW,EAAS,MAAM,SAAS,CAAC;AAEjE,qBAAa,+BAAgC,YAAW,kBAAkB;IAC3D,EAAE,CAAC,WAAW,EAAE,WAAW,GAAG,OAAO,CAAC,IAAI,CAAC;IA2E3C,IAAI,CAAC,WAAW,EAAE,WAAW,GAAG,OAAO,CAAC,IAAI,CAAC;CAG3D"}

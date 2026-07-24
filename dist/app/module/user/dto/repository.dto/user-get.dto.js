@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserGetOneInputDto = void 0;
 const class_validator_1 = require("class-validator");
 class UserGetOneInputDto {
-    email;
+    userEmail;
 }
 exports.UserGetOneInputDto = UserGetOneInputDto;
 __decorate([
@@ -20,5 +20,5 @@ __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserGetOneInputDto.prototype, "email", void 0);
+], UserGetOneInputDto.prototype, "userEmail", void 0);
 //# sourceMappingURL=user-get.dto.js.map

@@ -1,8 +1,8 @@
 export declare class UserUpdateNameInputDto {
-    id: number;
-    name: string;
+    userId: string;
+    userName: string;
 }
 export declare abstract class UserUpdateNameOutputDto {
-    name: string;
+    userName: string;
 }
 //# sourceMappingURL=user-update-name.dto.d.ts.map

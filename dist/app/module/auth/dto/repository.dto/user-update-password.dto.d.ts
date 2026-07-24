@@ -1,6 +1,8 @@
 export declare abstract class UserUpdatePasswordInputDto {
-    email: string;
-    password: string;
+    userId: string;
+    userPassword: string;
+    userPasswordIv: string;
+    userPasswordAuthTag: string;
 }
 export declare abstract class UserUpdatePasswordOutputDto {
     affected: number | null | undefined;

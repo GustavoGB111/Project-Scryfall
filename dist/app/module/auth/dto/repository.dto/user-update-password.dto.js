@@ -12,22 +12,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserUpdatePasswordOutputDto = exports.UserUpdatePasswordInputDto = void 0;
 const class_validator_1 = require("class-validator");
 class UserUpdatePasswordInputDto {
-    email;
-    password;
+    userId;
+    userPassword;
+    userPasswordIv;
+    userPasswordAuthTag;
 }
 exports.UserUpdatePasswordInputDto = UserUpdatePasswordInputDto;
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsEmail)({}, { message: "O formato não é válido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserUpdatePasswordInputDto.prototype, "email", void 0);
+], UserUpdatePasswordInputDto.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     (0, class_validator_1.MinLength)(8, { message: "O campo deve ter no mínimo 8 caracteres" }),
     __metadata("design:type", String)
-], UserUpdatePasswordInputDto.prototype, "password", void 0);
+], UserUpdatePasswordInputDto.prototype, "userPassword", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], UserUpdatePasswordInputDto.prototype, "userPasswordIv", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], UserUpdatePasswordInputDto.prototype, "userPasswordAuthTag", void 0);
 class UserUpdatePasswordOutputDto {
     affected;
 }

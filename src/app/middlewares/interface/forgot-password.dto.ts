@@ -1,3 +1,3 @@
 export interface forgotPasswordAuthDto {
-  email: string;
+  userId: string;
 }

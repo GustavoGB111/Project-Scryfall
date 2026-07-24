@@ -1,9 +1,11 @@
 export declare class UserCreateInputDto {
-    email: string;
-    name: string;
-    password: string;
+    userEmail: string;
+    userName: string;
+    userPassword: string;
+    userPasswordIv: string;
+    userPasswordAuthTag: string;
 }
 export declare abstract class UserCreateOutputDto {
-    email: string;
+    userEmail: string;
 }
 //# sourceMappingURL=user-create.dto.d.ts.map

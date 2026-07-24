@@ -13,7 +13,7 @@ exports.ResetPassworInputDto = exports.SendPinOutputDto = exports.SendPinInputDt
 const class_validator_1 = require("class-validator");
 //Rota 1
 class forgotPasswordInputDto {
-    email;
+    userEmail;
 }
 exports.forgotPasswordInputDto = forgotPasswordInputDto;
 __decorate([
@@ -21,9 +21,9 @@ __decorate([
     (0, class_validator_1.IsEmail)({}, { message: "O formato não é válido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], forgotPasswordInputDto.prototype, "email", void 0);
+], forgotPasswordInputDto.prototype, "userEmail", void 0);
 class forgotPasswordOutputDto {
-    email;
+    userEmail;
 }
 exports.forgotPasswordOutputDto = forgotPasswordOutputDto;
 __decorate([
@@ -31,11 +31,11 @@ __decorate([
     (0, class_validator_1.IsEmail)({}, { message: "o tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], forgotPasswordOutputDto.prototype, "email", void 0);
+], forgotPasswordOutputDto.prototype, "userEmail", void 0);
 //Rota 2
 class SendPinInputDto {
-    email;
-    pin;
+    userEmail;
+    userPin;
 }
 exports.SendPinInputDto = SendPinInputDto;
 __decorate([
@@ -43,17 +43,15 @@ __decorate([
     (0, class_validator_1.IsEmail)({}, { message: "o tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], SendPinInputDto.prototype, "email", void 0);
+], SendPinInputDto.prototype, "userEmail", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)({}, { message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    (0, class_validator_1.MinLength)(6, { message: "O tamanho tem que ser de 6 digitos" }),
-    (0, class_validator_1.MaxLength)(6, { message: "O tamanho tem que ser de 6 digitos " }),
+    (0, class_validator_1.Length)(6, 6, { message: "O tamanho tem que ser de 6 digitos" }),
     __metadata("design:type", String)
-], SendPinInputDto.prototype, "pin", void 0);
+], SendPinInputDto.prototype, "userPin", void 0);
 class SendPinOutputDto {
     token;
-    email;
 }
 exports.SendPinOutputDto = SendPinOutputDto;
 __decorate([
@@ -61,34 +59,28 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
 ], SendPinOutputDto.prototype, "token", void 0);
-__decorate([
-    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsEmail)({}, { message: "o tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
-], SendPinOutputDto.prototype, "email", void 0);
 //Rota 3
 class ResetPassworInputDto {
-    email;
-    password;
-    confirmPassword;
+    userId;
+    userPassword;
+    userConfirmPassword;
 }
 exports.ResetPassworInputDto = ResetPassworInputDto;
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsEmail)({}, { message: "o tipo de dado é inválido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "o tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], ResetPassworInputDto.prototype, "email", void 0);
+], ResetPassworInputDto.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.MinLength)(8, { message: "O campo deve ter ao menos 8 dígitos" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], ResetPassworInputDto.prototype, "password", void 0);
+], ResetPassworInputDto.prototype, "userPassword", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], ResetPassworInputDto.prototype, "confirmPassword", void 0);
+], ResetPassworInputDto.prototype, "userConfirmPassword", void 0);
 //# sourceMappingURL=forgot-password.dto.js.map

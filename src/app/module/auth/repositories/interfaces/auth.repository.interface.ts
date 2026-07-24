@@ -1,16 +1,26 @@
 import { UserEntity } from "../../../../entities/UserEntity";
+import { UserPinEntity } from "../../../../entities/UserPinEntity";
 import {
-  pinDeleteInputDto,
-  pinDeleteOutputDto,
-} from "../../dto/repository.dto/pin-delete.dto";
-import {
+  getPasswordResetedInputDto,
+  getPasswordResetedOutputDto,
   getPinInputDto,
-  getPinOutputDto,
+  getPinUsedInputDto,
+  getPinUsedOutputDto,
 } from "../../dto/repository.dto/pin-get-dto";
 import {
   UserRequestPinInputDto,
   UserRequestPinOutputDto,
 } from "../../dto/repository.dto/pin-request.dto";
+import {
+  passwordResetedUpdateInputDto,
+  passwordUsedUpdateOutputDto,
+  pinResetInputDto,
+  pinResetOutputDto,
+  pinUpdateInputDto,
+  pinUpdateOutputDto,
+  pinUsedUpdateInputDto,
+  pinUsedUpdateOutputDto,
+} from "../../dto/repository.dto/pin-update.dto";
 import {
   UserCreateInputDto,
   UserCreateOutputDto,
@@ -28,11 +38,9 @@ export default abstract class IAuthRepository {
   abstract updateUserPassword(
     input: UserUpdatePasswordInputDto,
   ): Promise<UserUpdatePasswordOutputDto>;
-  abstract getOneRequestPin(
-    input: getPinInputDto,
-  ): Promise<getPinOutputDto | null>;
-  abstract requestPin(
+  abstract getOnePin(input: getPinInputDto): Promise<UserPinEntity | null>;
+  abstract createPin(
     input: UserRequestPinInputDto,
   ): Promise<UserRequestPinOutputDto>;
-  abstract deletePin(input: pinDeleteInputDto): Promise<pinDeleteOutputDto>;
+  abstract updatePin(input: pinUpdateInputDto): Promise<pinUpdateOutputDto>;
 }

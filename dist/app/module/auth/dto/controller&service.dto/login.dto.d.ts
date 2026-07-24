@@ -1,11 +1,11 @@
 declare class UserDto {
-    id: number;
-    name: string;
-    email: string;
+    userId: string;
+    userName: string;
+    userEmail: string;
 }
 export declare class LoginInputDto {
-    email: string;
-    password: string;
+    userEmail: string;
+    userPassword: string;
 }
 export declare abstract class LoginOutputDto {
     token: string;

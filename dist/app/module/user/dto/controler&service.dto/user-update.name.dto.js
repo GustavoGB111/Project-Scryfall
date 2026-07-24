@@ -12,24 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserUpdateNameOutputDto = exports.UserUpdateNameInputDto = void 0;
 const class_validator_1 = require("class-validator");
 class UserUpdateNameInputDto {
-    id;
-    name;
+    userId;
+    userName;
 }
 exports.UserUpdateNameInputDto = UserUpdateNameInputDto;
 __decorate([
-    (0, class_validator_1.IsNumber)({}, { message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    (0, class_validator_1.Min)(1, { message: "O valor deve ser no mínimo 1" }),
-    __metadata("design:type", Number)
-], UserUpdateNameInputDto.prototype, "id", void 0);
+    __metadata("design:type", String)
+], UserUpdateNameInputDto.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     (0, class_validator_1.MinLength)(3, { message: "O campo deve ter no mínimo 3 caracteres" }),
     __metadata("design:type", String)
-], UserUpdateNameInputDto.prototype, "name", void 0);
+], UserUpdateNameInputDto.prototype, "userName", void 0);
 class UserUpdateNameOutputDto {
-    name;
+    userName;
 }
 exports.UserUpdateNameOutputDto = UserUpdateNameOutputDto;
 __decorate([
@@ -37,5 +36,5 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     (0, class_validator_1.MinLength)(3, { message: "O campo deve ter no mínimo 3 caracteres" }),
     __metadata("design:type", String)
-], UserUpdateNameOutputDto.prototype, "name", void 0);
+], UserUpdateNameOutputDto.prototype, "userName", void 0);
 //# sourceMappingURL=user-update.name.dto.js.map

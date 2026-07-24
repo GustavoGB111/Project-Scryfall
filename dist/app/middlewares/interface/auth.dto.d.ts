@@ -1,5 +1,6 @@
 export interface authOutputDTO {
-    id: number;
-    email: string;
+    userId: number;
+    userEmail: string;
+    userRole: string;
 }
 //# sourceMappingURL=auth.dto.d.ts.map

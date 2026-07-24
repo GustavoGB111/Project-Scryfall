@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import IAuthRepository from "./interfaces/auth.repository.interface";
-import { UserEntity, UserEntityPin } from "../../../entities/UserEntity";
+import { UserEntity } from "../../../entities/UserEntity";
+import { UserPinEntity } from "../../../entities/UserPinEntity";
 import { AppDataSource } from "../../../../DB/databaseConexion";
 import {
   UserCreateInputDto,
@@ -11,72 +12,108 @@ import {
   UserUpdatePasswordInputDto,
   UserUpdatePasswordOutputDto,
 } from "../dto/repository.dto/user-update-password.dto";
-import {
-  getPinInputDto,
-  getPinOutputDto,
-} from "../dto/repository.dto/pin-get-dto";
+import { getPinInputDto } from "../dto/repository.dto/pin-get-dto";
 import {
   UserRequestPinInputDto,
   UserRequestPinOutputDto,
 } from "../dto/repository.dto/pin-request.dto";
 import {
-  pinDeleteInputDto,
-  pinDeleteOutputDto,
-} from "../dto/repository.dto/pin-delete.dto";
+  pinUpdateInputDto,
+  pinUpdateOutputDto,
+} from "../dto/repository.dto/pin-update.dto";
 
 export class AuthRepository extends IAuthRepository {
   private userRepository: Repository<UserEntity>;
-  private userPinRepository: Repository<UserEntityPin>;
+  private userPinRepository: Repository<UserPinEntity>;
   constructor() {
     super();
-    this.userPinRepository = AppDataSource.getRepository(UserEntityPin); // indicação de q irá ser utilizado o repositorio
+    this.userPinRepository = AppDataSource.getRepository(UserPinEntity); // indicação de q irá ser utilizado o repositorio
     this.userRepository = AppDataSource.getRepository(UserEntity);
   }
 
+  // criar usuário
   async createUser(input: UserCreateInputDto): Promise<UserCreateOutputDto> {
     const user = await this.userRepository.create(input);
-    return await this.userRepository.save(user);
+    const { userEmail } = await this.userRepository.save(user);
+    return { userEmail };
   }
 
+  // get em todos os usuários
   async getAllUser(): Promise<UserEntity[]> {
     return await this.userRepository.find();
   }
 
+  // get em um unico usuário
   async getOneUser(input: UserGetOneInputDto): Promise<UserEntity | null> {
-    return await this.userRepository.findOne({ where: { email: input.email } });
+    return await this.userRepository.findOne({
+      where: { userEmail: input.userEmail },
+    });
   }
 
+  // update em um unico usuário
   async updateUserPassword(
     input: UserUpdatePasswordInputDto,
   ): Promise<UserUpdatePasswordOutputDto> {
     const { affected } = await this.userRepository.update(
-      { email: input.email },
-      { password: input.password },
+      { userId: input.userId },
+      {
+        userPassword: input.userPassword,
+        userPasswordIv: input.userPasswordIv,
+        userPasswordAuthTag: input.userPasswordAuthTag,
+      },
     );
     return { affected };
   }
 
-  async getOneRequestPin(
-    input: getPinInputDto,
-  ): Promise<getPinOutputDto | null> {
+  // get no pin, iv e authtag
+  async getOnePin(input: getPinInputDto): Promise<UserPinEntity | null> {
     const user = await this.userPinRepository.findOne({
-      where: { email: input.email },
-      select: { pin: true },
+      where: { userIdPin: { userId: input.userId } },
     });
+
     return user;
   }
 
-  async requestPin(
+  // criar pin
+  async createPin(
     input: UserRequestPinInputDto,
   ): Promise<UserRequestPinOutputDto> {
-    const user = await this.userPinRepository.create(input);
-    return await this.userPinRepository.save(user);
+    const user = await this.userPinRepository.create({
+      userIdPin: { userId: input.userId },
+      userPin: input.userPin,
+      userPinIv: input.userPinIv,
+      userPinAuthTag: input.userPinAuthTag,
+      pinsRequested: input.pinsRequested,
+      pinsRequestedResetAt: input.pinsRequestedResetAt,
+      pinsExpiredAt: input.pinsExpiredAt,
+      pinUsed: input.pinUsed,
+      passwordReseted: input.passwordReseted,
+    });
+    const { userIdPin } = await this.userPinRepository.save(user);
+    return { userId: userIdPin.userId };
   }
 
-  async deletePin(input: pinDeleteInputDto): Promise<pinDeleteOutputDto> {
-    const { affected } = await this.userPinRepository.delete({
-      email: input.email,
-    });
+  // update nas informações: userPin, userPinIv, userPinAuthtag, pinUsed, passwordReseted
+  async updatePin(input: pinUpdateInputDto): Promise<pinUpdateOutputDto> {
+    const getUser = await this.getOnePin({ userId: input.userId });
+    if (!getUser) {
+      const affected = 0;
+      return { affected };
+    }
+    const { affected } = await this.userPinRepository.update(
+      { userIdPin: { userId: input.userId } },
+      {
+        pinsRequested: input.pinsRequested ?? getUser.pinsRequested,
+        pinsRequestedResetAt:
+          input.pinsRequestedResetAt ?? getUser.pinsRequestedResetAt,
+        pinsExpiredAt: input.pinsExpiredAt ?? getUser.pinsExpiredAt,
+        userPin: input.userPin ?? getUser.userPin,
+        userPinIv: input.userPinIv ?? getUser.userPinIv,
+        userPinAuthTag: input.userPinAuthTag ?? getUser.userPinAuthTag,
+        pinUsed: input.pinUsed ?? getUser.pinUsed,
+        passwordReseted: input.passwordReseted ?? getUser.passwordReseted,
+      },
+    );
     return { affected };
   }
 }

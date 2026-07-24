@@ -19,6 +19,7 @@ import {
   SendPinOutputDto,
 } from "../dto/controller&service.dto/forgot-password.dto";
 import { BrevoClient } from "@getbrevo/brevo";
+import { encrypt, decrypt } from "../../../../common/encryption";
 
 const secret = process.env.JWT_SECRET;
 const secretRefresh = process.env.JWT_SECRET_REFRESH;
@@ -40,23 +41,27 @@ export class AuthService {
       await validateErros(UserCreateInputDto, input);
 
       const userExisting = await this.AuthRepository.getOneUser({
-        email: input.email,
+        userEmail: input.userEmail,
       });
 
       if (!!userExisting) {
-        throw new Error("Erro");
+        throw new Error("Email ja existente");
       }
 
-      const hashedPassword = await hash(input.password, 10);
+      const hashedPassword = await hash(input.userPassword, 10);
+
+      const { encrypted, iv, authTag } = await encrypt(hashedPassword);
 
       const userEntity = await this.AuthRepository.createUser({
-        email: input.email,
-        name: input.name,
-        password: hashedPassword,
+        userEmail: input.userEmail,
+        userName: input.userName,
+        userPassword: encrypted,
+        userPasswordIv: iv,
+        userPasswordAuthTag: authTag,
       });
 
       if (!userEntity) {
-        throw new Error("erro, Usuário não criado");
+        throw new Error("Erro, Usuário não criado");
       }
 
       return userEntity;
@@ -67,16 +72,25 @@ export class AuthService {
 
   async login(input: LoginInputDto): Promise<LoginOutputDto> {
     try {
-      validateErros(LoginInputDto, input);
-      const user = await this.AuthRepository.getOneUser({
-        email: input.email,
+      await validateErros(LoginInputDto, input);
+      const userExisting = await this.AuthRepository.getOneUser({
+        userEmail: input.userEmail,
       });
 
-      if (!user) {
+      if (!userExisting) {
         throw new Error("Email ou Senha inválidos");
       }
 
-      const passwordCompare = await compare(input.password, user.password);
+      const decryptedPassword = await decrypt({
+        iv: userExisting.userPasswordIv,
+        encrypted: userExisting.userPassword,
+        authTag: userExisting.userPasswordAuthTag,
+      });
+
+      const passwordCompare = await compare(
+        input.userPassword,
+        decryptedPassword,
+      );
 
       if (!passwordCompare) {
         throw Error("Email ou Senha inválidos");
@@ -87,16 +101,24 @@ export class AuthService {
        * depois guarda o token (signature)
        * por ultimo diz em quanto tempo ele vai expirar
        */
-      const token = jwt.sign({ id: user.id, email: user.email }, secret!, {
-        expiresIn: "3h",
-      });
+      const token = jwt.sign(
+        {
+          userId: userExisting.userId,
+          userEmail: userExisting.userEmail,
+          userRole: userExisting.userRole,
+        },
+        secret!,
+        {
+          expiresIn: "3h",
+        },
+      );
 
       return {
         token,
         user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
+          userId: userExisting.userId,
+          userName: userExisting.userName,
+          userEmail: userExisting.userEmail,
         },
       };
     } catch (error) {
@@ -108,16 +130,56 @@ export class AuthService {
     input: forgotPasswordInputDto,
   ): Promise<forgotPasswordOutputDto> {
     try {
-      validateErros(forgotPasswordInputDto, input);
+      await validateErros(forgotPasswordInputDto, input);
 
       const emailExisting = await this.AuthRepository.getOneUser({
-        email: input.email,
+        userEmail: input.userEmail,
       });
 
       if (!emailExisting) {
         throw new Error("Erro");
       }
 
+      const infosPin = await this.AuthRepository.getOnePin({
+        userId: emailExisting.userId,
+      });
+
+      const now = new Date();
+      const nowPlus5Minuts = new Date(now.getTime() + 5 * 60 * 1000);
+      const nowPlus10Minuts = new Date(now.getTime() + 10 * 60 * 1000);
+
+      if (infosPin) {
+        if (infosPin.pinsRequested > 3 && infosPin.pinsRequestedResetAt > now) {
+          throw new Error("erro, multiplas solicitações");
+        } else if (
+          infosPin.pinsRequested <= 3 &&
+          infosPin.pinsRequestedResetAt > now
+        ) {
+          const userPinUpdated = await this.AuthRepository.updatePin({
+            userId: emailExisting.userId,
+            pinsRequested: infosPin.pinsRequested + 1,
+            pinsRequestedResetAt: infosPin.pinsRequestedResetAt,
+            pinsExpiredAt: nowPlus10Minuts,
+          });
+
+          if (!userPinUpdated || userPinUpdated.affected !== 1) {
+            throw new Error("Erro ao atualizar a senha");
+          }
+        } else {
+          const userPinUpdated = await this.AuthRepository.updatePin({
+            userId: emailExisting.userId,
+            pinsRequested: 1,
+            pinsRequestedResetAt: nowPlus5Minuts,
+            pinsExpiredAt: nowPlus10Minuts,
+          });
+
+          if (!userPinUpdated || userPinUpdated.affected !== 1) {
+            throw new Error("Erro ao atualizar a senha");
+          }
+        }
+      }
+
+      // Enviar pin ao user
       const pin = Math.floor(100000 + Math.random() * 900000).toString();
 
       await this.apiBrevo.transactionalEmails.sendTransacEmail({
@@ -127,7 +189,7 @@ export class AuthService {
         },
         to: [
           {
-            email: input.email,
+            email: input.userEmail,
           },
         ],
         subject: "Recuperação de senha",
@@ -139,19 +201,43 @@ export class AuthService {
           `,
       });
 
+      // criar ou alterar pin
+
       const hashedPin = await hash(pin, 10);
 
-      const userPinEntity = await this.AuthRepository.requestPin({
-        email: input.email,
-        pin: hashedPin,
-      });
+      const { iv, encrypted, authTag } = encrypt(hashedPin);
 
-      if (!userPinEntity) {
-        throw new Error("Erro");
+      if (infosPin) {
+        const userPinEntity = await this.AuthRepository.updatePin({
+          userId: emailExisting.userId,
+          userPin: encrypted,
+          userPinIv: iv,
+          userPinAuthTag: authTag,
+          pinUsed: false,
+          passwordReseted: false,
+        });
+        if (!userPinEntity || userPinEntity.affected !== 1) {
+          throw new Error("Erro ao atualizar informações");
+        }
+      } else if (!infosPin) {
+        const userPinEntity = await this.AuthRepository.createPin({
+          userId: emailExisting.userId,
+          userPin: encrypted,
+          userPinIv: iv,
+          userPinAuthTag: authTag,
+          pinsRequested: 1,
+          pinsRequestedResetAt: nowPlus5Minuts,
+          pinsExpiredAt: nowPlus10Minuts,
+          pinUsed: false,
+          passwordReseted: false,
+        });
+        if (!userPinEntity) {
+          throw new Error("Erro");
+        }
       }
 
       return {
-        email: input.email,
+        userEmail: input.userEmail,
       };
     } catch (error) {
       throw error;
@@ -160,28 +246,60 @@ export class AuthService {
 
   async sendPin(input: SendPinInputDto): Promise<SendPinOutputDto> {
     try {
-      validateErros(SendPinInputDto, input);
-      const emailExisting = await this.AuthRepository.getOneRequestPin({
-        email: input.email,
-      });
+      await validateErros(SendPinInputDto, input);
 
+      const emailExisting = await this.AuthRepository.getOneUser({
+        userEmail: input.userEmail,
+      });
       if (!emailExisting) {
         throw new Error("Erro");
       }
 
-      const pinCompare = await compare(input.pin, emailExisting.pin);
+      const infosPin = await this.AuthRepository.getOnePin({
+        userId: emailExisting.userId,
+      });
+
+      if (!infosPin) {
+        throw new Error("Erro");
+      }
+
+      const now = new Date();
+
+      if (infosPin.pinsExpiredAt < now) {
+        throw new Error("Erro");
+      }
+
+      const hashedPin = await decrypt({
+        iv: infosPin.userPinIv,
+        encrypted: infosPin.userPin,
+        authTag: infosPin.userPinAuthTag,
+      });
+
+      const pinCompare = await compare(input.userPin, hashedPin);
 
       if (!pinCompare) {
         throw new Error("Erro");
       }
 
-      const token = jwt.sign({ email: input.email }, secretRefresh!, {
+      const token = jwt.sign({ userId: emailExisting.userId }, secretRefresh!, {
         expiresIn: "10m",
       });
 
+      if (infosPin.pinUsed !== false) {
+        throw new Error("Pin ja utilizado");
+      }
+
+      const pinUsed = await this.AuthRepository.updatePin({
+        userId: emailExisting.userId,
+        pinUsed: true,
+      });
+
+      if (!pinUsed || pinUsed.affected !== 1) {
+        throw new Error("pin não pode ser utilizado");
+      }
+
       return {
         token,
-        email: input.email,
       };
     } catch (error) {
       throw error;
@@ -190,17 +308,42 @@ export class AuthService {
 
   async resetPassword(input: ResetPassworInputDto): Promise<void> {
     try {
-      validateErros(ResetPassworInputDto, input);
+      await validateErros(ResetPassworInputDto, input);
 
-      if (input.password !== input.confirmPassword) {
+      if (input.userPassword !== input.userConfirmPassword) {
         throw new Error("As senhas devem ser iguais");
       }
 
-      const hashedPassword = await hash(input.password, 10);
+      const infosPin = await this.AuthRepository.getOnePin({
+        userId: input.userId,
+      });
+
+      if (!infosPin) {
+        throw new Error("Usuario não encontrado");
+      }
+
+      if (infosPin.passwordReseted != false) {
+        throw new Error("Senha já alterada");
+      }
+
+      const hashedPassword = await hash(input.userPassword, 10);
+
+      const { iv, authTag, encrypted } = await encrypt(hashedPassword);
+
+      const passwordReseted = await this.AuthRepository.updatePin({
+        userId: input.userId,
+        passwordReseted: true,
+      });
+
+      if (!passwordReseted || passwordReseted.affected !== 1) {
+        throw new Error("senha não pode ser alterada");
+      }
 
       const user = await this.AuthRepository.updateUserPassword({
-        email: input.email,
-        password: hashedPassword,
+        userId: input.userId,
+        userPassword: encrypted,
+        userPasswordIv: iv,
+        userPasswordAuthTag: authTag,
       });
 
       if (!user || user.affected !== 1) {

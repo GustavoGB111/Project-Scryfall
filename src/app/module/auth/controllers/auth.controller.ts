@@ -1,12 +1,13 @@
 import { injectable, inject } from "tsyringe";
 import { AuthService } from "../services/auth.service";
 import { Request, Response } from "express";
-import { UserCreateInputDto } from "../dto/repository.dto/user-create.dto";
 import {
   forgotPasswordInputDto,
   ResetPassworInputDto,
   SendPinInputDto,
 } from "../dto/controller&service.dto/forgot-password.dto";
+import { UserCreateInputDto } from "../dto/controller&service.dto/user-create.dto";
+import { LoginInputDto } from "../dto/controller&service.dto/login.dto";
 
 @injectable()
 export default class AuthController {
@@ -18,14 +19,14 @@ export default class AuthController {
   async createUser(req: Request, res: Response): Promise<Response> {
     try {
       const input: UserCreateInputDto = {
-        email: req.body.email,
-        name: req.body.name,
-        password: req.body.password,
+        userEmail: req.body.userEmail,
+        userName: req.body.userName,
+        userPassword: req.body.userPassword,
       };
 
-      const { email } = await this.authService.registerUser(input);
+      const { userEmail } = await this.authService.registerUser(input);
 
-      return res.status(201).json(email);
+      return res.status(201).json(userEmail);
     } catch (error) {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "erro Interno",
@@ -35,15 +36,16 @@ export default class AuthController {
 
   async login(req: Request, res: Response): Promise<Response> {
     try {
-      const input: UserCreateInputDto = {
-        email: req.body.email,
-        name: req.body.email,
-        password: req.body.password,
+      const input: LoginInputDto = {
+        userEmail: req.body.userEmail,
+        userPassword: req.body.userPassword,
       };
 
-      await this.authService.login(input);
+      const response = await this.authService.login(input);
 
-      return res.status(200).json({ message: "User logado com sucesso" });
+      return res
+        .status(200)
+        .json({ response, message: "User logado com sucesso" });
     } catch (error) {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "erro Interno",
@@ -54,12 +56,12 @@ export default class AuthController {
   async requestPin(req: Request, res: Response): Promise<Response> {
     try {
       const input: forgotPasswordInputDto = {
-        email: req.body.email,
+        userEmail: req.body.userEmail,
       };
 
-      await this.authService.requestPin(input);
+      const response = await this.authService.requestPin(input);
 
-      return res.status(200).json();
+      return res.status(200).json(response);
     } catch (error) {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "erro Interno",
@@ -70,13 +72,13 @@ export default class AuthController {
   async sendPin(req: Request, res: Response): Promise<Response> {
     try {
       const input: SendPinInputDto = {
-        email: req.body.email,
-        pin: req.body.pin,
+        userEmail: req.body.userEmail,
+        userPin: req.body.userPin,
       };
 
-      await this.authService.sendPin(input);
+      const response = await this.authService.sendPin(input);
 
-      return res.status(200).json({ message: "Pin aceito" });
+      return res.status(200).json({ response, message: "Pin aceito" });
     } catch (error) {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "erro Interno",
@@ -87,9 +89,9 @@ export default class AuthController {
   async resetPassword(req: Request, res: Response): Promise<Response> {
     try {
       const input: ResetPassworInputDto = {
-        email: req.userEmail,
-        password: req.body.password,
-        confirmPassword: req.body.confirmPassword,
+        userId: req.userId,
+        userPassword: req.body.userPassword,
+        userConfirmPassword: req.body.userConfirmPassword,
       };
 
       await this.authService.resetPassword(input);

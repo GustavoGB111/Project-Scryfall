@@ -22,12 +22,12 @@ let AuthController = class AuthController {
     async createUser(req, res) {
         try {
             const input = {
-                email: req.body.email,
-                name: req.body.name,
-                password: req.body.password,
+                userEmail: req.body.userEmail,
+                userName: req.body.userName,
+                userPassword: req.body.userPassword,
             };
-            const { email } = await this.authService.registerUser(input);
-            return res.status(201).json(email);
+            const { userEmail } = await this.authService.registerUser(input);
+            return res.status(201).json(userEmail);
         }
         catch (error) {
             return res.status(400).json({
@@ -38,12 +38,13 @@ let AuthController = class AuthController {
     async login(req, res) {
         try {
             const input = {
-                email: req.body.email,
-                name: req.body.email,
-                password: req.body.password,
+                userEmail: req.body.userEmail,
+                userPassword: req.body.userPassword,
             };
-            await this.authService.login(input);
-            return res.status(200).json({ message: "User logado com sucesso" });
+            const response = await this.authService.login(input);
+            return res
+                .status(200)
+                .json({ response, message: "User logado com sucesso" });
         }
         catch (error) {
             return res.status(400).json({
@@ -54,10 +55,10 @@ let AuthController = class AuthController {
     async requestPin(req, res) {
         try {
             const input = {
-                email: req.body.email,
+                userEmail: req.body.userEmail,
             };
-            await this.authService.requestPin(input);
-            return res.status(200).json();
+            const response = await this.authService.requestPin(input);
+            return res.status(200).json(response);
         }
         catch (error) {
             return res.status(400).json({
@@ -68,11 +69,11 @@ let AuthController = class AuthController {
     async sendPin(req, res) {
         try {
             const input = {
-                email: req.body.email,
-                pin: req.body.pin,
+                userEmail: req.body.userEmail,
+                userPin: req.body.userPin,
             };
-            await this.authService.sendPin(input);
-            return res.status(200).json({ message: "Pin aceito" });
+            const response = await this.authService.sendPin(input);
+            return res.status(200).json({ response, message: "Pin aceito" });
         }
         catch (error) {
             return res.status(400).json({
@@ -83,9 +84,9 @@ let AuthController = class AuthController {
     async resetPassword(req, res) {
         try {
             const input = {
-                email: req.userEmail,
-                password: req.body.password,
-                confirmPassword: req.body.confirmPassword,
+                userId: req.userId,
+                userPassword: req.body.userPassword,
+                userConfirmPassword: req.body.userConfirmPassword,
             };
             await this.authService.resetPassword(input);
             return res.status(200).json({ message: "Senha alterada com sucesso" });

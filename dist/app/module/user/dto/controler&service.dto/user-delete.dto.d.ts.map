@@ -1,1 +1,1 @@
-{"version":3,"file":"user-delete.dto.d.ts","sourceRoot":"","sources":["../../../../../../src/app/module/user/dto/controler&service.dto/user-delete.dto.ts"],"names":[],"mappings":"AAEA,qBAAa,kBAAkB;IAI7B,EAAE,EAAG,MAAM,CAAC;CACb"}
+{"version":3,"file":"user-delete.dto.d.ts","sourceRoot":"","sources":["../../../../../../src/app/module/user/dto/controler&service.dto/user-delete.dto.ts"],"names":[],"mappings":"AAEA,qBAAa,kBAAkB;IAG7B,MAAM,EAAG,MAAM,CAAC;CACjB"}

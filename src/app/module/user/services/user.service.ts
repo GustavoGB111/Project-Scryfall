@@ -28,8 +28,8 @@ export class UserService {
     try {
       await validateErros(UserGetOneInputDto, input);
 
-      const { email } = input;
-      const user = await this.userRepository.getOne({ email });
+      const { userEmail } = input;
+      const user = await this.userRepository.getOne({ userEmail });
 
       if (!user) {
         throw new Error("User not found");
@@ -47,14 +47,14 @@ export class UserService {
     try {
       await validateErros(UserUpdateNameInputDto, input);
 
-      const { name } = input;
+      const { userName } = input;
       const userEntity = await this.userRepository.updateUserName(input);
 
-      if (name !== userEntity.name) {
+      if (userName !== userEntity.userName || !userEntity) {
         throw new Error("Usuário não atualizado");
       }
 
-      return { name: userEntity.name };
+      return { userName: userEntity.userName };
     } catch (error) {
       throw error;
     }

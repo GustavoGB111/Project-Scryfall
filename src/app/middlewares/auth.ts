@@ -14,8 +14,9 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
       JWT_SECRET,
     ) as authOutputDTO;
 
-    req.userId = Number(decoded.id);
-    req.userEmail = String(decoded.email);
+    req.userId = String(decoded.userId);
+    req.userEmail = String(decoded.userEmail);
+    req.userRole = String(decoded.userRole);
 
     next(); //next é a permissão de continuar após o middleware
   } catch (error) {

@@ -13,9 +13,11 @@ exports.UserCreateOutputDto = exports.UserCreateInputDto = void 0;
 const class_validator_1 = require("class-validator");
 // Utilização do Class-Validator para verificação de validade dos atributos
 class UserCreateInputDto {
-    email;
-    name;
-    password;
+    userEmail;
+    userName;
+    userPassword;
+    userPasswordIv;
+    userPasswordAuthTag;
 }
 exports.UserCreateInputDto = UserCreateInputDto;
 __decorate([
@@ -23,20 +25,30 @@ __decorate([
     (0, class_validator_1.IsEmail)({}, { message: "O formato não é válido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserCreateInputDto.prototype, "email", void 0);
+], UserCreateInputDto.prototype, "userEmail", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserCreateInputDto.prototype, "name", void 0);
+], UserCreateInputDto.prototype, "userName", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     (0, class_validator_1.MinLength)(8, { message: "O campo deve ter no mínimo 8 caracteres" }),
     __metadata("design:type", String)
-], UserCreateInputDto.prototype, "password", void 0);
+], UserCreateInputDto.prototype, "userPassword", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], UserCreateInputDto.prototype, "userPasswordIv", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], UserCreateInputDto.prototype, "userPasswordAuthTag", void 0);
 class UserCreateOutputDto {
-    email;
+    userEmail;
 }
 exports.UserCreateOutputDto = UserCreateOutputDto;
 __decorate([
@@ -44,5 +56,5 @@ __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserCreateOutputDto.prototype, "email", void 0);
+], UserCreateOutputDto.prototype, "userEmail", void 0);
 //# sourceMappingURL=user-create.dto.js.map

@@ -9,32 +9,34 @@ const UserEntity_1 = require("../../../entities/UserEntity");
 const databaseConexion_1 = require("../../../../DB/databaseConexion");
 class UserRepository extends user_repository_interface_1.default {
     userRepository;
-    userPinRepository;
     constructor() {
         super();
         // pegar um objeto que faz requisição ao banco de dados para o repositorio x
         this.userRepository = databaseConexion_1.AppDataSource.getRepository(UserEntity_1.UserEntity);
-        this.userPinRepository = databaseConexion_1.AppDataSource.getRepository(UserEntity_1.UserEntityPin);
     }
     async getAll() {
         return this.userRepository.find();
     }
     async getOne(input) {
         return await this.userRepository.findOne({
-            where: { email: input.email },
+            where: { userEmail: input.userEmail },
         });
     }
     async updateUserName(input) {
-        const user = await this.userRepository.findOne({ where: { id: input.id } });
+        const user = await this.userRepository.findOne({
+            where: { userId: input.userId },
+        });
         if (!user) {
             throw new Error("erro ao atualizar nome");
         }
-        Object.assign(user, { name: input.name }); // converte o user antigo atualizando as propriedades do novo "dto"
-        const { name } = await this.userRepository.save(user);
-        return { name };
+        Object.assign(user, { userName: input.userName }); // converte o user antigo atualizando as propriedades do novo "dto"
+        const { userName } = await this.userRepository.save(user); // salva o user no banco de dados e retorna a entidade
+        return { userName };
     }
     async deleteUser(input) {
-        const { affected } = await this.userRepository.delete({ id: input.id });
+        const { affected } = await this.userRepository.delete({
+            userId: input.userId,
+        });
         return { affected };
     }
 }

@@ -1,11 +1,11 @@
+import { UserRole } from "../../common/enums/user.table.enum";
 export declare class UserEntity {
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-}
-export declare class UserEntityPin {
-    email: string;
-    pin: string;
+    userId: string;
+    userName: string;
+    userEmail: string;
+    userPassword: string;
+    userRole: UserRole;
+    userPasswordIv: string;
+    userPasswordAuthTag: string;
 }
 //# sourceMappingURL=UserEntity.d.ts.map

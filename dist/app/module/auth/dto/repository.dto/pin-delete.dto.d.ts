@@ -1,5 +1,5 @@
 export declare class pinDeleteInputDto {
-    email: string;
+    userId: string;
 }
 export declare class pinDeleteOutputDto {
     affected: number | null | undefined;

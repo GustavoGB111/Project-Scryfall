@@ -9,50 +9,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserEntityPin = exports.UserEntity = void 0;
+exports.UserEntity = void 0;
 const typeorm_1 = require("typeorm");
+const user_table_enum_1 = require("../../common/enums/user.table.enum");
 let UserEntity = class UserEntity {
-    id;
-    name;
-    email;
-    password;
+    userId;
+    userName;
+    userEmail;
+    userPassword;
+    userRole;
+    userPasswordIv;
+    userPasswordAuthTag;
 };
 exports.UserEntity = UserEntity;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)("increment") // chave primaria de auto incremento
-    ,
-    __metadata("design:type", Number)
-], UserEntity.prototype, "id", void 0);
-__decorate([
-    (0, typeorm_1.Column)("varchar", { length: 100, nullable: false }) // tamanho 100 e não nula
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid") // chave primaria de auto incremento
     ,
     __metadata("design:type", String)
-], UserEntity.prototype, "name", void 0);
+], UserEntity.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 100, nullable: false, unique: true }),
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }) // tamanho 100 e não nula
+    ,
     __metadata("design:type", String)
-], UserEntity.prototype, "email", void 0);
+], UserEntity.prototype, "userName", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 100, nullable: false }),
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false, unique: true }),
     __metadata("design:type", String)
-], UserEntity.prototype, "password", void 0);
+], UserEntity.prototype, "userEmail", void 0);
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    __metadata("design:type", String)
+], UserEntity.prototype, "userPassword", void 0);
+__decorate([
+    (0, typeorm_1.Column)("enum", { enum: user_table_enum_1.UserRole, nullable: false, default: user_table_enum_1.UserRole.CLIENT }),
+    __metadata("design:type", String)
+], UserEntity.prototype, "userRole", void 0);
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    __metadata("design:type", String)
+], UserEntity.prototype, "userPasswordIv", void 0);
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    __metadata("design:type", String)
+], UserEntity.prototype, "userPasswordAuthTag", void 0);
 exports.UserEntity = UserEntity = __decorate([
-    (0, typeorm_1.Entity)("users")
+    (0, typeorm_1.Entity)("user")
 ], UserEntity);
-let UserEntityPin = class UserEntityPin {
-    email;
-    pin;
-};
-exports.UserEntityPin = UserEntityPin;
-__decorate([
-    (0, typeorm_1.Column)("varchar", { length: 100, nullable: false, primary: true }),
-    __metadata("design:type", String)
-], UserEntityPin.prototype, "email", void 0);
-__decorate([
-    (0, typeorm_1.Column)("varchar", { length: 100, nullable: false }),
-    __metadata("design:type", String)
-], UserEntityPin.prototype, "pin", void 0);
-exports.UserEntityPin = UserEntityPin = __decorate([
-    (0, typeorm_1.Entity)("users_pin")
-], UserEntityPin);
 //# sourceMappingURL=UserEntity.js.map

@@ -1,4 +1,5 @@
 export interface authOutputDTO {
-  id: number;
-  email: string;
+  userId: number;
+  userEmail: string;
+  userRole: string;
 }

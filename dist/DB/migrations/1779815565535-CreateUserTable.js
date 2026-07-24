@@ -2,65 +2,63 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserTable1779815565535 = void 0;
 const typeorm_1 = require("typeorm");
+const user_table_enum_1 = require("../../common/enums/user.table.enum");
 // querry runner é o executador de codigos sql
 class CreateUserTable1779815565535 {
     async up(queryRunner) {
         await queryRunner.createTable(new typeorm_1.Table({
-            name: "users_pin",
+            name: "user",
             columns: [
                 {
-                    name: "email",
-                    type: "varchar",
-                    isPrimary: true,
-                    length: "100",
-                    isNullable: false,
-                },
-                {
-                    name: "pin",
-                    type: "varchar",
-                    isPrimary: false,
-                    isNullable: false,
-                    length: "100",
-                },
-            ],
-        }));
-        await queryRunner.createTable(new typeorm_1.Table({
-            name: "users",
-            columns: [
-                {
-                    name: "id",
-                    type: "integer",
+                    name: "userId",
+                    type: "uuid",
                     isPrimary: true,
                     isGenerated: true,
-                    generationStrategy: "increment",
+                    generationStrategy: "uuid",
                 },
                 {
-                    name: "name", //nome
+                    name: "userName", //nome
                     type: "varchar", // tipo
-                    isPrimary: false, // se é uma chave primaria
-                    length: "100", //tamanho maximo do
+                    length: "255", //tamanho maximo do
                     isNullable: false, // não permite ser nulo
                 },
                 {
-                    name: "email", //nome
+                    name: "userEmail", //nome
                     type: "varchar", // tipo
-                    isPrimary: false, // se é uma chave primaria
                     isUnique: true,
-                    length: "100", //tamanho maximo do
+                    length: "255", //tamanho maximo do
                     isNullable: false, // não permite ser nulo
                 },
                 {
-                    name: "password",
+                    name: "userPassword",
                     type: "varchar",
-                    isPrimary: false,
-                    length: "100",
+                    length: "255",
+                    isNullable: false,
+                },
+                {
+                    name: "userRole",
+                    enum: ["client", "admin"],
+                    type: "enum",
+                    isNullable: false,
+                    default: `'${user_table_enum_1.UserRole.CLIENT}'`,
+                },
+                {
+                    name: "userPasswordIv",
+                    type: "varchar",
+                    length: "255",
+                    isNullable: false,
+                },
+                {
+                    name: "userPasswordAuthTag",
+                    type: "varchar",
+                    length: "255",
                     isNullable: false,
                 },
             ],
         }));
     }
     async down(queryRunner) {
-        await queryRunner.dropTable("users"); // forma pra desfazer as alterações da migration
+        await queryRunner.dropTable("user"); // forma pra desfazer as alterações da migration
     }
 }
 exports.CreateUserTable1779815565535 = CreateUserTable1779815565535;

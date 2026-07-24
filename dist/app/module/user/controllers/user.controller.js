@@ -32,7 +32,7 @@ let UserController = class UserController {
     }
     async getUser(req, res) {
         try {
-            const input = { email: req.body.email };
+            const input = { userEmail: req.body.userEmail };
             const user = await this.userService.getOne(input);
             return res.status(200).json(user);
         }
@@ -45,8 +45,8 @@ let UserController = class UserController {
     async updateUserName(req, res) {
         try {
             const input = {
-                id: req.userId,
-                name: req.body.name,
+                userId: req.userId,
+                userName: req.body.name,
             };
             const user = this.userService.updateUserName(input);
             return res.status(201).json(user);
@@ -60,7 +60,7 @@ let UserController = class UserController {
     async deleteUser(req, res) {
         try {
             const input = {
-                id: req.userId,
+                userId: req.userId,
             };
             await this.userService.deleteUser(input);
             return res.status(200).json({ message: "User deletado com sucesso" });

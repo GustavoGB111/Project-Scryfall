@@ -12,15 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserDeleteOutputDto = exports.UserDeleteInputDto = void 0;
 const class_validator_1 = require("class-validator");
 class UserDeleteInputDto {
-    id;
+    userId;
 }
 exports.UserDeleteInputDto = UserDeleteInputDto;
 __decorate([
-    (0, class_validator_1.IsNumber)({}, { message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    (0, class_validator_1.Min)(1, { message: "O valor deve ser no mínimo 1" }),
-    __metadata("design:type", Number)
-], UserDeleteInputDto.prototype, "id", void 0);
+    __metadata("design:type", String)
+], UserDeleteInputDto.prototype, "userId", void 0);
 class UserDeleteOutputDto {
     affected;
 }

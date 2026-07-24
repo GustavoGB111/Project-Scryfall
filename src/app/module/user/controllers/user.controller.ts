@@ -25,7 +25,7 @@ export default class UserController {
 
   async getUser(req: Request, res: Response): Promise<Response> {
     try {
-      const input: UserGetOneInputDto = { email: req.body.email };
+      const input: UserGetOneInputDto = { userEmail: req.body.userEmail };
 
       const user = await this.userService.getOne(input);
 
@@ -40,8 +40,8 @@ export default class UserController {
   async updateUserName(req: Request, res: Response): Promise<Response> {
     try {
       const input: UserUpdateNameInputDto = {
-        id: req.userId,
-        name: req.body.name,
+        userId: req.userId,
+        userName: req.body.name,
       };
       const user = this.userService.updateUserName(input);
 
@@ -56,7 +56,7 @@ export default class UserController {
   async deleteUser(req: Request, res: Response): Promise<Response> {
     try {
       const input: UserDeleteInputDto = {
-        id: req.userId,
+        userId: req.userId,
       };
 
       await this.userService.deleteUser(input);

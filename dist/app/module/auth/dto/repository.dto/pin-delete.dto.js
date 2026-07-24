@@ -12,15 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pinDeleteOutputDto = exports.pinDeleteInputDto = void 0;
 const class_validator_1 = require("class-validator");
 class pinDeleteInputDto {
-    email;
+    userId;
 }
 exports.pinDeleteInputDto = pinDeleteInputDto;
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsEmail)({}, { message: "O formato não é válido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], pinDeleteInputDto.prototype, "email", void 0);
+], pinDeleteInputDto.prototype, "userId", void 0);
 class pinDeleteOutputDto {
     affected;
 }

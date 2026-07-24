@@ -1,4 +1,4 @@
 export declare class UserDeleteInputDto {
-    id: number;
+    userId: string;
 }
 //# sourceMappingURL=user-delete.dto.d.ts.map

@@ -18,7 +18,7 @@ const authForgotPassword = (
       JWT_SECRET_REFRESH,
     ) as forgotPasswordAuthDto;
 
-    req.userEmail = String(decoded.email);
+    req.userId = String(decoded.userId);
 
     next(); //next é a permissão de continuar após o middleware
   } catch (error) {

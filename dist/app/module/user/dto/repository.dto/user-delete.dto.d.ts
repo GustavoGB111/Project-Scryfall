@@ -1,5 +1,5 @@
 export declare class UserDeleteInputDto {
-    id: number;
+    userId: string;
 }
 export declare abstract class UserDeleteOutputDto {
     affected: number | null | undefined;

@@ -38,8 +38,8 @@ let UserService = class UserService {
     async getOne(input) {
         try {
             await (0, validate_erros_1.validateErros)(user_get_dto_1.UserGetOneInputDto, input);
-            const { email } = input;
-            const user = await this.userRepository.getOne({ email });
+            const { userEmail } = input;
+            const user = await this.userRepository.getOne({ userEmail });
             if (!user) {
                 throw new Error("User not found");
             }
@@ -52,12 +52,12 @@ let UserService = class UserService {
     async updateUserName(input) {
         try {
             await (0, validate_erros_1.validateErros)(user_update_name_dto_1.UserUpdateNameInputDto, input);
-            const { name } = input;
+            const { userName } = input;
             const userEntity = await this.userRepository.updateUserName(input);
-            if (name !== userEntity.name) {
+            if (userName !== userEntity.userName || !userEntity) {
                 throw new Error("Usuário não atualizado");
             }
-            return { name: userEntity.name };
+            return { userName: userEntity.userName };
         }
         catch (error) {
             throw error;

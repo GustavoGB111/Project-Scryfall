@@ -1,25 +1,26 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { UserRole } from "../../common/enums/user.table.enum";
 
-@Entity("users")
+@Entity("user")
 export class UserEntity {
-  @PrimaryGeneratedColumn("increment") // chave primaria de auto incremento
-  id!: number;
+  @PrimaryGeneratedColumn("uuid") // chave primaria de auto incremento
+  userId!: string;
 
-  @Column("varchar", { length: 100, nullable: false }) // tamanho 100 e não nula
-  name!: string;
+  @Column("varchar", { length: 255, nullable: false }) // tamanho 100 e não nula
+  userName!: string;
 
-  @Column("varchar", { length: 100, nullable: false, unique: true })
-  email!: string;
+  @Column("varchar", { length: 255, nullable: false, unique: true })
+  userEmail!: string;
 
-  @Column("varchar", { length: 100, nullable: false })
-  password!: string;
-}
+  @Column("varchar", { length: 255, nullable: false })
+  userPassword!: string;
 
-@Entity("users_pin")
-export class UserEntityPin {
-  @Column("varchar", { length: 100, nullable: false, primary: true })
-  email!: string;
+  @Column("enum", { enum: UserRole, nullable: false, default: UserRole.CLIENT })
+  userRole!: UserRole;
 
-  @Column("varchar", { length: 100, nullable: false })
-  pin!: string;
+  @Column("varchar", { length: 255, nullable: false })
+  userPasswordIv!: string;
+
+  @Column("varchar", { length: 255, nullable: false })
+  userPasswordAuthTag!: string;
 }
