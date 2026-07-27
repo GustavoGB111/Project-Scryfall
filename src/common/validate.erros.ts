@@ -15,6 +15,6 @@ export async function validateErros<T extends object>(
       campo: erro.property, // pega o campo do erro
       mensagens: Object.values(erro.constraints ?? {}), //pega o erro
     }));
-    throw new Error(JSON.stringify(err, null, 2));
+    throw new Error(`Dados inválidos: ${err}`);
   }
 }

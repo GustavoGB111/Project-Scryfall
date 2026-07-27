@@ -16,12 +16,63 @@ export default class AuthController {
     private readonly authService: AuthService,
   ) {}
 
+  /**
+   * @swagger
+   * /auth/create:
+   *   post:
+   *     summary: Cria um novo usuário
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - name
+   *               - email
+   *               - password
+   *             properties:
+   *               nome:
+   *                 type: string
+   *                 example: "Gustavo"
+   *               email:
+   *                 type: string
+   *                 format: email
+   *                 example: "email@email.com"
+   *               password:
+   *                 type: string
+   *                 format: password
+   *                 example: "senha123"
+   *     responses:
+   *       201:
+   *         description: Usuário criado com sucesso
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                 nome:
+   *                   type: string
+   *                 email:
+   *                   type: string
+   *       400:
+   *         description: Dados inválidos: (erro)
+   *       400:
+   *         description: Email já cadastrado
+   *       400:
+   *         description: Erro, Usuário não criado
+   *       500:
+   *         description: Erro no servidor.
+   */
   async createUser(req: Request, res: Response): Promise<Response> {
     try {
       const input: UserCreateInputDto = {
-        userEmail: req.body.userEmail,
-        userName: req.body.userName,
-        userPassword: req.body.userPassword,
+        userEmail: req.body.email,
+        userName: req.body.name,
+        userPassword: req.body.password,
       };
 
       const { userEmail } = await this.authService.registerUser(input);
@@ -34,11 +85,61 @@ export default class AuthController {
     }
   }
 
+  /**
+   * @swagger
+   * /auth/login:
+   *   put:
+   *     summary: Faz login do usuário
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *               - password
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 format: email
+   *                 example: "email@email.com"
+   *               password:
+   *                 type: string
+   *                 format: password
+   *                 example: "senha123"
+   *     responses:
+   *       200:
+   *         description: Usuário logado com sucesso
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 token:
+   *                   type: string
+   *                 user:
+   *                   type: object
+   *                   properties:
+   *                     userId:
+   *                        type: string
+   *                     userName:
+   *                        type: string
+   *                     userEmail:
+   *                        type: string
+   *       400:
+   *         description: Email ou Senha inválidos
+   *       400:
+   *         description: Dados inválidos: (erro)
+   *       500:
+   *         description: Erro no servidor.
+   */
   async login(req: Request, res: Response): Promise<Response> {
     try {
       const input: LoginInputDto = {
-        userEmail: req.body.userEmail,
-        userPassword: req.body.userPassword,
+        userEmail: req.body.email,
+        userPassword: req.body.password,
       };
 
       const response = await this.authService.login(input);
@@ -53,10 +154,50 @@ export default class AuthController {
     }
   }
 
+  /**
+   * @swagger
+   * /auth/requestPin:
+   *   put:
+   *     summary: Envia um pin ao email
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 format: email
+   *                 example: "email@email.com"
+   *     responses:
+   *       200:
+   *         description: Pin enviado
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 userEmail:
+   *                   type: string
+   *       400:
+   *         description: Dados inválidos: (erro)
+   *       400:
+   *         description: Erro
+   *       400:
+   *         description: Erro, multiplas solicitações
+   *       400:
+   *         description: Erro ao atualizar dados
+   *       500:
+   *         description: Erro no servidor.
+   */
   async requestPin(req: Request, res: Response): Promise<Response> {
     try {
       const input: forgotPasswordInputDto = {
-        userEmail: req.body.userEmail,
+        userEmail: req.body.email,
       };
 
       const response = await this.authService.requestPin(input);
@@ -69,11 +210,55 @@ export default class AuthController {
     }
   }
 
+  /**
+   * @swagger
+   * /auth/sendPin:
+   *   put:
+   *     summary: Faz a comparação do pin
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *               - pin
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 format: email
+   *                 example: "email@email.com"
+   *               pin:
+   *                 type: number
+   *                 example: "123456"
+   *     responses:
+   *       200:
+   *         description: Pin correto
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 token:
+   *                   type: string
+   *       400:
+   *         description: Dados inválidos: (erro)
+   *       400:
+   *         description: Erro
+   *       400:
+   *         description: Erro, pin já utilizado
+   *       400:
+   *         description: Pin não pôde ser utilizado
+   *       500:
+   *         description: Erro no servidor.
+   */
   async sendPin(req: Request, res: Response): Promise<Response> {
     try {
       const input: SendPinInputDto = {
-        userEmail: req.body.userEmail,
-        userPin: req.body.userPin,
+        userEmail: req.body.email,
+        userPin: req.body.pin,
       };
 
       const response = await this.authService.sendPin(input);
@@ -86,12 +271,55 @@ export default class AuthController {
     }
   }
 
+  /**
+   * @swagger
+   * /auth/resetPassword:
+   *   put:
+   *     summary: Faz a comparação do pin
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - token
+   *               - password
+   *               - passwordConfirm
+   *             properties:
+   *               token:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *                 example: "senhanova"
+   *               passwordConfirm:
+   *                 type: string
+   *                 example: "senhanova"
+   *     responses:
+   *       200:
+   *         description: Senha alterada com sucesso
+   *       400:
+   *         description: Dados inválidos: (erro)
+   *       400:
+   *         description: Erro, as senhas devem ser iguais
+   *       400:
+   *         description: Erro, usuario não encontrado
+   *       400:
+   *         description: Erro, senha já alterada
+   *       400:
+   *         description: Erro, senha já alterada
+   *       400:
+   *         description: Erro, senha não pôde ser alterada
+   *       500:
+   *         description: Erro no servidor.
+   */
   async resetPassword(req: Request, res: Response): Promise<Response> {
     try {
       const input: ResetPassworInputDto = {
         userId: req.userId,
-        userPassword: req.body.userPassword,
-        userConfirmPassword: req.body.userConfirmPassword,
+        userPassword: req.body.password,
+        userConfirmPassword: req.body.passwordConfirm,
       };
 
       await this.authService.resetPassword(input);

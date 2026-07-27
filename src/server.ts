@@ -5,10 +5,13 @@ import "./app/module/user/DIContainer/user.DIContainer.js";
 import "./app/module/auth/DIContainer/auth.DIContainer.js";
 import userRoutes from "./app/module/user/routes/user.routes.js";
 import authRoutes from "./app/module/auth/routes/auth.routes.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
 
 const app = express();
 
 app.use(express.json()); // pro app entender o json enviado no corpo (body) da requisição
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/user", userRoutes); // onde o app(variável q representa o express usa a rota user)
 app.use("/auth", authRoutes);

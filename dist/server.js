@@ -10,8 +10,11 @@ require("./app/module/user/DIContainer/user.DIContainer.js");
 require("./app/module/auth/DIContainer/auth.DIContainer.js");
 const user_routes_js_1 = __importDefault(require("./app/module/user/routes/user.routes.js"));
 const auth_routes_js_1 = __importDefault(require("./app/module/auth/routes/auth.routes.js"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const swagger_js_1 = __importDefault(require("./config/swagger.js"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json()); // pro app entender o json enviado no corpo (body) da requisição
+app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_js_1.default));
 app.use("/user", user_routes_js_1.default); // onde o app(variável q representa o express usa a rota user)
 app.use("/auth", auth_routes_js_1.default);
 // banco de dados deve iniciar antes do servidor, caso ocorra o contrário poderá dar erro

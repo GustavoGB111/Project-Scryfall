@@ -44,8 +44,8 @@ export class AuthService {
         userEmail: input.userEmail,
       });
 
-      if (!!userExisting) {
-        throw new Error("Email ja existente");
+      if (userExisting) {
+        throw new Error("Email ja cadastrado");
       }
 
       const hashedPassword = await hash(input.userPassword, 10);
@@ -163,7 +163,7 @@ export class AuthService {
           });
 
           if (!userPinUpdated || userPinUpdated.affected !== 1) {
-            throw new Error("Erro ao atualizar a senha");
+            throw new Error("Erro ao atualizar dados");
           }
         } else {
           const userPinUpdated = await this.AuthRepository.updatePin({
@@ -174,7 +174,7 @@ export class AuthService {
           });
 
           if (!userPinUpdated || userPinUpdated.affected !== 1) {
-            throw new Error("Erro ao atualizar a senha");
+            throw new Error("Erro ao atualizar dados");
           }
         }
       }
@@ -217,7 +217,7 @@ export class AuthService {
           passwordReseted: false,
         });
         if (!userPinEntity || userPinEntity.affected !== 1) {
-          throw new Error("Erro ao atualizar informações");
+          throw new Error("Erro ao atualizar dados");
         }
       } else if (!infosPin) {
         const userPinEntity = await this.AuthRepository.createPin({
@@ -232,7 +232,7 @@ export class AuthService {
           passwordReseted: false,
         });
         if (!userPinEntity) {
-          throw new Error("Erro");
+          throw new Error("Erro ao atualizar dados");
         }
       }
 
@@ -286,7 +286,7 @@ export class AuthService {
       });
 
       if (infosPin.pinUsed !== false) {
-        throw new Error("Pin ja utilizado");
+        throw new Error("Erro, pin ja utilizado");
       }
 
       const pinUsed = await this.AuthRepository.updatePin({
@@ -295,7 +295,7 @@ export class AuthService {
       });
 
       if (!pinUsed || pinUsed.affected !== 1) {
-        throw new Error("pin não pode ser utilizado");
+        throw new Error("Pin não pôde ser utilizado");
       }
 
       return {
@@ -311,7 +311,7 @@ export class AuthService {
       await validateErros(ResetPassworInputDto, input);
 
       if (input.userPassword !== input.userConfirmPassword) {
-        throw new Error("As senhas devem ser iguais");
+        throw new Error("Erro, as senhas devem ser iguais");
       }
 
       const infosPin = await this.AuthRepository.getOnePin({
@@ -319,11 +319,11 @@ export class AuthService {
       });
 
       if (!infosPin) {
-        throw new Error("Usuario não encontrado");
+        throw new Error("Erro, usuario não encontrado");
       }
 
       if (infosPin.passwordReseted != false) {
-        throw new Error("Senha já alterada");
+        throw new Error("Erro, senha já alterada");
       }
 
       const hashedPassword = await hash(input.userPassword, 10);
@@ -336,7 +336,7 @@ export class AuthService {
       });
 
       if (!passwordReseted || passwordReseted.affected !== 1) {
-        throw new Error("senha não pode ser alterada");
+        throw new Error("Erro, senha já alterada");
       }
 
       const user = await this.AuthRepository.updateUserPassword({
@@ -347,7 +347,7 @@ export class AuthService {
       });
 
       if (!user || user.affected !== 1) {
-        throw new Error("Erro ao atualizar a senha");
+        throw new Error("Erro, senha não pôde ser alterada");
       }
     } catch (error) {
       throw error;
