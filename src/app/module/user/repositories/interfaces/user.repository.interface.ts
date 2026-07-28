@@ -1,19 +1,17 @@
 import { UserEntity } from "../../../../entities/UserEntity";
-import { UserGetOneInputDto } from "../../dto/repository.dto/user-get.dto";
 import {
-  UserUpdateNameInputDto,
-  UserUpdateNameOutputDto,
-} from "../../dto/repository.dto/user-update-name.dto";
+  userDeleteInputDto,
+  userDeleteOutputDto,
+} from "../../dto/repository.dto/delete-user.dto";
+import { userGetOneInputDto } from "../../dto/repository.dto/get-user.dto";
 import {
-  UserDeleteInputDto,
-  UserDeleteOutputDto,
-} from "../../dto/repository.dto/user-delete.dto";
+  userUpdateInputDto,
+  userUpdateOutputDto,
+} from "../../dto/repository.dto/update-user.dto";
 
 export default abstract class IUserRepository {
-  abstract getAll(): Promise<UserEntity[]>;
-  abstract getOne(input: UserGetOneInputDto): Promise<UserEntity | null>;
-  abstract updateUserName(
-    input: UserUpdateNameInputDto,
-  ): Promise<UserUpdateNameOutputDto>;
-  abstract deleteUser(input: UserDeleteInputDto): Promise<UserDeleteOutputDto>;
+  abstract getUser(input: userGetOneInputDto): Promise<UserEntity | null>;
+  abstract getAllUser(): Promise<UserEntity[]>;
+  abstract deleteUser(input: userDeleteInputDto): Promise<userDeleteOutputDto>;
+  abstract updateUser(input: userUpdateInputDto): Promise<userUpdateOutputDto>;
 }

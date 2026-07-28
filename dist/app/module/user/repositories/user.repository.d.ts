@@ -1,14 +1,14 @@
 import IUserRepository from "./interfaces/user.repository.interface";
 import { UserEntity } from "../../../entities/UserEntity";
-import { UserUpdateNameInputDto, UserUpdateNameOutputDto } from "../dto/repository.dto/user-update-name.dto";
-import { UserGetOneInputDto } from "../dto/repository.dto/user-get.dto";
-import { UserDeleteInputDto, UserDeleteOutputDto } from "../dto/repository.dto/user-delete.dto";
+import { userGetOneInputDto } from "../dto/repository.dto/get-user.dto";
+import { userDeleteInputDto, userDeleteOutputDto } from "../dto/repository.dto/delete-user.dto";
+import { userUpdateInputDto, userUpdateOutputDto } from "../dto/repository.dto/update-user.dto";
 export declare class UserRepository extends IUserRepository {
     private userRepository;
     constructor();
-    getAll(): Promise<UserEntity[]>;
-    getOne(input: UserGetOneInputDto): Promise<UserEntity | null>;
-    updateUserName(input: UserUpdateNameInputDto): Promise<UserUpdateNameOutputDto>;
-    deleteUser(input: UserDeleteInputDto): Promise<UserDeleteOutputDto>;
+    getUser(input: userGetOneInputDto): Promise<UserEntity | null>;
+    getAllUser(): Promise<UserEntity[]>;
+    deleteUser(input: userDeleteInputDto): Promise<userDeleteOutputDto>;
+    updateUser(input: userUpdateInputDto): Promise<userUpdateOutputDto>;
 }
 //# sourceMappingURL=user.repository.d.ts.map

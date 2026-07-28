@@ -18,58 +18,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const tsyringe_1 = require("tsyringe");
 const user_repository_interface_1 = __importDefault(require("../repositories/interfaces/user.repository.interface"));
-const user_update_name_dto_1 = require("../dto/controler&service.dto/user-update.name.dto");
-const user_get_dto_1 = require("../dto/controler&service.dto/user-get.dto");
-const user_delete_dto_1 = require("../dto/controler&service.dto/user-delete.dto");
+const get_user_dto_1 = require("../dto/controler&service.dto/get-user.dto");
 const validate_erros_1 = require("../../../../common/validate.erros");
 let UserService = class UserService {
     userRepository;
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    async getAll() {
+    async getUserMe(input) {
         try {
-            return this.userRepository.getAll();
-        }
-        catch (error) {
-            throw error;
-        }
-    }
-    async getOne(input) {
-        try {
-            await (0, validate_erros_1.validateErros)(user_get_dto_1.UserGetOneInputDto, input);
-            const { userEmail } = input;
-            const user = await this.userRepository.getOne({ userEmail });
+            (0, validate_erros_1.validateErros)(get_user_dto_1.getOneUserInputDto, input);
+            const user = await this.userRepository.getUser({ userId: input.userId });
             if (!user) {
-                throw new Error("User not found");
+                throw new Error("Usuário não encontrado");
             }
-            return user;
-        }
-        catch (error) {
-            throw error;
-        }
-    }
-    async updateUserName(input) {
-        try {
-            await (0, validate_erros_1.validateErros)(user_update_name_dto_1.UserUpdateNameInputDto, input);
-            const { userName } = input;
-            const userEntity = await this.userRepository.updateUserName(input);
-            if (userName !== userEntity.userName || !userEntity) {
-                throw new Error("Usuário não atualizado");
-            }
-            return { userName: userEntity.userName };
-        }
-        catch (error) {
-            throw error;
-        }
-    }
-    async deleteUser(input) {
-        try {
-            (0, validate_erros_1.validateErros)(user_delete_dto_1.UserDeleteInputDto, input);
-            const deleted = await this.userRepository.deleteUser(input);
-            if (!deleted || deleted.affected !== 1) {
-                throw new Error("Usuário não foi deletado");
-            }
+            const { userPassword, userPasswordIv, userPasswordAuthTag, ...result } = user;
+            return result;
         }
         catch (error) {
             throw error;

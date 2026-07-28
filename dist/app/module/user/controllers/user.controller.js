@@ -19,55 +19,59 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async getUsers(req, res) {
-        try {
-            const users = await this.userService.getAll();
-            return res.status(200).json(users);
-        }
-        catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "Erro interno",
-            });
-        }
-    }
-    async getUser(req, res) {
-        try {
-            const input = { userEmail: req.body.userEmail };
-            const user = await this.userService.getOne(input);
-            return res.status(200).json(user);
-        }
-        catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "Erro interno",
-            });
-        }
-    }
-    async updateUserName(req, res) {
+    /**
+     * @swagger
+     * /user/me:
+     *   put:
+     *     summary: Retorna os dados do user que requisitou a rota
+     *     tags: [User]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - token
+     *             properties:
+     *               token:
+     *                 type: string
+     *                 example: "550e8400-e29b-41d4-a716-446655440000"
+     *     responses:
+     *       201:
+     *         description: Usuário encontrado
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                 response:
+     *                   type: object
+     *                   properties:
+     *                     id:
+     *                       type: string
+     *                     nome:
+     *                       type: string
+     *                     email:
+     *                       type: string
+     *       400:
+     *         description: (error)
+     *       500:
+     *         description: Erro no servidor.
+     */
+    async getUserMe(req, res) {
         try {
             const input = {
                 userId: req.userId,
-                userName: req.body.name,
             };
-            const user = this.userService.updateUserName(input);
-            return res.status(201).json(user);
+            const user = await this.userService.getUserMe({ userId: input.userId });
+            return res.status(200).json({ message: "Usuário encontrado", user });
         }
         catch (error) {
             return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
-            });
-        }
-    }
-    async deleteUser(req, res) {
-        try {
-            const input = {
-                userId: req.userId,
-            };
-            await this.userService.deleteUser(input);
-            return res.status(200).json({ message: "User deletado com sucesso" });
-        }
-        catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
+                message: error instanceof Error ? error.message : "Erro Interno",
             });
         }
     }

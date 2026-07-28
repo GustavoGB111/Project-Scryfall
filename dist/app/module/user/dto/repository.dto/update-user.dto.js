@@ -9,51 +9,58 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserCreateOutputDto = exports.UserCreateInputDto = void 0;
+exports.userUpdateOutputDto = exports.userUpdateInputDto = void 0;
 const class_validator_1 = require("class-validator");
-// Utilização do Class-Validator para verificação de validade dos atributos
-class UserCreateInputDto {
+const user_table_enum_1 = require("../../../../../common/enums/user.table.enum");
+class userUpdateInputDto {
+    userId;
     userEmail;
     userName;
+    userRole;
     userPassword;
     userPasswordIv;
     userPasswordAuthTag;
 }
-exports.UserCreateInputDto = UserCreateInputDto;
+exports.userUpdateInputDto = userUpdateInputDto;
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], userUpdateInputDto.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsEmail)({}, { message: "O formato não é válido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserCreateInputDto.prototype, "userEmail", void 0);
+], userUpdateInputDto.prototype, "userEmail", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserCreateInputDto.prototype, "userName", void 0);
+], userUpdateInputDto.prototype, "userName", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserCreateInputDto.prototype, "userPassword", void 0);
+], userUpdateInputDto.prototype, "userRole", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserCreateInputDto.prototype, "userPasswordIv", void 0);
+], userUpdateInputDto.prototype, "userPassword", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], UserCreateInputDto.prototype, "userPasswordAuthTag", void 0);
-class UserCreateOutputDto {
-    userEmail;
+], userUpdateInputDto.prototype, "userPasswordIv", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], userUpdateInputDto.prototype, "userPasswordAuthTag", void 0);
+class userUpdateOutputDto {
+    affected;
 }
-exports.UserCreateOutputDto = UserCreateOutputDto;
-__decorate([
-    (0, class_validator_1.IsEmail)({}, { message: "O formato não é válido" }),
-    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
-], UserCreateOutputDto.prototype, "userEmail", void 0);
-//# sourceMappingURL=user-create.dto.js.map
+exports.userUpdateOutputDto = userUpdateOutputDto;
+//# sourceMappingURL=update-user.dto.js.map

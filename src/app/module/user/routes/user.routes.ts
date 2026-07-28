@@ -8,20 +8,6 @@ const userRoutes = Router();
 const userController = container.resolve<UserController>("UserController");
 
 // o bind serve pra função sempre conseguir utilizar o this independentemente de como ela é chamada
-userRoutes.get("/getAll", userController.getUsers.bind(userController)); // você precisa redeclarar a função como param
-
-userRoutes.get("/getOne", userController.getUser.bind(userController));
-
-userRoutes.put(
-  "/updateNameUser",
-  auth,
-  userController.updateUserName.bind(userController),
-);
-
-userRoutes.delete(
-  "/delete",
-  auth,
-  userController.deleteUser.bind(userController),
-);
+userRoutes.put("/me", auth, userController.getUserMe.bind(userController));
 
 export default userRoutes;

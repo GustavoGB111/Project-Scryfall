@@ -43,8 +43,8 @@ let AuthService = class AuthService {
             const userExisting = await this.AuthRepository.getOneUser({
                 userEmail: input.userEmail,
             });
-            if (!!userExisting) {
-                throw new Error("Email ja existente");
+            if (userExisting) {
+                throw new Error("Email ja cadastrado");
             }
             const hashedPassword = await (0, bcrypt_1.hash)(input.userPassword, 10);
             const { encrypted, iv, authTag } = await (0, encryption_1.encrypt)(hashedPassword);
@@ -135,7 +135,7 @@ let AuthService = class AuthService {
                         pinsExpiredAt: nowPlus10Minuts,
                     });
                     if (!userPinUpdated || userPinUpdated.affected !== 1) {
-                        throw new Error("Erro ao atualizar a senha");
+                        throw new Error("Erro ao atualizar dados");
                     }
                 }
                 else {
@@ -146,7 +146,7 @@ let AuthService = class AuthService {
                         pinsExpiredAt: nowPlus10Minuts,
                     });
                     if (!userPinUpdated || userPinUpdated.affected !== 1) {
-                        throw new Error("Erro ao atualizar a senha");
+                        throw new Error("Erro ao atualizar dados");
                     }
                 }
             }
@@ -183,7 +183,7 @@ let AuthService = class AuthService {
                     passwordReseted: false,
                 });
                 if (!userPinEntity || userPinEntity.affected !== 1) {
-                    throw new Error("Erro ao atualizar informações");
+                    throw new Error("Erro ao atualizar dados");
                 }
             }
             else if (!infosPin) {
@@ -199,7 +199,7 @@ let AuthService = class AuthService {
                     passwordReseted: false,
                 });
                 if (!userPinEntity) {
-                    throw new Error("Erro");
+                    throw new Error("Erro ao atualizar dados");
                 }
             }
             return {
@@ -242,14 +242,14 @@ let AuthService = class AuthService {
                 expiresIn: "10m",
             });
             if (infosPin.pinUsed !== false) {
-                throw new Error("Pin ja utilizado");
+                throw new Error("Erro, pin ja utilizado");
             }
             const pinUsed = await this.AuthRepository.updatePin({
                 userId: emailExisting.userId,
                 pinUsed: true,
             });
             if (!pinUsed || pinUsed.affected !== 1) {
-                throw new Error("pin não pode ser utilizado");
+                throw new Error("Pin não pôde ser utilizado");
             }
             return {
                 token,
@@ -263,16 +263,16 @@ let AuthService = class AuthService {
         try {
             await (0, validate_erros_1.validateErros)(forgot_password_dto_1.ResetPassworInputDto, input);
             if (input.userPassword !== input.userConfirmPassword) {
-                throw new Error("As senhas devem ser iguais");
+                throw new Error("Erro, as senhas devem ser iguais");
             }
             const infosPin = await this.AuthRepository.getOnePin({
                 userId: input.userId,
             });
             if (!infosPin) {
-                throw new Error("Usuario não encontrado");
+                throw new Error("Erro, usuario não encontrado");
             }
             if (infosPin.passwordReseted != false) {
-                throw new Error("Senha já alterada");
+                throw new Error("Erro, senha já alterada");
             }
             const hashedPassword = await (0, bcrypt_1.hash)(input.userPassword, 10);
             const { iv, authTag, encrypted } = await (0, encryption_1.encrypt)(hashedPassword);
@@ -281,7 +281,7 @@ let AuthService = class AuthService {
                 passwordReseted: true,
             });
             if (!passwordReseted || passwordReseted.affected !== 1) {
-                throw new Error("senha não pode ser alterada");
+                throw new Error("Erro, senha já alterada");
             }
             const user = await this.AuthRepository.updateUserPassword({
                 userId: input.userId,
@@ -290,7 +290,7 @@ let AuthService = class AuthService {
                 userPasswordAuthTag: authTag,
             });
             if (!user || user.affected !== 1) {
-                throw new Error("Erro ao atualizar a senha");
+                throw new Error("Erro, senha não pôde ser alterada");
             }
         }
         catch (error) {

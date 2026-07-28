@@ -12,7 +12,7 @@ async function validateErros(Class, input) {
             campo: erro.property, // pega o campo do erro
             mensagens: Object.values(erro.constraints ?? {}), //pega o erro
         }));
-        throw new Error(JSON.stringify(err, null, 2));
+        throw new Error(`Dados inválidos: ${err}`);
     }
 }
 //# sourceMappingURL=validate.erros.js.map

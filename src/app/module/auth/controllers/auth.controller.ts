@@ -33,7 +33,7 @@ export default class AuthController {
    *               - email
    *               - password
    *             properties:
-   *               nome:
+   *               name:
    *                 type: string
    *                 example: "Gustavo"
    *               email:
@@ -52,18 +52,19 @@ export default class AuthController {
    *             schema:
    *               type: object
    *               properties:
-   *                 id:
+   *                 message:
    *                   type: string
-   *                 nome:
-   *                   type: string
-   *                 email:
-   *                   type: string
+   *                 response:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: string
+   *                     nome:
+   *                       type: string
+   *                     email:
+   *                       type: string
    *       400:
-   *         description: Dados inválidos: (erro)
-   *       400:
-   *         description: Email já cadastrado
-   *       400:
-   *         description: Erro, Usuário não criado
+   *         description: (error)
    *       500:
    *         description: Erro no servidor.
    */
@@ -75,12 +76,15 @@ export default class AuthController {
         userPassword: req.body.password,
       };
 
-      const { userEmail } = await this.authService.registerUser(input);
+      const response = await this.authService.registerUser(input);
 
-      return res.status(201).json(userEmail);
+      return res.status(201).json({
+        message: "Usuário criado com sucesso",
+        response,
+      });
     } catch (error) {
       return res.status(400).json({
-        message: error instanceof Error ? error.message : "erro Interno",
+        message: error instanceof Error ? error.message : "Erro Interno",
       });
     }
   }
@@ -117,21 +121,24 @@ export default class AuthController {
    *             schema:
    *               type: object
    *               properties:
-   *                 token:
+   *                 message:
    *                   type: string
-   *                 user:
+   *                 response:
    *                   type: object
    *                   properties:
-   *                     userId:
-   *                        type: string
-   *                     userName:
-   *                        type: string
-   *                     userEmail:
-   *                        type: string
+   *                     token:
+   *                       type: string
+   *                     user:
+   *                       type: object
+   *                       properties:
+   *                         userId:
+   *                             type: string
+   *                         userName:
+   *                             type: string
+   *                         userEmail:
+   *                             type: string
    *       400:
-   *         description: Email ou Senha inválidos
-   *       400:
-   *         description: Dados inválidos: (erro)
+   *         description: (error)
    *       500:
    *         description: Erro no servidor.
    */
@@ -146,10 +153,10 @@ export default class AuthController {
 
       return res
         .status(200)
-        .json({ response, message: "User logado com sucesso" });
+        .json({ message: "User logado com sucesso", response });
     } catch (error) {
       return res.status(400).json({
-        message: error instanceof Error ? error.message : "erro Interno",
+        message: error instanceof Error ? error.message : "Erro Interno",
       });
     }
   }
@@ -181,16 +188,15 @@ export default class AuthController {
    *             schema:
    *               type: object
    *               properties:
-   *                 userEmail:
+   *                 message:
    *                   type: string
+   *                 response:
+   *                   type: object
+   *                   properties:
+   *                     userEmail:
+   *                       type: string
    *       400:
-   *         description: Dados inválidos: (erro)
-   *       400:
-   *         description: Erro
-   *       400:
-   *         description: Erro, multiplas solicitações
-   *       400:
-   *         description: Erro ao atualizar dados
+   *         description: (error)
    *       500:
    *         description: Erro no servidor.
    */
@@ -202,10 +208,10 @@ export default class AuthController {
 
       const response = await this.authService.requestPin(input);
 
-      return res.status(200).json(response);
+      return res.status(200).json({ message: "Pin enviado", response });
     } catch (error) {
       return res.status(400).json({
-        message: error instanceof Error ? error.message : "erro Interno",
+        message: error instanceof Error ? error.message : "Erro Interno",
       });
     }
   }
@@ -231,8 +237,8 @@ export default class AuthController {
    *                 format: email
    *                 example: "email@email.com"
    *               pin:
-   *                 type: number
-   *                 example: "123456"
+   *                 type: integer
+   *                 example: 123456
    *     responses:
    *       200:
    *         description: Pin correto
@@ -241,16 +247,15 @@ export default class AuthController {
    *             schema:
    *               type: object
    *               properties:
-   *                 token:
+   *                 message:
    *                   type: string
+   *                 response:
+   *                   type: object
+   *                   properties:
+   *                     token:
+   *                       type: string
    *       400:
-   *         description: Dados inválidos: (erro)
-   *       400:
-   *         description: Erro
-   *       400:
-   *         description: Erro, pin já utilizado
-   *       400:
-   *         description: Pin não pôde ser utilizado
+   *         description: (error)
    *       500:
    *         description: Erro no servidor.
    */
@@ -263,10 +268,10 @@ export default class AuthController {
 
       const response = await this.authService.sendPin(input);
 
-      return res.status(200).json({ response, message: "Pin aceito" });
+      return res.status(200).json({ message: "Pin correto", response });
     } catch (error) {
       return res.status(400).json({
-        message: error instanceof Error ? error.message : "erro Interno",
+        message: error instanceof Error ? error.message : "Erro Interno",
       });
     }
   }
@@ -275,7 +280,7 @@ export default class AuthController {
    * @swagger
    * /auth/resetPassword:
    *   put:
-   *     summary: Faz a comparação do pin
+   *     summary: Altera a senha
    *     tags: [Auth]
    *     requestBody:
    *       required: true
@@ -290,6 +295,7 @@ export default class AuthController {
    *             properties:
    *               token:
    *                 type: string
+   *                 example: "550e8400-e29b-41d4-a716-446655440000"
    *               password:
    *                 type: string
    *                 example: "senhanova"
@@ -300,17 +306,7 @@ export default class AuthController {
    *       200:
    *         description: Senha alterada com sucesso
    *       400:
-   *         description: Dados inválidos: (erro)
-   *       400:
-   *         description: Erro, as senhas devem ser iguais
-   *       400:
-   *         description: Erro, usuario não encontrado
-   *       400:
-   *         description: Erro, senha já alterada
-   *       400:
-   *         description: Erro, senha já alterada
-   *       400:
-   *         description: Erro, senha não pôde ser alterada
+   *         description: (error)
    *       500:
    *         description: Erro no servidor.
    */
@@ -327,7 +323,7 @@ export default class AuthController {
       return res.status(200).json({ message: "Senha alterada com sucesso" });
     } catch (error) {
       return res.status(400).json({
-        message: error instanceof Error ? error.message : "erro Interno",
+        message: error instanceof Error ? error.message : "Erro Interno",
       });
     }
   }

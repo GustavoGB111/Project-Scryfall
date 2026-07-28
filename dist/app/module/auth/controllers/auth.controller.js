@@ -36,7 +36,7 @@ let AuthController = class AuthController {
      *               - email
      *               - password
      *             properties:
-     *               nome:
+     *               name:
      *                 type: string
      *                 example: "Gustavo"
      *               email:
@@ -55,14 +55,19 @@ let AuthController = class AuthController {
      *             schema:
      *               type: object
      *               properties:
-     *                 id:
+     *                 message:
      *                   type: string
-     *                 nome:
-     *                   type: string
-     *                 email:
-     *                   type: string
+     *                 response:
+     *                   type: object
+     *                   properties:
+     *                     id:
+     *                       type: string
+     *                     nome:
+     *                       type: string
+     *                     email:
+     *                       type: string
      *       400:
-     *         description: Dados inválidos ou usuário já existe
+     *         description: (error)
      *       500:
      *         description: Erro no servidor.
      */
@@ -73,12 +78,15 @@ let AuthController = class AuthController {
                 userName: req.body.name,
                 userPassword: req.body.password,
             };
-            const { userEmail } = await this.authService.registerUser(input);
-            return res.status(201).json(userEmail);
+            const response = await this.authService.registerUser(input);
+            return res.status(201).json({
+                message: "Usuário criado com sucesso",
+                response,
+            });
         }
         catch (error) {
             return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
+                message: error instanceof Error ? error.message : "Erro Interno",
             });
         }
     }
@@ -107,26 +115,31 @@ let AuthController = class AuthController {
      *                 format: password
      *                 example: "senha123"
      *     responses:
-     *       201:
+     *       200:
      *         description: Usuário logado com sucesso
      *         content:
      *           application/json:
      *             schema:
      *               type: object
      *               properties:
-     *                 token:
+     *                 message:
      *                   type: string
-     *                 user:
+     *                 response:
      *                   type: object
      *                   properties:
-     *                     userId:
-     *                        type: string
-     *                     userName:
-     *                        type: string
-     *                     userEmail:
-     *                        type: string
+     *                     token:
+     *                       type: string
+     *                     user:
+     *                       type: object
+     *                       properties:
+     *                         userId:
+     *                             type: string
+     *                         userName:
+     *                             type: string
+     *                         userEmail:
+     *                             type: string
      *       400:
-     *         description: Dados inválidos
+     *         description: (error)
      *       500:
      *         description: Erro no servidor.
      */
@@ -139,11 +152,11 @@ let AuthController = class AuthController {
             const response = await this.authService.login(input);
             return res
                 .status(200)
-                .json({ response, message: "User logado com sucesso" });
+                .json({ message: "User logado com sucesso", response });
         }
         catch (error) {
             return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
+                message: error instanceof Error ? error.message : "Erro Interno",
             });
         }
     }
@@ -167,17 +180,22 @@ let AuthController = class AuthController {
      *                 format: email
      *                 example: "email@email.com"
      *     responses:
-     *       201:
+     *       200:
      *         description: Pin enviado
      *         content:
      *           application/json:
      *             schema:
      *               type: object
      *               properties:
-     *                 userEmail:
+     *                 message:
      *                   type: string
+     *                 response:
+     *                   type: object
+     *                   properties:
+     *                     userEmail:
+     *                       type: string
      *       400:
-     *         description: Dados inválidos
+     *         description: (error)
      *       500:
      *         description: Erro no servidor.
      */
@@ -187,11 +205,11 @@ let AuthController = class AuthController {
                 userEmail: req.body.email,
             };
             const response = await this.authService.requestPin(input);
-            return res.status(200).json(response);
+            return res.status(200).json({ message: "Pin enviado", response });
         }
         catch (error) {
             return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
+                message: error instanceof Error ? error.message : "Erro Interno",
             });
         }
     }
@@ -216,20 +234,25 @@ let AuthController = class AuthController {
      *                 format: email
      *                 example: "email@email.com"
      *               pin:
-     *                 type: number
-     *                 example: "123456"
+     *                 type: integer
+     *                 example: 123456
      *     responses:
-     *       201:
+     *       200:
      *         description: Pin correto
      *         content:
      *           application/json:
      *             schema:
      *               type: object
      *               properties:
-     *                 token:
+     *                 message:
      *                   type: string
+     *                 response:
+     *                   type: object
+     *                   properties:
+     *                     token:
+     *                       type: string
      *       400:
-     *         description: Dados inválidos ou pin já utilizado
+     *         description: (error)
      *       500:
      *         description: Erro no servidor.
      */
@@ -240,11 +263,11 @@ let AuthController = class AuthController {
                 userPin: req.body.pin,
             };
             const response = await this.authService.sendPin(input);
-            return res.status(200).json({ response, message: "Pin aceito" });
+            return res.status(200).json({ message: "Pin correto", response });
         }
         catch (error) {
             return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
+                message: error instanceof Error ? error.message : "Erro Interno",
             });
         }
     }
@@ -267,6 +290,7 @@ let AuthController = class AuthController {
      *             properties:
      *               token:
      *                 type: string
+     *                 example: "550e8400-e29b-41d4-a716-446655440000"
      *               password:
      *                 type: string
      *                 example: "senhanova"
@@ -274,10 +298,10 @@ let AuthController = class AuthController {
      *                 type: string
      *                 example: "senhanova"
      *     responses:
-     *       201:
+     *       200:
      *         description: Senha alterada com sucesso
      *       400:
-     *         description: Dados inválidos ou Senha ja alterada
+     *         description: (error)
      *       500:
      *         description: Erro no servidor.
      */
@@ -293,7 +317,7 @@ let AuthController = class AuthController {
         }
         catch (error) {
             return res.status(400).json({
-                message: error instanceof Error ? error.message : "erro Interno",
+                message: error instanceof Error ? error.message : "Erro Interno",
             });
         }
     }

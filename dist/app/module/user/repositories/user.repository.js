@@ -14,28 +14,35 @@ class UserRepository extends user_repository_interface_1.default {
         // pegar um objeto que faz requisição ao banco de dados para o repositorio x
         this.userRepository = databaseConexion_1.AppDataSource.getRepository(UserEntity_1.UserEntity);
     }
-    async getAll() {
-        return this.userRepository.find();
-    }
-    async getOne(input) {
+    async getUser(input) {
         return await this.userRepository.findOne({
-            where: { userEmail: input.userEmail },
-        });
-    }
-    async updateUserName(input) {
-        const user = await this.userRepository.findOne({
             where: { userId: input.userId },
         });
-        if (!user) {
-            throw new Error("erro ao atualizar nome");
-        }
-        Object.assign(user, { userName: input.userName }); // converte o user antigo atualizando as propriedades do novo "dto"
-        const { userName } = await this.userRepository.save(user); // salva o user no banco de dados e retorna a entidade
-        return { userName };
+    }
+    async getAllUser() {
+        return await this.userRepository.find();
     }
     async deleteUser(input) {
         const { affected } = await this.userRepository.delete({
             userId: input.userId,
+        });
+        return { affected };
+    }
+    async updateUser(input) {
+        const user = await this.getUser({ userId: input.userId });
+        if (!user) {
+            const affected = 0;
+            return { affected };
+        }
+        const { affected } = await this.userRepository.update({
+            userId: input.userId,
+        }, {
+            userEmail: input.userEmail ?? user.userEmail,
+            userName: input.userName ?? user.userName,
+            userRole: input.userRole ?? user.userRole,
+            userPassword: input.userPassword ?? user.userPassword,
+            userPasswordIv: input.userPasswordIv ?? user.userPasswordIv,
+            userPasswordAuthTag: input.userPasswordAuthTag ?? user.userPasswordAuthTag,
         });
         return { affected };
     }
