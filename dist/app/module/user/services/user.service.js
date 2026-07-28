@@ -20,6 +20,8 @@ const tsyringe_1 = require("tsyringe");
 const user_repository_interface_1 = __importDefault(require("../repositories/interfaces/user.repository.interface"));
 const get_user_dto_1 = require("../dto/controler&service.dto/get-user.dto");
 const validate_erros_1 = require("../../../../common/validate.erros");
+const delete_user_dto_1 = require("../dto/controler&service.dto/delete-user.dto");
+const update_user_dto_1 = require("../dto/controler&service.dto/update-user.dto");
 let UserService = class UserService {
     userRepository;
     constructor(userRepository) {
@@ -34,6 +36,43 @@ let UserService = class UserService {
             }
             const { userPassword, userPasswordIv, userPasswordAuthTag, ...result } = user;
             return result;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async deleteUserMe(input) {
+        try {
+            (0, validate_erros_1.validateErros)(delete_user_dto_1.deleteOneUserInputDto, input);
+            const user = await this.userRepository.getUser({ userId: input.userId });
+            if (!user) {
+                throw new Error("Usuário não encontrado");
+            }
+            const userDeleted = await this.userRepository.deleteUser({
+                userId: input.userId,
+            });
+            if (!userDeleted) {
+                throw new Error("Usuário não pôde ser deletado");
+            }
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async updateUserNameMe(input) {
+        try {
+            (0, validate_erros_1.validateErros)(update_user_dto_1.updateUserNameInputDto, input);
+            const user = await this.userRepository.getUser({ userId: input.userId });
+            if (!user) {
+                throw new Error("Usuário não encontrado");
+            }
+            const userUpdated = await this.userRepository.updateUser({
+                userId: input.userId,
+                userName: input.newName,
+            });
+            if (!userUpdated || userUpdated.affected !== 1) {
+                throw new Error("Usuário não pôde ser atualizado");
+            }
         }
         catch (error) {
             throw error;

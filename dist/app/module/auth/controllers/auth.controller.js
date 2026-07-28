@@ -162,7 +162,7 @@ let AuthController = class AuthController {
     }
     /**
      * @swagger
-     * /auth/requestPin:
+     * /auth/pin/request:
      *   put:
      *     summary: Envia um pin ao email
      *     tags: [Auth]
@@ -215,7 +215,7 @@ let AuthController = class AuthController {
     }
     /**
      * @swagger
-     * /auth/sendPin:
+     * /auth/pin/send:
      *   put:
      *     summary: Faz a comparação do pin
      *     tags: [Auth]
@@ -273,9 +273,9 @@ let AuthController = class AuthController {
     }
     /**
      * @swagger
-     * /auth/resetPassword:
+     * /auth/pin/resetPassword:
      *   put:
-     *     summary: Faz a comparação do pin
+     *     summary: Altera a senha
      *     tags: [Auth]
      *     requestBody:
      *       required: true

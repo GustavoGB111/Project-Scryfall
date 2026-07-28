@@ -163,7 +163,7 @@ export default class AuthController {
 
   /**
    * @swagger
-   * /auth/requestPin:
+   * /auth/pin/request:
    *   put:
    *     summary: Envia um pin ao email
    *     tags: [Auth]
@@ -218,7 +218,7 @@ export default class AuthController {
 
   /**
    * @swagger
-   * /auth/sendPin:
+   * /auth/pin/send:
    *   put:
    *     summary: Faz a comparação do pin
    *     tags: [Auth]
@@ -278,7 +278,7 @@ export default class AuthController {
 
   /**
    * @swagger
-   * /auth/resetPassword:
+   * /auth/pin/resetPassword:
    *   put:
    *     summary: Altera a senha
    *     tags: [Auth]

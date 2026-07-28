@@ -112,7 +112,7 @@ export default class AuthController {
     login(req: Request, res: Response): Promise<Response>;
     /**
      * @swagger
-     * /auth/requestPin:
+     * /auth/pin/request:
      *   put:
      *     summary: Envia um pin ao email
      *     tags: [Auth]
@@ -152,7 +152,7 @@ export default class AuthController {
     requestPin(req: Request, res: Response): Promise<Response>;
     /**
      * @swagger
-     * /auth/sendPin:
+     * /auth/pin/send:
      *   put:
      *     summary: Faz a comparação do pin
      *     tags: [Auth]
@@ -196,9 +196,9 @@ export default class AuthController {
     sendPin(req: Request, res: Response): Promise<Response>;
     /**
      * @swagger
-     * /auth/resetPassword:
+     * /auth/pin/resetPassword:
      *   put:
-     *     summary: Faz a comparação do pin
+     *     summary: Altera a senha
      *     tags: [Auth]
      *     requestBody:
      *       required: true

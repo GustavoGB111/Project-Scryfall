@@ -11,12 +11,12 @@ authRoutes.post("/create", authController.createUser.bind(authController));
 
 authRoutes.put("/login", authController.login.bind(authController));
 
-authRoutes.put("/requestPin", authController.requestPin.bind(authController));
+authRoutes.put("/pin/request", authController.requestPin.bind(authController));
 
-authRoutes.put("/sendPin", authController.sendPin.bind(authController));
+authRoutes.put("/pin/send", authController.sendPin.bind(authController));
 
 authRoutes.put(
-  "/resetPassword",
+  "/pin/resetPassword",
   authForgotPassword,
   authController.resetPassword.bind(authController),
 );
