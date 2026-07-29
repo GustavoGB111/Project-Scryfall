@@ -12,5 +12,8 @@ const userController = tsyringe_1.container.resolve("UserController");
 userRoutes.put("get/me", auth_1.default, userController.getUserMe.bind(userController));
 userRoutes.delete("delete/me", auth_1.default, userController.deleteUserMe.bind(userController));
 userRoutes.put("updateName/me", auth_1.default, userController.updateUserNameMe.bind(userController));
+userRoutes.put("get/any", auth_1.default, userController.getOneUser.bind(userController));
+userRoutes.delete("delete/any", auth_1.default, userController.deleteOneUser.bind(userController));
+userRoutes.put("updateRole/any", auth_1.default, userController.updateOneUserRole.bind(userController));
 exports.default = userRoutes;
 //# sourceMappingURL=user.routes.js.map

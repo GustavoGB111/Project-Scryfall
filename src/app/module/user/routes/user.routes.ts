@@ -22,4 +22,18 @@ userRoutes.put(
   userController.updateUserNameMe.bind(userController),
 );
 
+userRoutes.put("get/any", auth, userController.getOneUser.bind(userController));
+
+userRoutes.delete(
+  "delete/any",
+  auth,
+  userController.deleteOneUser.bind(userController),
+);
+
+userRoutes.put(
+  "updateRole/any",
+  auth,
+  userController.updateOneUserRole.bind(userController),
+);
+
 export default userRoutes;

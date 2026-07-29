@@ -9,10 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOneUserOutputDto = exports.getOneUserInputDto = void 0;
+exports.getOneUserOutputDto = exports.getOneUserInputDto = exports.getYourUserOutputDto = exports.getYourUserInputDto = void 0;
 const class_validator_1 = require("class-validator");
+const user_table_enum_1 = require("../../../../../common/enums/user.table.enum");
+class getYourUserInputDto {
+    userId;
+}
+exports.getYourUserInputDto = getYourUserInputDto;
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], getYourUserInputDto.prototype, "userId", void 0);
+class getYourUserOutputDto {
+    userId;
+    userName;
+    userEmail;
+    userRole;
+}
+exports.getYourUserOutputDto = getYourUserOutputDto;
 class getOneUserInputDto {
     userId;
+    yourUserId;
+    userRole;
 }
 exports.getOneUserInputDto = getOneUserInputDto;
 __decorate([
@@ -21,6 +41,17 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
 ], getOneUserInputDto.prototype, "userId", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], getOneUserInputDto.prototype, "yourUserId", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(user_table_enum_1.UserRole, { message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], getOneUserInputDto.prototype, "userRole", void 0);
 class getOneUserOutputDto {
     userId;
     userName;

@@ -13,7 +13,7 @@ const auth = (req, res, next) => {
         const decoded = jsonwebtoken_1.default.verify(token.replace("Bearer ", ""), JWT_SECRET);
         req.userId = String(decoded.userId);
         req.userEmail = String(decoded.userEmail);
-        req.userRole = String(decoded.userRole);
+        req.userRole = decoded.userRole;
         next(); //next é a permissão de continuar após o middleware
     }
     catch (error) {

@@ -9,20 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteOneUserInputDto = exports.deleteUserInputDto = void 0;
+exports.deleteOneUserInputDto = exports.deleteYourUserInputDto = void 0;
 const class_validator_1 = require("class-validator");
-class deleteUserInputDto {
+const user_table_enum_1 = require("../../../../../common/enums/user.table.enum");
+class deleteYourUserInputDto {
     userId;
 }
-exports.deleteUserInputDto = deleteUserInputDto;
+exports.deleteYourUserInputDto = deleteYourUserInputDto;
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
-], deleteUserInputDto.prototype, "userId", void 0);
+], deleteYourUserInputDto.prototype, "userId", void 0);
 class deleteOneUserInputDto {
+    yourUserId;
     userId;
+    userRole;
 }
 exports.deleteOneUserInputDto = deleteOneUserInputDto;
 __decorate([
@@ -30,5 +33,16 @@ __decorate([
     (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
+], deleteOneUserInputDto.prototype, "yourUserId", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
 ], deleteOneUserInputDto.prototype, "userId", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(user_table_enum_1.UserRole, { message: "O tipo de dado é inválido" }),
+    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
+    __metadata("design:type", String)
+], deleteOneUserInputDto.prototype, "userRole", void 0);
 //# sourceMappingURL=delete-user.dto.js.map

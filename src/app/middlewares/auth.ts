@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import type { Request, Response, NextFunction } from "express";
 import { authOutputDTO } from "./interface/auth.dto";
+import { UserRole } from "../../common/enums/user.table.enum";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
@@ -16,7 +17,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
 
     req.userId = String(decoded.userId);
     req.userEmail = String(decoded.userEmail);
-    req.userRole = String(decoded.userRole);
+    req.userRole = decoded.userRole as UserRole;
 
     next(); //next é a permissão de continuar após o middleware
   } catch (error) {
