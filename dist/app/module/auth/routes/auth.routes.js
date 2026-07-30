@@ -12,6 +12,6 @@ authRoutes.post("/create", authController.createUser.bind(authController));
 authRoutes.put("/login", authController.login.bind(authController));
 authRoutes.put("/pin/request", authController.requestPin.bind(authController));
 authRoutes.put("/pin/send", authController.sendPin.bind(authController));
-authRoutes.put("/pin/resetPassword", forgot_password_1.default, authController.resetPassword.bind(authController));
+authRoutes.put("/pin/reset/password", forgot_password_1.default, authController.resetPassword.bind(authController));
 exports.default = authRoutes;
 //# sourceMappingURL=auth.routes.js.map

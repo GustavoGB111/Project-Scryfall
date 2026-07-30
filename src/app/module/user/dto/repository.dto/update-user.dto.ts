@@ -1,4 +1,4 @@
-import { IsString, IsUUID, IsNotEmpty, IsEmail } from "class-validator";
+import { IsString, IsUUID, IsNotEmpty, IsEmail, IsEnum } from "class-validator";
 import { UserRole } from "../../../../../common/enums/user.table.enum";
 
 export class userUpdateInputDto {
@@ -9,28 +9,22 @@ export class userUpdateInputDto {
 
   @IsString({ message: "O tipo de dado é inválido" })
   @IsEmail({}, { message: "O formato não é válido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userEmail?: string;
+  userEmail?: string | undefined;
 
   @IsString({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userName?: string;
+  userName?: string | undefined;
+
+  @IsEnum(UserRole, { message: "O tipo de dado é inválido" })
+  userRole?: UserRole | undefined;
 
   @IsString({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userRole?: UserRole;
+  userPassword?: string | undefined;
 
   @IsString({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userPassword?: string;
+  userPasswordIv?: string | undefined;
 
   @IsString({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userPasswordIv?: string;
-
-  @IsString({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userPasswordAuthTag?: string;
+  userPasswordAuthTag?: string | undefined;
 }
 
 export class userUpdateOutputDto {

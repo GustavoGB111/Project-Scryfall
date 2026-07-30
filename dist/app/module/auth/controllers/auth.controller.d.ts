@@ -53,7 +53,7 @@ export default class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     createUser(req: Request, res: Response): Promise<Response>;
     /**
@@ -107,7 +107,7 @@ export default class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     login(req: Request, res: Response): Promise<Response>;
     /**
@@ -147,7 +147,7 @@ export default class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     requestPin(req: Request, res: Response): Promise<Response>;
     /**
@@ -191,15 +191,23 @@ export default class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     sendPin(req: Request, res: Response): Promise<Response>;
     /**
      * @swagger
-     * /auth/pin/resetPassword:
+     * /auth/pin/reset/password:
      *   put:
      *     summary: Altera a senha
      *     tags: [Auth]
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
      *     requestBody:
      *       required: true
      *       content:
@@ -207,13 +215,9 @@ export default class AuthController {
      *           schema:
      *             type: object
      *             required:
-     *               - token
      *               - password
      *               - passwordConfirm
      *             properties:
-     *               token:
-     *                 type: string
-     *                 example: "550e8400-e29b-41d4-a716-446655440000"
      *               password:
      *                 type: string
      *                 example: "senhanova"
@@ -226,7 +230,7 @@ export default class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     resetPassword(req: Request, res: Response): Promise<Response>;
 }

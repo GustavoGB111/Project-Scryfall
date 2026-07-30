@@ -23,14 +23,14 @@ export declare class passwordUsedUpdateOutputDto {
 }
 export declare class pinUpdateInputDto {
     userId: string;
-    pinsRequested?: number;
-    pinsRequestedResetAt?: Date;
-    pinsExpiredAt?: Date;
-    userPin?: string;
-    userPinIv?: string;
-    userPinAuthTag?: string;
-    pinUsed?: boolean;
-    passwordReseted?: boolean;
+    pinsRequested?: number | undefined;
+    pinsRequestedResetAt?: Date | undefined;
+    pinsExpiredAt?: Date | undefined;
+    userPin?: string | undefined;
+    userPinIv?: string | undefined;
+    userPinAuthTag?: string | undefined;
+    pinUsed?: boolean | undefined;
+    passwordReseted?: boolean | undefined;
 }
 export declare class pinUpdateOutputDto {
     affected: number | null | undefined;

@@ -16,7 +16,7 @@ authRoutes.put("/pin/request", authController.requestPin.bind(authController));
 authRoutes.put("/pin/send", authController.sendPin.bind(authController));
 
 authRoutes.put(
-  "/pin/resetPassword",
+  "/pin/reset/password",
   authForgotPassword,
   authController.resetPassword.bind(authController),
 );

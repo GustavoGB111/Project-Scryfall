@@ -6,21 +6,17 @@ export default class UserController {
     /**
      * @swagger
      * /user/get/me:
-     *   put:
+     *   get:
      *     summary: Retorna os dados do user que requisitou a rota
      *     tags: [User]
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             type: object
-     *             required:
-     *               - token
-     *             properties:
-     *               token:
-     *                 type: string
-     *                 example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjMiLCJ1c2VyRW1haWwiOiJndXN0YXZvQGVtYWlsLmNvbSIsInVzZXJSb2xlIjoidXNlciIsImlhdCI6MTc1MzgwMDAwMCwiZXhwIjoxNzUzODAzNjAwfQ.dQw4w9WgXcQ8yM9L2P3K5N7R8S1T4V6Y8Z0A1B2C3D4"
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
      *     responses:
      *       200:
      *         description: Usuário encontrado
@@ -45,30 +41,26 @@ export default class UserController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     getUserMe(req: Request, res: Response): Promise<Response>;
     /**
      * @swagger
-     * /user/delete/me:
-     *   delete:
-     *     summary: Deleta o registro do user que requisitou a rota
+     * /user/get/all:
+     *   get:
+     *     summary: Retorna todos os usuários do sistema
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
      *     tags: [User]
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             type: object
-     *             required:
-     *               - token
-     *             properties:
-     *               token:
-     *                 type: string
-     *                 example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjMiLCJ1c2VyRW1haWwiOiJndXN0YXZvQGVtYWlsLmNvbSIsInVzZXJSb2xlIjoidXNlciIsImlhdCI6MTc1MzgwMDAwMCwiZXhwIjoxNzUzODAzNjAwfQ.dQw4w9WgXcQ8yM9L2P3K5N7R8S1T4V6Y8Z0A1B2C3D4"
      *     responses:
      *       200:
-     *         description: Usuário deletado
+     *         description: Usuários retornados
      *         content:
      *           application/json:
      *             schema:
@@ -76,18 +68,45 @@ export default class UserController {
      *               properties:
      *                 message:
      *                   type: string
+     *                 response:
+     *                   type: array
+     *                   items:
+     *                     type: object
+     *                     properties:
+     *                       userId:
+     *                         type: string
+     *                       userName:
+     *                         type: string
+     *                       userEmail:
+     *                         type: string
+     *                       userPassword:
+     *                         type: string
+     *                       userRole:
+     *                         type: string
+     *                       userPasswordIv:
+     *                         type: string
+     *                       userPasswordAuthTag:
+     *                         type: string
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
-    deleteUserMe(req: Request, res: Response): Promise<Response>;
+    getAllUsers(req: Request, res: Response): Promise<Response>;
     /**
      * @swagger
-     * /user/updateName/me:
+     * /user/get/any:
      *   put:
-     *     summary: Deleta o registro do user que requisitou a rota
+     *     summary: Retorna os dados do user que requisitou a rota
      *     tags: [User]
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
      *     requestBody:
      *       required: true
      *       content:
@@ -95,15 +114,77 @@ export default class UserController {
      *           schema:
      *             type: object
      *             required:
-     *               - token
+     *               - id
      *             properties:
-     *               token:
+     *               id:
      *                 type: string
-     *                 example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjMiLCJ1c2VyRW1haWwiOiJndXN0YXZvQGVtYWlsLmNvbSIsInVzZXJSb2xlIjoidXNlciIsImlhdCI6MTc1MzgwMDAwMCwiZXhwIjoxNzUzODAzNjAwfQ.dQw4w9WgXcQ8yM9L2P3K5N7R8S1T4V6Y8Z0A1B2C3D4"
-     *               name:
-     *                 type: string
-     *                 example: "José Maria"
+     *                 example: "550e8400-e29b-41d4-a716-446655440000"
      *     responses:
+     *       200:
+     *         description: Usuário encontrado
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                 response:
+     *                   type: object
+     *                   properties:
+     *                     id:
+     *                       type: string
+     *                     nome:
+     *                       type: string
+     *                     email:
+     *                       type: string
+     *                     role:
+     *                       type: string
+     *       400:
+     *         description: (error)
+     *       500:
+     *         description: Erro interno do servidor
+     */
+    getOneUser(req: Request, res: Response): Promise<Response>;
+    /**
+     * @swagger
+     * /user/update/me:
+     *   put:
+     *     summary: Atualiza as informações do usuário
+     *     tags: [User]
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - oldPassword
+     *             properties:
+     *               oldPassword:
+     *                 type: string
+     *                 example: "12345678"
+     *               newPassword:
+     *                 type: string
+     *                 example: "12345678"
+     *               newPasswordConfirm:
+     *                 type: string
+     *                 example: "12345678"
+     *               newName:
+     *                 type: string
+     *                 example: "Gustavo"
+     *               newEmail:
+     *                 type: string
+     *                 example: "gustavo@gmail.com"
+     *   responses:
      *       200:
      *         description: Usuário atualizado
      *         content:
@@ -116,15 +197,23 @@ export default class UserController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
-    updateUserNameMe(req: Request, res: Response): Promise<Response>;
+    updateUserMe(req: Request, res: Response): Promise<Response>;
     /**
      * @swagger
-     * /user/get/any:
+     * /user/update/any:
      *   put:
-     *     summary: Retorna os dados do user que requisitou a rota
+     *     summary: Atualiza as informações de um usuário
      *     tags: [User]
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
      *     requestBody:
      *       required: true
      *       content:
@@ -132,73 +221,26 @@ export default class UserController {
      *           schema:
      *             type: object
      *             required:
-     *               - token
-     *               - role
+     *               - userId
      *             properties:
-     *               token:
-     *                 type: string
-     *                 example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjMiLCJ1c2VyRW1haWwiOiJndXN0YXZvQGVtYWlsLmNvbSIsInVzZXJSb2xlIjoidXNlciIsImlhdCI6MTc1MzgwMDAwMCwiZXhwIjoxNzUzODAzNjAwfQ.dQw4w9WgXcQ8yM9L2P3K5N7R8S1T4V6Y8Z0A1B2C3D4"
      *               id:
      *                 type: string
      *                 example: "550e8400-e29b-41d4-a716-446655440000"
-     *               role:
+     *               newPassword:
      *                 type: string
-     *                 example: "admin"
-     *     responses:
+     *                 example: "12345678"
+     *               newPasswordConfirm:
+     *                 type: string
+     *                 example: "12345678"
+     *               newName:
+     *                 type: string
+     *                 example: "Gustavo"
+     *               newEmail:
+     *                 type: string
+     *                 example: "gustavo@gmail.com"
+     *   responses:
      *       200:
-     *         description: Usuário encontrado
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                 response:
-     *                   type: object
-     *                   properties:
-     *                     id:
-     *                       type: string
-     *                     nome:
-     *                       type: string
-     *                     email:
-     *                       type: string
-     *                     role:
-     *                       type: string
-     *       400:
-     *         description: (error)
-     *       500:
-     *         description: Erro no servidor.
-     */
-    getOneUser(req: Request, res: Response): Promise<Response>;
-    /**
-     * @swagger
-     * /user/delete/any:
-     *   delete:
-     *     summary: Deleta qualquer usuário
-     *     tags: [User]
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             type: object
-     *             required:
-     *               - token
-     *               - role
-     *             properties:
-     *               token:
-     *                 type: string
-     *                 example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjMiLCJ1c2VyRW1haWwiOiJndXN0YXZvQGVtYWlsLmNvbSIsInVzZXJSb2xlIjoidXNlciIsImlhdCI6MTc1MzgwMDAwMCwiZXhwIjoxNzUzODAzNjAwfQ.dQw4w9WgXcQ8yM9L2P3K5N7R8S1T4V6Y8Z0A1B2C3D4"
-     *               id:
-     *                 type: string
-     *                 example: "550e8400-e29b-41d4-a716-446655440000"
-     *               role:
-     *                 type: string
-     *                 example: "admin"
-     *     responses:
-     *       200:
-     *         description: Usuário deletado
+     *         description: Usuário atualizado
      *         content:
      *           application/json:
      *             schema:
@@ -209,14 +251,22 @@ export default class UserController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
-    deleteOneUser(req: Request, res: Response): Promise<Response>;
+    updateOneUser(req: Request, res: Response): Promise<Response>;
     /**
      * @swagger
-     * /user/updateRole/any:
+     * /user/update/role/any:
      *   put:
-     *     summary: Aatualiza a Role de qualquer usuário
+     *     summary: Atualiza a Role de qualquer usuário
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
      *     tags: [User]
      *     requestBody:
      *       required: true
@@ -225,18 +275,12 @@ export default class UserController {
      *           schema:
      *             type: object
      *             required:
-     *               - token
-     *               - role
+     *               - id
+     *               - userUpDown
      *             properties:
-     *               token:
-     *                 type: string
-     *                 example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjMiLCJ1c2VyRW1haWwiOiJndXN0YXZvQGVtYWlsLmNvbSIsInVzZXJSb2xlIjoidXNlciIsImlhdCI6MTc1MzgwMDAwMCwiZXhwIjoxNzUzODAzNjAwfQ.dQw4w9WgXcQ8yM9L2P3K5N7R8S1T4V6Y8Z0A1B2C3D4"
      *               id:
      *                 type: string
      *                 example: "550e8400-e29b-41d4-a716-446655440000"
-     *               role:
-     *                 type: string
-     *                 example: "admin"
      *               userUpDown:
      *                 type: string
      *                 example: "up"
@@ -253,8 +297,80 @@ export default class UserController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     updateOneUserRole(req: Request, res: Response): Promise<Response>;
+    /**
+     * @swagger
+     * /user/delete/me:
+     *   delete:
+     *     summary: Deleta o registro do user que requisitou a rota
+     *     tags: [User]
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+     *     responses:
+     *       200:
+     *         description: Usuário deletado
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *       400:
+     *         description: (error)
+     *       500:
+     *         description: Erro interno do servidor
+     */
+    deleteUserMe(req: Request, res: Response): Promise<Response>;
+    /**
+     * @swagger
+     * /user/delete/any:
+     *   delete:
+     *     summary: Deleta qualquer usuário
+     *     tags: [User]
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - id
+     *             properties:
+     *               id:
+     *                 type: string
+     *                 example: "550e8400-e29b-41d4-a716-446655440000"
+     *     responses:
+     *       200:
+     *         description: Usuário deletado
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *       400:
+     *         description: (error)
+     *       500:
+     *         description: Erro interno do servidor
+     */
+    deleteOneUser(req: Request, res: Response): Promise<Response>;
 }
 //# sourceMappingURL=user.controller.d.ts.map

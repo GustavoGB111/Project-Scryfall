@@ -31,33 +31,27 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsEmail)({}, { message: "O formato não é válido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], userUpdateInputDto.prototype, "userEmail", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], userUpdateInputDto.prototype, "userName", void 0);
 __decorate([
-    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    (0, class_validator_1.IsEnum)(user_table_enum_1.UserRole, { message: "O tipo de dado é inválido" }),
+    __metadata("design:type", Object)
 ], userUpdateInputDto.prototype, "userRole", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], userUpdateInputDto.prototype, "userPassword", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], userUpdateInputDto.prototype, "userPasswordIv", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], userUpdateInputDto.prototype, "userPasswordAuthTag", void 0);
 class userUpdateOutputDto {
     affected;

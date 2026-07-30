@@ -24,6 +24,8 @@ const delete_user_dto_1 = require("../dto/controler&service.dto/delete-user.dto"
 const update_user_dto_1 = require("../dto/controler&service.dto/update-user.dto");
 const user_table_enum_1 = require("../../../../common/enums/user.table.enum");
 const user_up_down_enum_1 = require("../../../../common/enums/user.up-down-enum");
+const encryption_1 = require("../../../../common/encryption");
+const bcrypt_1 = require("bcrypt");
 let UserService = class UserService {
     userRepository;
     constructor(userRepository) {
@@ -61,19 +63,49 @@ let UserService = class UserService {
             throw error;
         }
     }
-    async updateUserNameMe(input) {
+    async updateUserMe(input) {
         try {
-            (0, validate_erros_1.validateErros)(update_user_dto_1.updateUserNameInputDto, input);
+            (0, validate_erros_1.validateErros)(update_user_dto_1.updateUserMeInputDto, input);
             const user = await this.userRepository.getUser({ userId: input.userId });
             if (!user) {
                 throw new Error("Usuário não encontrado");
             }
-            const userUpdated = await this.userRepository.updateUser({
-                userId: input.userId,
-                userName: input.newName,
+            const decryptedPassword = await (0, encryption_1.decrypt)({
+                iv: user.userPasswordIv,
+                encrypted: user.userPassword,
+                authTag: user.userPasswordAuthTag,
             });
-            if (!userUpdated || userUpdated.affected !== 1) {
-                throw new Error("Usuário não pôde ser atualizado");
+            const comparePassword = await (0, bcrypt_1.compare)(input.userOldPassword, decryptedPassword);
+            if (!comparePassword) {
+                throw new Error("Senha Incorreta");
+            }
+            if (input.userNewPassword) {
+                if (input.userNewPassword !== input.userNewPasswordConfirm) {
+                    throw new Error("As senhas não se coincidem");
+                }
+                const hashedPassword = await (0, bcrypt_1.hash)(input.userNewPassword, 10);
+                const passwordEncryptedInfos = await (0, encryption_1.encrypt)(hashedPassword);
+                const response = await this.userRepository.updateUser({
+                    userId: input.userId,
+                    userEmail: input.userEmail,
+                    userName: input.userName,
+                    userPassword: passwordEncryptedInfos.encrypted,
+                    userPasswordIv: passwordEncryptedInfos.iv,
+                    userPasswordAuthTag: passwordEncryptedInfos.authTag,
+                });
+                if (!response || response.affected !== 1) {
+                    throw new Error("Usuário não pôde ser atualizado");
+                }
+            }
+            else {
+                const response = await this.userRepository.updateUser({
+                    userId: input.userId,
+                    userEmail: input.userEmail,
+                    userName: input.userName,
+                });
+                if (!response || response.affected !== 1) {
+                    throw new Error("Usuário não pôde ser atualizado");
+                }
             }
         }
         catch (error) {
@@ -106,6 +138,60 @@ let UserService = class UserService {
                 throw new Error("Você não pode acessar essa requisição");
             }
             return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async updateOneUser(input) {
+        try {
+            (0, validate_erros_1.validateErros)(update_user_dto_1.updateAnyUserInputDto, input);
+            if (input.userRole !== user_table_enum_1.UserRole.ADMIN) {
+                throw new Error("Você não pode acessar essa requisição");
+            }
+            const yourUser = await this.userRepository.getUser({
+                userId: input.yourUserId,
+            });
+            if (!yourUser) {
+                throw new Error("Usuário não encontrado");
+            }
+            if (yourUser.userRole != user_table_enum_1.UserRole.ADMIN) {
+                throw new Error("Você não pode acessar essa requisição");
+            }
+            const user = await this.userRepository.getUser({
+                userId: input.userId,
+            });
+            if (!user) {
+                throw new Error("Usuário não encontrado");
+            }
+            if (input.userNewPassword) {
+                if (input.userNewPassword !== input.userNewPasswordConfirm) {
+                    throw new Error("As senhas não se coincidem");
+                }
+                const hashedPassword = await (0, bcrypt_1.hash)(input.userNewPassword, 10);
+                const passwordEncryptedInfos = await (0, encryption_1.encrypt)(hashedPassword);
+                const response = await this.userRepository.updateUser({
+                    userId: input.userId,
+                    userEmail: input.userEmail,
+                    userName: input.userName,
+                    userPassword: passwordEncryptedInfos.encrypted,
+                    userPasswordIv: passwordEncryptedInfos.iv,
+                    userPasswordAuthTag: passwordEncryptedInfos.authTag,
+                });
+                if (!response || response.affected !== 1) {
+                    throw new Error("Usuário não pôde ser atualizado");
+                }
+            }
+            else {
+                const response = await this.userRepository.updateUser({
+                    userId: input.userId,
+                    userEmail: input.userEmail,
+                    userName: input.userName,
+                });
+                if (!response || response.affected !== 1) {
+                    throw new Error("Usuário não pôde ser atualizado");
+                }
+            }
         }
         catch (error) {
             throw error;
@@ -185,6 +271,28 @@ let UserService = class UserService {
             else {
                 throw new Error("User não pôde ser atualizado");
             }
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async getAllUser(input) {
+        try {
+            (0, validate_erros_1.validateErros)(get_user_dto_1.getUsersInputDto, input);
+            if (input.userRole !== user_table_enum_1.UserRole.ADMIN) {
+                throw new Error("Você não pode acessar essa requisição");
+            }
+            const yourUser = await this.userRepository.getUser({
+                userId: input.userId,
+            });
+            if (!yourUser) {
+                throw new Error("Usuário não encontrado");
+            }
+            if (yourUser.userRole != user_table_enum_1.UserRole.ADMIN) {
+                throw new Error("Você não pode acessar essa requisição");
+            }
+            const response = await this.userRepository.getAllUser();
+            return response;
         }
         catch (error) {
             throw error;

@@ -70,35 +70,28 @@ export class pinUpdateInputDto {
 
   @IsNumber({}, { message: "O tipo de dado é inválido" })
   @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  pinsRequested?: number;
+  pinsRequested?: number | undefined;
 
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
   @IsDate({ message: "O tipo de dado é inválido" })
-  pinsRequestedResetAt?: Date;
+  pinsRequestedResetAt?: Date | undefined;
 
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
   @IsDate({ message: "O tipo de dado é inválido" })
-  pinsExpiredAt?: Date;
+  pinsExpiredAt?: Date | undefined;
 
   @IsString({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userPin?: string;
+  userPin?: string | undefined;
 
   @IsString({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userPinIv?: string;
+  userPinIv?: string | undefined;
 
   @IsString({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  userPinAuthTag?: string;
+  userPinAuthTag?: string | undefined;
 
   @IsBoolean({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  pinUsed?: boolean;
+  pinUsed?: boolean | undefined;
 
   @IsBoolean({ message: "O tipo de dado é inválido" })
-  @IsNotEmpty({ message: "O campo não pode ser vazio" })
-  passwordReseted?: boolean;
+  passwordReseted?: boolean | undefined;
 }
 
 export class pinUpdateOutputDto {

@@ -105,42 +105,35 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNumber)({}, { message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", Number)
+    __metadata("design:type", Object)
 ], pinUpdateInputDto.prototype, "pinsRequested", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     (0, class_validator_1.IsDate)({ message: "O tipo de dado é inválido" }),
-    __metadata("design:type", Date)
+    __metadata("design:type", Object)
 ], pinUpdateInputDto.prototype, "pinsRequestedResetAt", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     (0, class_validator_1.IsDate)({ message: "O tipo de dado é inválido" }),
-    __metadata("design:type", Date)
+    __metadata("design:type", Object)
 ], pinUpdateInputDto.prototype, "pinsExpiredAt", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], pinUpdateInputDto.prototype, "userPin", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], pinUpdateInputDto.prototype, "userPinIv", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], pinUpdateInputDto.prototype, "userPinAuthTag", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Object)
 ], pinUpdateInputDto.prototype, "pinUsed", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Object)
 ], pinUpdateInputDto.prototype, "passwordReseted", void 0);
 class pinUpdateOutputDto {
     affected;

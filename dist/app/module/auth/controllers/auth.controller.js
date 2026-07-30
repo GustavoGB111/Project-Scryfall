@@ -69,7 +69,7 @@ let AuthController = class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     async createUser(req, res) {
         try {
@@ -85,8 +85,13 @@ let AuthController = class AuthController {
             });
         }
         catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "Erro Interno",
+            if (error instanceof Error) {
+                return res.status(400).json({
+                    message: error.message,
+                });
+            }
+            return res.status(500).json({
+                message: "Erro interno do servidor",
             });
         }
     }
@@ -141,7 +146,7 @@ let AuthController = class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     async login(req, res) {
         try {
@@ -155,8 +160,13 @@ let AuthController = class AuthController {
                 .json({ message: "User logado com sucesso", response });
         }
         catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "Erro Interno",
+            if (error instanceof Error) {
+                return res.status(400).json({
+                    message: error.message,
+                });
+            }
+            return res.status(500).json({
+                message: "Erro interno do servidor",
             });
         }
     }
@@ -197,7 +207,7 @@ let AuthController = class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     async requestPin(req, res) {
         try {
@@ -208,8 +218,13 @@ let AuthController = class AuthController {
             return res.status(200).json({ message: "Pin enviado", response });
         }
         catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "Erro Interno",
+            if (error instanceof Error) {
+                return res.status(400).json({
+                    message: error.message,
+                });
+            }
+            return res.status(500).json({
+                message: "Erro interno do servidor",
             });
         }
     }
@@ -254,7 +269,7 @@ let AuthController = class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     async sendPin(req, res) {
         try {
@@ -266,17 +281,30 @@ let AuthController = class AuthController {
             return res.status(200).json({ message: "Pin correto", response });
         }
         catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "Erro Interno",
+            if (error instanceof Error) {
+                return res.status(400).json({
+                    message: error.message,
+                });
+            }
+            return res.status(500).json({
+                message: "Erro interno do servidor",
             });
         }
     }
     /**
      * @swagger
-     * /auth/pin/resetPassword:
+     * /auth/pin/reset/password:
      *   put:
      *     summary: Altera a senha
      *     tags: [Auth]
+     *     parameters:
+     *       - in: header
+     *         name: Authorization
+     *         required: true
+     *         description: Token JWT no formato Bearer
+     *         schema:
+     *           type: string
+     *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
      *     requestBody:
      *       required: true
      *       content:
@@ -284,13 +312,9 @@ let AuthController = class AuthController {
      *           schema:
      *             type: object
      *             required:
-     *               - token
      *               - password
      *               - passwordConfirm
      *             properties:
-     *               token:
-     *                 type: string
-     *                 example: "550e8400-e29b-41d4-a716-446655440000"
      *               password:
      *                 type: string
      *                 example: "senhanova"
@@ -303,7 +327,7 @@ let AuthController = class AuthController {
      *       400:
      *         description: (error)
      *       500:
-     *         description: Erro no servidor.
+     *         description: Erro interno do servidor
      */
     async resetPassword(req, res) {
         try {
@@ -316,8 +340,13 @@ let AuthController = class AuthController {
             return res.status(200).json({ message: "Senha alterada com sucesso" });
         }
         catch (error) {
-            return res.status(400).json({
-                message: error instanceof Error ? error.message : "Erro Interno",
+            if (error instanceof Error) {
+                return res.status(400).json({
+                    message: error.message,
+                });
+            }
+            return res.status(500).json({
+                message: "Erro interno do servidor",
             });
         }
     }
