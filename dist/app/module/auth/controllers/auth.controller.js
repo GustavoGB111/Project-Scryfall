@@ -60,10 +60,6 @@ let AuthController = class AuthController {
      *                 response:
      *                   type: object
      *                   properties:
-     *                     id:
-     *                       type: string
-     *                     nome:
-     *                       type: string
      *                     email:
      *                       type: string
      *       400:
@@ -98,7 +94,7 @@ let AuthController = class AuthController {
     /**
      * @swagger
      * /auth/login:
-     *   put:
+     *   post:
      *     summary: Faz login do usuário
      *     tags: [Auth]
      *     requestBody:
@@ -249,8 +245,8 @@ let AuthController = class AuthController {
      *                 format: email
      *                 example: "email@email.com"
      *               pin:
-     *                 type: integer
-     *                 example: 123456
+     *                 type: string
+     *                 example: "123456"
      *     responses:
      *       200:
      *         description: Pin correto

@@ -7,12 +7,7 @@ async function validateErros(Class, input) {
     const dto = (0, class_transformer_1.plainToInstance)(Class, input); // instancia classe e dados pra verficação entre os dois
     const erros = await (0, class_validator_1.validate)(dto); // compara os dados e os contratos e retorna erros
     if (erros.length > 0) {
-        const err = erros.map((erro) => ({
-            // mapeia os erros
-            campo: erro.property, // pega o campo do erro
-            mensagens: Object.values(erro.constraints ?? {}), //pega o erro
-        }));
-        throw new Error(`Dados inválidos: ${err}`);
+        throw new Error(`Dados inválidos`);
     }
 }
 //# sourceMappingURL=validate.erros.js.map

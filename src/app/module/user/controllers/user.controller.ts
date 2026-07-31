@@ -29,14 +29,8 @@ export default class UserController {
    *   get:
    *     summary: Retorna os dados do user que requisitou a rota
    *     tags: [User]
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Token JWT no formato Bearer
-   *         schema:
-   *           type: string
-   *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   *     security:
+   *       - bearerAuth: []
    *     responses:
    *       200:
    *         description: Usuário encontrado
@@ -89,15 +83,9 @@ export default class UserController {
    * /user/get/all:
    *   get:
    *     summary: Retorna todos os usuários do sistema
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Token JWT no formato Bearer
-   *         schema:
-   *           type: string
-   *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
    *     tags: [User]
+   *     security:
+   *       - bearerAuth: []
    *     responses:
    *       200:
    *         description: Usuários retornados
@@ -160,14 +148,8 @@ export default class UserController {
    *   put:
    *     summary: Retorna os dados do user que requisitou a rota
    *     tags: [User]
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Token JWT no formato Bearer
-   *         schema:
-   *           type: string
-   *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   *     security:
+   *       - bearerAuth: []
    *     requestBody:
    *       required: true
    *       content:
@@ -239,14 +221,8 @@ export default class UserController {
    *   put:
    *     summary: Atualiza as informações do usuário
    *     tags: [User]
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Token JWT no formato Bearer
-   *         schema:
-   *           type: string
-   *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   *     security:
+   *       - bearerAuth: []
    *     requestBody:
    *       required: true
    *       content:
@@ -271,7 +247,7 @@ export default class UserController {
    *               newEmail:
    *                 type: string
    *                 example: "gustavo@gmail.com"
-   *   responses:
+   *     responses:
    *       200:
    *         description: Usuário atualizado
    *         content:
@@ -318,14 +294,8 @@ export default class UserController {
    *   put:
    *     summary: Atualiza as informações de um usuário
    *     tags: [User]
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Token JWT no formato Bearer
-   *         schema:
-   *           type: string
-   *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   *     security:
+   *       - bearerAuth: []
    *     requestBody:
    *       required: true
    *       content:
@@ -350,7 +320,7 @@ export default class UserController {
    *               newEmail:
    *                 type: string
    *                 example: "gustavo@gmail.com"
-   *   responses:
+   *     responses:
    *       200:
    *         description: Usuário atualizado
    *         content:
@@ -397,15 +367,9 @@ export default class UserController {
    * /user/update/role/any:
    *   put:
    *     summary: Atualiza a Role de qualquer usuário
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Token JWT no formato Bearer
-   *         schema:
-   *           type: string
-   *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
    *     tags: [User]
+   *     security:
+   *       - bearerAuth: []
    *     requestBody:
    *       required: true
    *       content:
@@ -467,14 +431,8 @@ export default class UserController {
    *   delete:
    *     summary: Deleta o registro do user que requisitou a rota
    *     tags: [User]
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Token JWT no formato Bearer
-   *         schema:
-   *           type: string
-   *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   *     security:
+   *       - bearerAuth: []
    *     responses:
    *       200:
    *         description: Usuário deletado
@@ -519,14 +477,8 @@ export default class UserController {
    *   delete:
    *     summary: Deleta qualquer usuário
    *     tags: [User]
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Token JWT no formato Bearer
-   *         schema:
-   *           type: string
-   *           example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   *     security:
+   *       - bearerAuth: []
    *     requestBody:
    *       required: true
    *       content:

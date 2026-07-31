@@ -11,6 +11,9 @@ const auth = (req, res, next) => {
         if (!token)
             return res.status(401).json({ message: "Acesso negado" });
         const decoded = jsonwebtoken_1.default.verify(token.replace("Bearer ", ""), JWT_SECRET);
+        if (!decoded) {
+            throw new Error("O token não pôde ser decodificado");
+        }
         req.userId = String(decoded.userId);
         req.userEmail = String(decoded.userEmail);
         req.userRole = decoded.userRole;

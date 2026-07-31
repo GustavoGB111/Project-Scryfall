@@ -9,7 +9,7 @@ const authController = container.resolve<AuthController>("AuthController");
 
 authRoutes.post("/create", authController.createUser.bind(authController));
 
-authRoutes.put("/login", authController.login.bind(authController));
+authRoutes.post("/login", authController.login.bind(authController));
 
 authRoutes.put("/pin/request", authController.requestPin.bind(authController));
 

@@ -15,6 +15,10 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
       JWT_SECRET,
     ) as authOutputDTO;
 
+    if (!decoded) {
+      throw new Error("O token não pôde ser decodificado");
+    }
+
     req.userId = String(decoded.userId);
     req.userEmail = String(decoded.userEmail);
     req.userRole = decoded.userRole as UserRole;
