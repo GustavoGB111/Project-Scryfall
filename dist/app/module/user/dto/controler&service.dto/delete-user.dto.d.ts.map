@@ -1,1 +1,0 @@
-{"version":3,"file":"delete-user.dto.d.ts","sourceRoot":"","sources":["../../../../../../src/app/module/user/dto/controler&service.dto/delete-user.dto.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,QAAQ,EAAE,MAAM,6CAA6C,CAAC;AAEvE,qBAAa,sBAAsB;IAIjC,MAAM,EAAG,MAAM,CAAC;CACjB;AAED,qBAAa,qBAAqB;IAIhC,UAAU,EAAG,MAAM,CAAC;IAKpB,MAAM,EAAG,MAAM,CAAC;IAIhB,QAAQ,EAAG,QAAQ,CAAC;CACrB"}

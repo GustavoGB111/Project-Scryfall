@@ -1,0 +1,33 @@
+import {
+  IsEmail,
+  IsString,
+  IsNotEmpty,
+  MinLength,
+  Min,
+  IsNumber,
+  IsJWT,
+  IsObject,
+} from "class-validator";
+
+class UserDto {
+  userId!: string;
+  userName!: string;
+  userEmail!: string;
+}
+
+export class LoginInputDto {
+  @IsString({ message: "O tipo de dado é inválido" })
+  @IsEmail({}, { message: "O formato não é válido" })
+  @IsNotEmpty({ message: "O campo não pode ser vazio" })
+  userEmail!: string;
+
+  @IsString({ message: "O tipo de dado é inválido" })
+  @IsNotEmpty({ message: "O campo não pode ser vazio" })
+  @MinLength(8, { message: "O campo deve ter no mínimo 8 caracteres" })
+  userPassword!: string;
+}
+
+export abstract class LoginOutputDto {
+  token!: string;
+  user!: UserDto;
+}

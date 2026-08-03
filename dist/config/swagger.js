@@ -32,7 +32,7 @@ const options = {
             },
         ],
     },
-    apis: ["./dist/app/module/**/controllers/*.js"],
+    apis: ["./dist/modules/module/**/controllers/*.js"],
 };
 const swaggerSpec = (0, swagger_jsdoc_1.default)(options);
 exports.default = swaggerSpec;

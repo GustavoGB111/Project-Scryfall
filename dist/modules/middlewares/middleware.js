@@ -1,0 +1,44 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Middlewares = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET_REFRESH = process.env.JWT_SECRET_REFRESH;
+class Middlewares {
+    async auth(req, res, next) {
+        try {
+            const token = req.headers.authorization; // pegando o token
+            if (!token)
+                return res.status(401).json({ message: "Acesso negado" });
+            const decoded = jsonwebtoken_1.default.verify(token.replace("Bearer ", ""), JWT_SECRET);
+            if (!decoded) {
+                throw new Error("O token não pôde ser decodificado");
+            }
+            req.userId = String(decoded.userId);
+            req.userEmail = String(decoded.userEmail);
+            req.userRole = decoded.userRole;
+            next(); //next é a permissão de continuar após o middleware
+        }
+        catch (error) {
+            return res.status(401).json({ message: "Erro no servidor: ", error });
+        }
+    }
+    async forgotPassword(req, res, next) {
+        try {
+            const token = req.headers.authorization; // pegando o token
+            if (!token)
+                return res.status(401).json({ message: "Acesso negado" });
+            const decoded = jsonwebtoken_1.default.verify(token.replace("Bearer ", ""), JWT_SECRET_REFRESH);
+            req.userId = String(decoded.userId);
+            next(); //next é a permissão de continuar após o middleware
+        }
+        catch (error) {
+            return res.status(401).json({ message: "Erro no servidor", error });
+        }
+    }
+}
+exports.Middlewares = Middlewares;
+//# sourceMappingURL=middleware.js.map

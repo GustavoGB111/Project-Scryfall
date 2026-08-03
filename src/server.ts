@@ -1,10 +1,10 @@
+import "reflect-metadata";
 import "dotenv/config";
+import "./modules/directoryInjectionContainer/DIContainer.js";
 import express from "express";
-import { AppDataSource } from "./DB/databaseConexion.js";
-import "./app/module/user/DIContainer/user.DIContainer.js";
-import "./app/module/auth/DIContainer/auth.DIContainer.js";
-import userRoutes from "./app/module/user/routes/user.routes.js";
-import authRoutes from "./app/module/auth/routes/auth.routes.js";
+import { AppDataSource } from "./dataBase/databaseConexion.js";
+import userRoutes from "./modules/module/user/routes/user.routes.js";
+import authRoutes from "./modules/module/auth/routes/auth.routes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 

@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 require("dotenv/config");
+require("./modules/directoryInjectionContainer/DIContainer.js");
 const express_1 = __importDefault(require("express"));
-const databaseConexion_js_1 = require("./DB/databaseConexion.js");
-require("./app/module/user/DIContainer/user.DIContainer.js");
-require("./app/module/auth/DIContainer/auth.DIContainer.js");
-const user_routes_js_1 = __importDefault(require("./app/module/user/routes/user.routes.js"));
-const auth_routes_js_1 = __importDefault(require("./app/module/auth/routes/auth.routes.js"));
+const databaseConexion_js_1 = require("./dataBase/databaseConexion.js");
+const user_routes_js_1 = __importDefault(require("./modules/module/user/routes/user.routes.js"));
+const auth_routes_js_1 = __importDefault(require("./modules/module/auth/routes/auth.routes.js"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_js_1 = __importDefault(require("./config/swagger.js"));
 const app = (0, express_1.default)();
