@@ -5,7 +5,7 @@ export declare class updateAnyUserInputDto {
     userRole: UserRole;
     userNewPassword?: string | undefined;
     userNewPasswordConfirm?: string | undefined;
-    userName?: string | undefined;
+    userNewName?: string | undefined;
     userNewEmail?: string | undefined;
 }
 //# sourceMappingURL=update-user-any.dto.d.ts.map

@@ -327,7 +327,7 @@ let UserController = class UserController {
                 userRole: req.userRole,
                 userNewPassword: req.body.newPassword,
                 userNewPasswordConfirm: req.body.newPasswordConfirm,
-                userName: req.body.newName,
+                userNewName: req.body.newName,
                 userNewEmail: req.body.newEmail,
             };
             await this.userService.updateOneUser(input);

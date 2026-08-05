@@ -211,7 +211,7 @@ let UserService = class UserService {
                 const response = await this.userRepository.updateUser({
                     userId: input.userId,
                     userEmail: input.userNewEmail,
-                    userName: input.userName,
+                    userName: input.userNewName,
                     userPassword: passwordEncryptedInfos.encrypted,
                     userPasswordIv: passwordEncryptedInfos.iv,
                     userPasswordAuthTag: passwordEncryptedInfos.authTag,
@@ -224,7 +224,7 @@ let UserService = class UserService {
                 const response = await this.userRepository.updateUser({
                     userId: input.userId,
                     userEmail: input.userNewEmail,
-                    userName: input.userName,
+                    userName: input.userNewEmail,
                 });
                 if (!response || response.affected !== 1) {
                     throw new Error("Usuário não pôde ser atualizado");

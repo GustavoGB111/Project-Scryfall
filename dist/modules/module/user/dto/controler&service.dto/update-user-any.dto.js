@@ -18,7 +18,7 @@ class updateAnyUserInputDto {
     userRole;
     userNewPassword;
     userNewPasswordConfirm;
-    userName;
+    userNewName;
     userNewEmail;
 }
 exports.updateAnyUserInputDto = updateAnyUserInputDto;
@@ -52,7 +52,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     __metadata("design:type", Object)
-], updateAnyUserInputDto.prototype, "userName", void 0);
+], updateAnyUserInputDto.prototype, "userNewName", void 0);
 __decorate([
     (0, class_validator_1.IsEmail)({}, { message: "O tipo do dado é inválido" }),
     __metadata("design:type", Object)
