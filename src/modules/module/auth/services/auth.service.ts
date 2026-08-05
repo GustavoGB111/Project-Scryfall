@@ -14,10 +14,12 @@ import jwt from "jsonwebtoken";
 import {
   forgotPasswordInputDto,
   forgotPasswordOutputDto,
-  ResetPassworInputDto,
+} from "../dto/controller&service.dto/forgot-password.dto";
+import {
   SendPinInputDto,
   SendPinOutputDto,
-} from "../dto/controller&service.dto/forgot-password.dto";
+} from "../dto/controller&service.dto/send-pin.dto";
+import { ResetPassworInputDto } from "../dto/controller&service.dto/reset-password.dto";
 import { BrevoClient } from "@getbrevo/brevo";
 import { Encrypt } from "../../../../common/encryption";
 

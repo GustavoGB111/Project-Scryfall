@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPasswordResetedOutputDto = exports.getPasswordResetedInputDto = exports.getPinUsedOutputDto = exports.getPinUsedInputDto = exports.getPinInfosOutputDto = exports.getPinInfosInputDto = exports.getPinInputDto = void 0;
+exports.getPinUsedOutputDto = exports.getPinInputDto = void 0;
 const class_validator_1 = require("class-validator");
 class getPinInputDto {
     userId;
@@ -21,48 +21,8 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
     __metadata("design:type", String)
 ], getPinInputDto.prototype, "userId", void 0);
-class getPinInfosInputDto {
-    userId;
-}
-exports.getPinInfosInputDto = getPinInfosInputDto;
-__decorate([
-    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
-], getPinInfosInputDto.prototype, "userId", void 0);
-class getPinInfosOutputDto {
-    pinsRequested;
-    pinsRequestedResetAt;
-    pinsExpiredAt;
-}
-exports.getPinInfosOutputDto = getPinInfosOutputDto;
-class getPinUsedInputDto {
-    userId;
-}
-exports.getPinUsedInputDto = getPinUsedInputDto;
-__decorate([
-    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
-], getPinUsedInputDto.prototype, "userId", void 0);
 class getPinUsedOutputDto {
     pinUsed;
 }
 exports.getPinUsedOutputDto = getPinUsedOutputDto;
-class getPasswordResetedInputDto {
-    userId;
-}
-exports.getPasswordResetedInputDto = getPasswordResetedInputDto;
-__decorate([
-    (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
-    (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
-    (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
-], getPasswordResetedInputDto.prototype, "userId", void 0);
-class getPasswordResetedOutputDto {
-    passwordReseted;
-}
-exports.getPasswordResetedOutputDto = getPasswordResetedOutputDto;
 //# sourceMappingURL=pin-get-dto.js.map

@@ -1,4 +1,5 @@
 export declare class userGetOneInputDto {
-    userId: string;
+    userId?: string | undefined;
+    userEmail?: string | undefined;
 }
 //# sourceMappingURL=get-user.dto.d.ts.map

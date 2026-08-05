@@ -24,6 +24,8 @@ const bcrypt_1 = require("bcrypt");
 const login_dto_1 = require("../dto/controller&service.dto/login.dto");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const forgot_password_dto_1 = require("../dto/controller&service.dto/forgot-password.dto");
+const send_pin_dto_1 = require("../dto/controller&service.dto/send-pin.dto");
+const reset_password_dto_1 = require("../dto/controller&service.dto/reset-password.dto");
 const brevo_1 = require("@getbrevo/brevo");
 const encryption_1 = require("../../../../common/encryption");
 const secret = process.env.JWT_SECRET;
@@ -214,7 +216,7 @@ let AuthService = class AuthService {
     }
     async sendPin(input) {
         try {
-            await (0, validate_erros_1.validateErros)(forgot_password_dto_1.SendPinInputDto, input);
+            await (0, validate_erros_1.validateErros)(send_pin_dto_1.SendPinInputDto, input);
             const emailExisting = await this.AuthRepository.getOneUser({
                 userEmail: input.userEmail,
             });
@@ -263,7 +265,7 @@ let AuthService = class AuthService {
     }
     async resetPassword(input) {
         try {
-            await (0, validate_erros_1.validateErros)(forgot_password_dto_1.ResetPassworInputDto, input);
+            await (0, validate_erros_1.validateErros)(reset_password_dto_1.ResetPassworInputDto, input);
             if (input.userPassword !== input.userConfirmPassword) {
                 throw new Error("Erro, as senhas devem ser iguais");
             }

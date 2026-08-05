@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
 const user_repository_interface_1 = __importDefault(require("./interfaces/user.repository.interface"));
-const UserEntity_1 = require("../../../../dataBase/entities/UserEntity");
-const databaseConexion_1 = require("../../../../dataBase/databaseConexion");
+const UserEntity_1 = require("../../../../database/entities/UserEntity");
+const databaseConexion_1 = require("../../../../database/databaseConexion");
 class UserRepository extends user_repository_interface_1.default {
     userRepository;
     constructor() {
@@ -15,9 +15,14 @@ class UserRepository extends user_repository_interface_1.default {
         this.userRepository = databaseConexion_1.AppDataSource.getRepository(UserEntity_1.UserEntity);
     }
     async getUser(input) {
-        return await this.userRepository.findOne({
-            where: { userId: input.userId },
-        });
+        const where = input.userId
+            ? { userId: input.userId }
+            : input.userEmail
+                ? { userEmail: input.userEmail }
+                : null;
+        if (!where)
+            return null;
+        return this.userRepository.findOne({ where });
     }
     async getAllUser() {
         return await this.userRepository.find();

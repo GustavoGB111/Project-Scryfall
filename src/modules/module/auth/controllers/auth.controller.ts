@@ -1,11 +1,9 @@
 import { injectable, inject } from "tsyringe";
 import { AuthService } from "../services/auth.service";
 import { Request, Response } from "express";
-import {
-  forgotPasswordInputDto,
-  ResetPassworInputDto,
-  SendPinInputDto,
-} from "../dto/controller&service.dto/forgot-password.dto";
+import { forgotPasswordInputDto } from "../dto/controller&service.dto/forgot-password.dto";
+import { SendPinInputDto } from "../dto/controller&service.dto/send-pin.dto";
+import { ResetPassworInputDto } from "../dto/controller&service.dto/reset-password.dto";
 import { UserCreateInputDto } from "../dto/controller&service.dto/user-create.dto";
 import { LoginInputDto } from "../dto/controller&service.dto/login.dto";
 

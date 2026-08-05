@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthRepository = void 0;
 const auth_repository_interface_1 = __importDefault(require("./interfaces/auth.repository.interface"));
-const UserEntity_1 = require("../../../../dataBase/entities/UserEntity");
-const UserPinEntity_1 = require("../../../../dataBase/entities/UserPinEntity");
-const databaseConexion_1 = require("../../../../dataBase/databaseConexion");
+const UserEntity_1 = require("../../../../database/entities/UserEntity");
+const UserPinEntity_1 = require("../../../../database/entities/UserPinEntity");
+const databaseConexion_1 = require("../../../../database/databaseConexion");
 class AuthRepository extends auth_repository_interface_1.default {
     userRepository;
     userPinRepository;

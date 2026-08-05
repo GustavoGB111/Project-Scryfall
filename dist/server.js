@@ -7,7 +7,7 @@ require("reflect-metadata");
 require("dotenv/config");
 require("./modules/directoryInjectionContainer/DIContainer.js");
 const express_1 = __importDefault(require("express"));
-const databaseConexion_js_1 = require("./dataBase/databaseConexion.js");
+const databaseConexion_js_1 = require("./database/databaseConexion.js");
 const user_routes_js_1 = __importDefault(require("./modules/module/user/routes/user.routes.js"));
 const auth_routes_js_1 = __importDefault(require("./modules/module/auth/routes/auth.routes.js"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));

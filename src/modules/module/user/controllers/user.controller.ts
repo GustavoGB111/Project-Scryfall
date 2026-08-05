@@ -1,20 +1,14 @@
 import { inject, injectable } from "tsyringe";
 import { UserService } from "../services/user.service";
-import {
-  getOneUserInputDto,
-  getUsersInputDto,
-  getYourUserInputDto,
-} from "../dto/controler&service.dto/get-user.dto";
+import { getYourUserInputDto } from "../dto/controler&service.dto/get-user.dto";
+import { getOneUserInputDto } from "../dto/controler&service.dto/get-user-any.dto";
+import { getUsersInputDto } from "../dto/controler&service.dto/get-user-all.dto";
 import { Request, Response } from "express";
-import {
-  deleteOneUserInputDto,
-  deleteYourUserInputDto,
-} from "../dto/controler&service.dto/delete-user.dto";
-import {
-  updateAnyUserInputDto,
-  updateAnyUserRoleInputDto,
-  updateUserMeInputDto,
-} from "../dto/controler&service.dto/update-user.dto";
+import { deleteYourUserInputDto } from "../dto/controler&service.dto/delete-user-me.dto";
+import { deleteOneUserInputDto } from "../dto/controler&service.dto/delete-user-any.dto";
+import { updateUserMeInputDto } from "../dto/controler&service.dto/update-user-me.dto";
+import { updateAnyUserInputDto } from "../dto/controler&service.dto/update-user-any.dto";
+import { updateAnyUserRoleInputDto } from "../dto/controler&service.dto/update-user-role.dto";
 
 @injectable() // serve para que permita q a classe seja injetável (decorator)
 export default class UserController {
@@ -196,11 +190,7 @@ export default class UserController {
         userRole: req.userRole,
       };
 
-      const response = await this.userService.getOneUser({
-        yourUserId: input.yourUserId,
-        userId: input.userId,
-        userRole: input.userRole,
-      });
+      const response = await this.userService.getOneUser(input);
 
       return res.status(200).json({ message: "Usuário encontrado", response });
     } catch (error) {
@@ -270,7 +260,7 @@ export default class UserController {
         userNewPassword: req.body.newPassword,
         userNewPasswordConfirm: req.body.newPasswordConfirm,
         userName: req.body.newName,
-        userEmail: req.body.newEmail,
+        userNewEmail: req.body.newEmail,
       };
 
       await this.userService.updateUserMe(input);
@@ -343,8 +333,8 @@ export default class UserController {
         userRole: req.userRole,
         userNewPassword: req.body.newPassword,
         userNewPasswordConfirm: req.body.newPasswordConfirm,
-        userName: req.body.newName,
-        userEmail: req.body.newEmail,
+        userNewName: req.body.newName,
+        userNewEmail: req.body.newEmail,
       };
 
       await this.userService.updateOneUser(input);
@@ -510,7 +500,7 @@ export default class UserController {
     try {
       const input: deleteOneUserInputDto = {
         yourUserId: req.userId,
-        userId: req.body.userId,
+        userId: req.body.id,
         userRole: req.userRole,
       };
 

@@ -1,4 +1,4 @@
-import { UserEntity } from "../../../../../dataBase/entities/UserEntity";
+import { UserEntity } from "../../../../../database/entities/UserEntity";
 import {
   userDeleteInputDto,
   userDeleteOutputDto,

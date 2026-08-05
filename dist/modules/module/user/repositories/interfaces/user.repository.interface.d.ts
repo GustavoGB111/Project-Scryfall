@@ -1,4 +1,4 @@
-import { UserEntity } from "../../../../../dataBase/entities/UserEntity";
+import { UserEntity } from "../../../../../database/entities/UserEntity";
 import { userDeleteInputDto, userDeleteOutputDto } from "../../dto/repository.dto/delete-user.dto";
 import { userGetOneInputDto } from "../../dto/repository.dto/get-user.dto";
 import { userUpdateInputDto, userUpdateOutputDto } from "../../dto/repository.dto/update-user.dto";

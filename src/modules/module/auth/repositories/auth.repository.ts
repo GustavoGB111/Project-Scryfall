@@ -1,8 +1,8 @@
 import { Repository } from "typeorm";
 import IAuthRepository from "./interfaces/auth.repository.interface";
-import { UserEntity } from "../../../../dataBase/entities/UserEntity";
-import { UserPinEntity } from "../../../../dataBase/entities/UserPinEntity";
-import { AppDataSource } from "../../../../dataBase/databaseConexion";
+import { UserEntity } from "../../../../database/entities/UserEntity";
+import { UserPinEntity } from "../../../../database/entities/UserPinEntity";
+import { AppDataSource } from "../../../../database/databaseConexion";
 import {
   UserCreateInputDto,
   UserCreateOutputDto,

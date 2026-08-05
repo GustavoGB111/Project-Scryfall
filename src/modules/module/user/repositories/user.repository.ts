@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import IUserRepository from "./interfaces/user.repository.interface";
-import { UserEntity } from "../../../../dataBase/entities/UserEntity";
-import { AppDataSource } from "../../../../dataBase/databaseConexion";
+import { UserEntity } from "../../../../database/entities/UserEntity";
+import { AppDataSource } from "../../../../database/databaseConexion";
 import { userGetOneInputDto } from "../dto/repository.dto/get-user.dto";
 import {
   userDeleteInputDto,
@@ -22,9 +22,15 @@ export class UserRepository extends IUserRepository {
   }
 
   async getUser(input: userGetOneInputDto): Promise<UserEntity | null> {
-    return await this.userRepository.findOne({
-      where: { userId: input.userId },
-    });
+    const where = input.userId
+      ? { userId: input.userId }
+      : input.userEmail
+        ? { userEmail: input.userEmail }
+        : null;
+
+    if (!where) return null;
+
+    return this.userRepository.findOne({ where });
   }
 
   async getAllUser(): Promise<UserEntity[]> {

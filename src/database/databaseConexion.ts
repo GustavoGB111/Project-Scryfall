@@ -11,12 +11,12 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_DATABASE!, // utiliza do process.env pra pegar no arquivo env
   synchronize: true,
   logging: true,
-  entities: [path.join(__dirname, "..", "dataBase", "entities", "*.js")], // forma pra selecionar todas as entidades
+  entities: [path.join(__dirname, "..", "database", "entities", "*.js")], // forma pra selecionar todas as entidades
   subscribers: [],
-  migrations: [path.join(__dirname, "..", "dataBase", "migrations", "*.js")], // forma para selecionar todas as migration
+  migrations: [path.join(__dirname, "..", "database", "migrations", "*.js")], // forma para selecionar todas as migration
 });
 //Comando para executar a migration e cria-la
-// npm run typeorm -- -d ./src/DB/databaseConexion.ts migration:run
+// npm run typeorm -- -d ./src/database/databaseConexion.ts migration:run
 
 //Comando para reverter a migration
-// npm run typeorm -- -d ./src/DB/databaseConexion.ts migration:revert
+// npm run typeorm -- -d ./src/database/databaseConexion.ts migration:revert

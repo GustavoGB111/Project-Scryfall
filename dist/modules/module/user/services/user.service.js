@@ -19,9 +19,14 @@ exports.UserService = void 0;
 const tsyringe_1 = require("tsyringe");
 const user_repository_interface_1 = __importDefault(require("../repositories/interfaces/user.repository.interface"));
 const get_user_dto_1 = require("../dto/controler&service.dto/get-user.dto");
+const get_user_any_dto_1 = require("../dto/controler&service.dto/get-user-any.dto");
+const get_user_all_dto_1 = require("../dto/controler&service.dto/get-user-all.dto");
 const validate_erros_1 = require("../../../../common/validate.erros");
-const delete_user_dto_1 = require("../dto/controler&service.dto/delete-user.dto");
-const update_user_dto_1 = require("../dto/controler&service.dto/update-user.dto");
+const delete_user_me_dto_1 = require("../dto/controler&service.dto/delete-user-me.dto");
+const delete_user_any_dto_1 = require("../dto/controler&service.dto/delete-user-any.dto");
+const update_user_me_dto_1 = require("../dto/controler&service.dto/update-user-me.dto");
+const update_user_any_dto_1 = require("../dto/controler&service.dto/update-user-any.dto");
+const update_user_role_dto_1 = require("../dto/controler&service.dto/update-user-role.dto");
 const user_table_enum_1 = require("../../../../common/enums/user.table.enum");
 const user_up_down_enum_1 = require("../../../../common/enums/user.up-down-enum");
 const bcrypt_1 = require("bcrypt");
@@ -35,7 +40,7 @@ let UserService = class UserService {
     }
     async getUserMe(input) {
         try {
-            (0, validate_erros_1.validateErros)(get_user_dto_1.getYourUserInputDto, input);
+            await (0, validate_erros_1.validateErros)(get_user_dto_1.getYourUserInputDto, input);
             const user = await this.userRepository.getUser({ userId: input.userId });
             if (!user) {
                 throw new Error("Usuário não encontrado");
@@ -49,7 +54,7 @@ let UserService = class UserService {
     }
     async deleteUserMe(input) {
         try {
-            (0, validate_erros_1.validateErros)(delete_user_dto_1.deleteYourUserInputDto, input);
+            await (0, validate_erros_1.validateErros)(delete_user_me_dto_1.deleteYourUserInputDto, input);
             const user = await this.userRepository.getUser({ userId: input.userId });
             if (!user) {
                 throw new Error("Usuário não encontrado");
@@ -67,10 +72,16 @@ let UserService = class UserService {
     }
     async updateUserMe(input) {
         try {
-            (0, validate_erros_1.validateErros)(update_user_dto_1.updateUserMeInputDto, input);
+            await (0, validate_erros_1.validateErros)(update_user_me_dto_1.updateUserMeInputDto, input);
             const user = await this.userRepository.getUser({ userId: input.userId });
             if (!user) {
                 throw new Error("Usuário não encontrado");
+            }
+            const emailExisting = await this.userRepository.getUser({
+                userEmail: input.userNewEmail,
+            });
+            if (emailExisting) {
+                throw new Error("Erro");
             }
             const decryptedPassword = await this.Encrypt.decrypt({
                 iv: user.userPasswordIv,
@@ -89,7 +100,7 @@ let UserService = class UserService {
                 const passwordEncryptedInfos = await this.Encrypt.encrypt(hashedPassword);
                 const response = await this.userRepository.updateUser({
                     userId: input.userId,
-                    userEmail: input.userEmail,
+                    userEmail: input.userNewEmail,
                     userName: input.userName,
                     userPassword: passwordEncryptedInfos.encrypted,
                     userPasswordIv: passwordEncryptedInfos.iv,
@@ -102,7 +113,7 @@ let UserService = class UserService {
             else {
                 const response = await this.userRepository.updateUser({
                     userId: input.userId,
-                    userEmail: input.userEmail,
+                    userEmail: input.userNewEmail,
                     userName: input.userName,
                 });
                 if (!response || response.affected !== 1) {
@@ -116,7 +127,7 @@ let UserService = class UserService {
     }
     async getOneUser(input) {
         try {
-            (0, validate_erros_1.validateErros)(get_user_dto_1.getOneUserInputDto, input);
+            await (0, validate_erros_1.validateErros)(get_user_any_dto_1.getOneUserInputDto, input);
             if (input.userRole !== user_table_enum_1.UserRole.ADMIN) {
                 throw new Error("Você não pode acessar essa requisição");
             }
@@ -136,9 +147,28 @@ let UserService = class UserService {
                 throw new Error("Usuário não encontrado");
             }
             const { userPassword, userPasswordAuthTag, userPasswordIv, ...response } = user;
-            if (response.userRole !== user_table_enum_1.UserRole.ADMIN) {
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async getAllUser(input) {
+        try {
+            await (0, validate_erros_1.validateErros)(get_user_all_dto_1.getUsersInputDto, input);
+            if (input.userRole !== user_table_enum_1.UserRole.ADMIN) {
                 throw new Error("Você não pode acessar essa requisição");
             }
+            const yourUser = await this.userRepository.getUser({
+                userId: input.userId,
+            });
+            if (!yourUser) {
+                throw new Error("Usuário não encontrado");
+            }
+            if (yourUser.userRole != user_table_enum_1.UserRole.ADMIN) {
+                throw new Error("Você não pode acessar essa requisição");
+            }
+            const response = await this.userRepository.getAllUser();
             return response;
         }
         catch (error) {
@@ -147,7 +177,7 @@ let UserService = class UserService {
     }
     async updateOneUser(input) {
         try {
-            (0, validate_erros_1.validateErros)(update_user_dto_1.updateAnyUserInputDto, input);
+            await (0, validate_erros_1.validateErros)(update_user_any_dto_1.updateAnyUserInputDto, input);
             if (input.userRole !== user_table_enum_1.UserRole.ADMIN) {
                 throw new Error("Você não pode acessar essa requisição");
             }
@@ -166,6 +196,12 @@ let UserService = class UserService {
             if (!user) {
                 throw new Error("Usuário não encontrado");
             }
+            const emailExisting = await this.userRepository.getUser({
+                userEmail: input.userNewEmail,
+            });
+            if (emailExisting) {
+                throw new Error("Email já existente");
+            }
             if (input.userNewPassword) {
                 if (input.userNewPassword !== input.userNewPasswordConfirm) {
                     throw new Error("As senhas não se coincidem");
@@ -174,7 +210,7 @@ let UserService = class UserService {
                 const passwordEncryptedInfos = await this.Encrypt.encrypt(hashedPassword);
                 const response = await this.userRepository.updateUser({
                     userId: input.userId,
-                    userEmail: input.userEmail,
+                    userEmail: input.userNewEmail,
                     userName: input.userName,
                     userPassword: passwordEncryptedInfos.encrypted,
                     userPasswordIv: passwordEncryptedInfos.iv,
@@ -187,7 +223,7 @@ let UserService = class UserService {
             else {
                 const response = await this.userRepository.updateUser({
                     userId: input.userId,
-                    userEmail: input.userEmail,
+                    userEmail: input.userNewEmail,
                     userName: input.userName,
                 });
                 if (!response || response.affected !== 1) {
@@ -201,7 +237,7 @@ let UserService = class UserService {
     }
     async deleteOneUser(input) {
         try {
-            (0, validate_erros_1.validateErros)(delete_user_dto_1.deleteOneUserInputDto, input);
+            await (0, validate_erros_1.validateErros)(delete_user_any_dto_1.deleteOneUserInputDto, input);
             if (input.userRole !== user_table_enum_1.UserRole.ADMIN) {
                 throw new Error("Você não pode acessar essa requisição");
             }
@@ -227,7 +263,7 @@ let UserService = class UserService {
     }
     async modifyUserRole(input) {
         try {
-            (0, validate_erros_1.validateErros)(update_user_dto_1.updateAnyUserRoleInputDto, input);
+            await (0, validate_erros_1.validateErros)(update_user_role_dto_1.updateAnyUserRoleInputDto, input);
             if (input.userRole !== user_table_enum_1.UserRole.ADMIN) {
                 throw new Error("Você não pode acessar essa requisição");
             }
@@ -273,28 +309,6 @@ let UserService = class UserService {
             else {
                 throw new Error("User não pôde ser atualizado");
             }
-        }
-        catch (error) {
-            throw error;
-        }
-    }
-    async getAllUser(input) {
-        try {
-            (0, validate_erros_1.validateErros)(get_user_dto_1.getUsersInputDto, input);
-            if (input.userRole !== user_table_enum_1.UserRole.ADMIN) {
-                throw new Error("Você não pode acessar essa requisição");
-            }
-            const yourUser = await this.userRepository.getUser({
-                userId: input.userId,
-            });
-            if (!yourUser) {
-                throw new Error("Usuário não encontrado");
-            }
-            if (yourUser.userRole != user_table_enum_1.UserRole.ADMIN) {
-                throw new Error("Você não pode acessar essa requisição");
-            }
-            const response = await this.userRepository.getAllUser();
-            return response;
         }
         catch (error) {
             throw error;

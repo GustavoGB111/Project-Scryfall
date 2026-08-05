@@ -1,13 +1,4 @@
-import {
-  IsEmail,
-  IsString,
-  IsNotEmpty,
-  MinLength,
-  Min,
-  IsNumber,
-  IsJWT,
-  IsObject,
-} from "class-validator";
+import { IsEmail, IsString, IsNotEmpty, MinLength } from "class-validator";
 
 class UserDto {
   userId!: string;

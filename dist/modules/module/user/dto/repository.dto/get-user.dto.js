@@ -13,12 +13,17 @@ exports.userGetOneInputDto = void 0;
 const class_validator_1 = require("class-validator");
 class userGetOneInputDto {
     userId;
+    userEmail;
 }
 exports.userGetOneInputDto = userGetOneInputDto;
 __decorate([
     (0, class_validator_1.IsString)({ message: "O tipo de dado é inválido" }),
     (0, class_validator_1.IsUUID)("4", { message: "O formato não é válido" }),
     (0, class_validator_1.IsNotEmpty)({ message: "O campo não pode ser vazio" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], userGetOneInputDto.prototype, "userId", void 0);
+__decorate([
+    (0, class_validator_1.IsEmail)({}, { message: "O tipo de dado é inválido" }),
+    __metadata("design:type", Object)
+], userGetOneInputDto.prototype, "userEmail", void 0);
 //# sourceMappingURL=get-user.dto.js.map

@@ -187,11 +187,7 @@ let UserController = class UserController {
                 userId: req.body.id,
                 userRole: req.userRole,
             };
-            const response = await this.userService.getOneUser({
-                yourUserId: input.yourUserId,
-                userId: input.userId,
-                userRole: input.userRole,
-            });
+            const response = await this.userService.getOneUser(input);
             return res.status(200).json({ message: "Usuário encontrado", response });
         }
         catch (error) {
@@ -260,7 +256,7 @@ let UserController = class UserController {
                 userNewPassword: req.body.newPassword,
                 userNewPasswordConfirm: req.body.newPasswordConfirm,
                 userName: req.body.newName,
-                userEmail: req.body.newEmail,
+                userNewEmail: req.body.newEmail,
             };
             await this.userService.updateUserMe(input);
             return res.status(200).json({ message: "Usuário atualizado" });
@@ -332,7 +328,7 @@ let UserController = class UserController {
                 userNewPassword: req.body.newPassword,
                 userNewPasswordConfirm: req.body.newPasswordConfirm,
                 userName: req.body.newName,
-                userEmail: req.body.newEmail,
+                userNewEmail: req.body.newEmail,
             };
             await this.userService.updateOneUser(input);
             return res.status(200).json({ message: "Usuário atualizado" });
@@ -492,7 +488,7 @@ let UserController = class UserController {
         try {
             const input = {
                 yourUserId: req.userId,
-                userId: req.body.userId,
+                userId: req.body.id,
                 userRole: req.userRole,
             };
             await this.userService.deleteOneUser(input);

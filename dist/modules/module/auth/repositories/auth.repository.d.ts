@@ -1,6 +1,6 @@
 import IAuthRepository from "./interfaces/auth.repository.interface";
-import { UserEntity } from "../../../../dataBase/entities/UserEntity";
-import { UserPinEntity } from "../../../../dataBase/entities/UserPinEntity";
+import { UserEntity } from "../../../../database/entities/UserEntity";
+import { UserPinEntity } from "../../../../database/entities/UserPinEntity";
 import { UserCreateInputDto, UserCreateOutputDto } from "../dto/repository.dto/user-create.dto";
 import { UserGetOneInputDto } from "../dto/repository.dto/user-get.dto";
 import { UserUpdatePasswordInputDto, UserUpdatePasswordOutputDto } from "../dto/repository.dto/user-update-password.dto";
