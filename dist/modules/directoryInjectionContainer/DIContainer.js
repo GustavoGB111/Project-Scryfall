@@ -13,6 +13,7 @@ const auth_service_1 = require("../module/auth/services/auth.service");
 const auth_controller_1 = __importDefault(require("../module/auth/controllers/auth.controller"));
 const middleware_1 = require("../middlewares/middleware");
 const encryption_1 = require("../../common/encryption");
+const scryfall_repository_1 = require("../module/scryfall/repository/scryfall.repository");
 // Instancia para criptografia
 tsyringe_1.container.registerInstance("Encrypt", new encryption_1.Encrypt());
 // Instancia para middleware
@@ -27,4 +28,6 @@ tsyringe_1.container.registerInstance("ApiBrevo", new brevo_1.BrevoClient({ apiK
 tsyringe_1.container.registerInstance("AuthRepository", new auth_repository_1.AuthRepository());
 tsyringe_1.container.registerInstance("AuthService", new auth_service_1.AuthService(tsyringe_1.container.resolve("AuthRepository"), tsyringe_1.container.resolve("ApiBrevo"), tsyringe_1.container.resolve("Encrypt")));
 tsyringe_1.container.registerInstance("AuthController", new auth_controller_1.default(tsyringe_1.container.resolve("AuthService")));
+// Instancias para card
+tsyringe_1.container.registerInstance("scryfallRepository", new scryfall_repository_1.ScryfallRepository());
 //# sourceMappingURL=DIContainer.js.map

@@ -23,33 +23,47 @@ let UserEntity = class UserEntity {
 };
 exports.UserEntity = UserEntity;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)("uuid") // chave primaria de auto incremento
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid", { name: "user_id" }) // chave primaria de auto incremento
     ,
     __metadata("design:type", String)
 ], UserEntity.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }) // tamanho 100 e não nula
+    (0, typeorm_1.Column)("varchar", { name: "user_name", length: 255, nullable: false }) // tamanho 100 e não nula
     ,
     __metadata("design:type", String)
 ], UserEntity.prototype, "userName", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false, unique: true }),
+    (0, typeorm_1.Column)("varchar", {
+        name: "user_email",
+        length: 255,
+        nullable: false,
+        unique: true,
+    }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "userEmail", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    (0, typeorm_1.Column)("varchar", { name: "user_password", length: 255, nullable: false }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "userPassword", void 0);
 __decorate([
-    (0, typeorm_1.Column)("enum", { enum: user_table_enum_1.UserRole, nullable: false, default: user_table_enum_1.UserRole.CLIENT }),
+    (0, typeorm_1.Column)("enum", {
+        name: "user_role",
+        enum: user_table_enum_1.UserRole,
+        nullable: false,
+        default: user_table_enum_1.UserRole.CLIENT,
+    }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "userRole", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    (0, typeorm_1.Column)("varchar", { name: "user_password_iv", length: 255, nullable: false }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "userPasswordIv", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    (0, typeorm_1.Column)("varchar", {
+        name: "user_password_auth_tag",
+        length: 255,
+        nullable: false,
+    }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "userPasswordAuthTag", void 0);
 exports.UserEntity = UserEntity = __decorate([

@@ -8,46 +8,46 @@ export class CreateUserTable1779815565535 implements MigrationInterface {
         name: "user",
         columns: [
           {
-            name: "userId",
+            name: "user_id",
             type: "uuid",
             isPrimary: true,
             isGenerated: true,
             generationStrategy: "uuid",
           },
           {
-            name: "userName", //nome
+            name: "user_name", //nome
             type: "varchar", // tipo
             length: "255", //tamanho maximo do
             isNullable: false, // não permite ser nulo
           },
           {
-            name: "userEmail", //nome
+            name: "user_email", //nome
             type: "varchar", // tipo
             isUnique: true,
             length: "255", //tamanho maximo do
             isNullable: false, // não permite ser nulo
           },
           {
-            name: "userPassword",
+            name: "user_password",
             type: "varchar",
             length: "255",
             isNullable: false,
           },
           {
-            name: "userRole",
+            name: "user_role",
             enum: ["client", "admin"],
             type: "enum",
             isNullable: false,
             default: `'${UserRole.CLIENT}'`,
           },
           {
-            name: "userPasswordIv",
+            name: "user_password_iv",
             type: "varchar",
             length: "255",
             isNullable: false,
           },
           {
-            name: "userPasswordAuthTag",
+            name: "user_password_auth_tag",
             type: "varchar",
             length: "255",
             isNullable: false,

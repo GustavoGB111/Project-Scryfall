@@ -17,53 +17,61 @@ let UserPinEntity = class UserPinEntity {
     userPin;
     userPinIv;
     userPinAuthTag;
+    pinsExpiredAt;
     pinsRequested;
     pinsRequestedResetAt;
-    pinsExpiredAt;
     pinUsed;
     passwordReseted;
     userIdPin;
 };
 exports.UserPinEntity = UserPinEntity;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid", { name: "pin_id" }),
     __metadata("design:type", String)
 ], UserPinEntity.prototype, "pinId", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    (0, typeorm_1.Column)("varchar", { name: "user_pin", length: 255, nullable: false }),
     __metadata("design:type", String)
 ], UserPinEntity.prototype, "userPin", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    (0, typeorm_1.Column)("varchar", { name: "user_pin_iv", length: 255, nullable: false }),
     __metadata("design:type", String)
 ], UserPinEntity.prototype, "userPinIv", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    (0, typeorm_1.Column)("varchar", {
+        name: "user_pin_auth_tag",
+        length: 255,
+        nullable: false,
+    }),
     __metadata("design:type", String)
 ], UserPinEntity.prototype, "userPinAuthTag", void 0);
 __decorate([
-    (0, typeorm_1.Column)("integer", { default: 0 }),
-    __metadata("design:type", Number)
-], UserPinEntity.prototype, "pinsRequested", void 0);
-__decorate([
-    (0, typeorm_1.Column)("timestamp", { nullable: true }),
-    __metadata("design:type", Date)
-], UserPinEntity.prototype, "pinsRequestedResetAt", void 0);
-__decorate([
-    (0, typeorm_1.Column)("timestamp", { nullable: false }),
+    (0, typeorm_1.Column)("timestamp", { name: "pins_expired_at", nullable: false }),
     __metadata("design:type", Date)
 ], UserPinEntity.prototype, "pinsExpiredAt", void 0);
 __decorate([
-    (0, typeorm_1.Column)("boolean", { nullable: false, default: false }),
+    (0, typeorm_1.Column)("integer", { name: "pins_requested", default: 0 }),
+    __metadata("design:type", Number)
+], UserPinEntity.prototype, "pinsRequested", void 0);
+__decorate([
+    (0, typeorm_1.Column)("timestamp", { name: "pins_requested_reset_at", nullable: true }),
+    __metadata("design:type", Date)
+], UserPinEntity.prototype, "pinsRequestedResetAt", void 0);
+__decorate([
+    (0, typeorm_1.Column)("boolean", { name: "pin_used", nullable: false, default: false }),
     __metadata("design:type", Boolean)
 ], UserPinEntity.prototype, "pinUsed", void 0);
 __decorate([
-    (0, typeorm_1.Column)("boolean", { nullable: false, default: false }),
+    (0, typeorm_1.Column)("boolean", {
+        name: "password_reseted",
+        nullable: false,
+        default: false,
+    }),
     __metadata("design:type", Boolean)
 ], UserPinEntity.prototype, "passwordReseted", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => UserEntity_1.UserEntity, { onDelete: "CASCADE" }),
-    (0, typeorm_1.JoinColumn)({ name: "userId" }),
+    (0, typeorm_1.JoinColumn)({ name: "user_id" }),
     __metadata("design:type", UserEntity_1.UserEntity)
 ], UserPinEntity.prototype, "userIdPin", void 0);
 exports.UserPinEntity = UserPinEntity = __decorate([

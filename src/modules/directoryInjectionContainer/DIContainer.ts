@@ -8,6 +8,7 @@ import { AuthService } from "../module/auth/services/auth.service";
 import AuthController from "../module/auth/controllers/auth.controller";
 import { Middlewares } from "../middlewares/middleware";
 import { Encrypt } from "../../common/encryption";
+import { ScryfallRepository } from "../module/scryfall/repository/scryfall.repository";
 
 // Instancia para criptografia
 container.registerInstance("Encrypt", new Encrypt());
@@ -48,3 +49,6 @@ container.registerInstance(
   "AuthController",
   new AuthController(container.resolve("AuthService")),
 );
+
+// Instancias para card
+container.registerInstance("scryfallRepository", new ScryfallRepository());

@@ -4,9 +4,9 @@ export declare class UserPinEntity {
     userPin: string;
     userPinIv: string;
     userPinAuthTag: string;
+    pinsExpiredAt: Date;
     pinsRequested: number;
     pinsRequestedResetAt: Date;
-    pinsExpiredAt: Date;
     pinUsed: boolean;
     passwordReseted: boolean;
     userIdPin: UserEntity;
