@@ -4,7 +4,7 @@ import { UserPinEntity } from "../../../../database/entities/UserPinEntity";
 import { UserCreateInputDto, UserCreateOutputDto } from "../dto/repository.dto/user-create.dto";
 import { UserGetOneInputDto } from "../dto/repository.dto/user-get.dto";
 import { UserUpdatePasswordInputDto, UserUpdatePasswordOutputDto } from "../dto/repository.dto/user-update-password.dto";
-import { getPinInputDto } from "../dto/repository.dto/pin-get-dto";
+import { getPinInputDto } from "../dto/repository.dto/pin-get.dto";
 import { UserRequestPinInputDto, UserRequestPinOutputDto } from "../dto/repository.dto/pin-request.dto";
 import { pinUpdateInputDto, pinUpdateOutputDto } from "../dto/repository.dto/pin-update.dto";
 export declare class AuthRepository extends IAuthRepository {

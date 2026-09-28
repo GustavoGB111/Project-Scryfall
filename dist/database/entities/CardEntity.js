@@ -13,83 +13,83 @@ exports.CardEntity = void 0;
 const typeorm_1 = require("typeorm");
 const card_rarity_enum_1 = require("../../common/enums/card.rarity.enum");
 let CardEntity = class CardEntity {
-    cardId;
-    cardName;
-    cardManaCost;
-    cardCMC;
-    cardTypeLine;
-    cardOracleText;
-    cardColors;
-    cardColorIdentity;
-    cardSet;
-    cardSetName;
-    cardCollectorNumber;
-    cardRarity;
-    cardImageUris;
-    cardPrices;
-    cardScryfallUri;
+    id;
+    name;
+    mana_cost;
+    cmc;
+    type_line;
+    oracle_text;
+    colors;
+    color_identity;
+    set_code;
+    set_name;
+    collector_number;
+    rarity;
+    image_uris;
+    prices;
+    scryfall_uri;
 };
 exports.CardEntity = CardEntity;
 __decorate([
-    (0, typeorm_1.PrimaryColumn)("uuid", { name: "card_id" }),
+    (0, typeorm_1.PrimaryColumn)("uuid", { nullable: false, unique: true }),
     __metadata("design:type", String)
-], CardEntity.prototype, "cardId", void 0);
+], CardEntity.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { name: "name", length: 255, nullable: false }),
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
     __metadata("design:type", String)
-], CardEntity.prototype, "cardName", void 0);
+], CardEntity.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { name: "mana_cost", length: 255, nullable: true }),
-    __metadata("design:type", String)
-], CardEntity.prototype, "cardManaCost", void 0);
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: true }),
+    __metadata("design:type", Object)
+], CardEntity.prototype, "mana_cost", void 0);
 __decorate([
-    (0, typeorm_1.Column)("float", { name: "cmc", nullable: false }),
+    (0, typeorm_1.Column)("float", { nullable: false }),
     __metadata("design:type", Number)
-], CardEntity.prototype, "cardCMC", void 0);
+], CardEntity.prototype, "cmc", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { name: "type_line", length: 255, nullable: false }),
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
     __metadata("design:type", String)
-], CardEntity.prototype, "cardTypeLine", void 0);
+], CardEntity.prototype, "type_line", void 0);
 __decorate([
-    (0, typeorm_1.Column)("text", { name: "oracle_text", nullable: true }),
-    __metadata("design:type", String)
-], CardEntity.prototype, "cardOracleText", void 0);
-__decorate([
-    (0, typeorm_1.Column)("varchar", { name: "colors", nullable: true, array: true }),
-    __metadata("design:type", Array)
-], CardEntity.prototype, "cardColors", void 0);
-__decorate([
-    (0, typeorm_1.Column)("varchar", { name: "color_identity", nullable: true, array: true }),
-    __metadata("design:type", Array)
-], CardEntity.prototype, "cardColorIdentity", void 0);
-__decorate([
-    (0, typeorm_1.Column)("varchar", { name: "set_code", length: 255, nullable: false }),
-    __metadata("design:type", String)
-], CardEntity.prototype, "cardSet", void 0);
-__decorate([
-    (0, typeorm_1.Column)("varchar", { name: "set_name", length: 255, nullable: false }),
-    __metadata("design:type", String)
-], CardEntity.prototype, "cardSetName", void 0);
-__decorate([
-    (0, typeorm_1.Column)("varchar", { name: "collector_number", length: 255, nullable: false }),
-    __metadata("design:type", String)
-], CardEntity.prototype, "cardCollectorNumber", void 0);
-__decorate([
-    (0, typeorm_1.Column)("enum", { name: "rarity", enum: card_rarity_enum_1.cardRarity, nullable: false }),
-    __metadata("design:type", String)
-], CardEntity.prototype, "cardRarity", void 0);
-__decorate([
-    (0, typeorm_1.Column)("json", { name: "image_uris", nullable: true }),
+    (0, typeorm_1.Column)("text", { nullable: true }),
     __metadata("design:type", Object)
-], CardEntity.prototype, "cardImageUris", void 0);
+], CardEntity.prototype, "oracle_text", void 0);
 __decorate([
-    (0, typeorm_1.Column)("json", { name: "prices", nullable: true }),
+    (0, typeorm_1.Column)("varchar", { nullable: true, array: true }),
     __metadata("design:type", Object)
-], CardEntity.prototype, "cardPrices", void 0);
+], CardEntity.prototype, "colors", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { name: "scryfall_uri", length: 255, nullable: true }),
+    (0, typeorm_1.Column)("varchar", { nullable: true, array: true }),
+    __metadata("design:type", Object)
+], CardEntity.prototype, "color_identity", void 0);
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
     __metadata("design:type", String)
-], CardEntity.prototype, "cardScryfallUri", void 0);
+], CardEntity.prototype, "set_code", void 0);
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    __metadata("design:type", String)
+], CardEntity.prototype, "set_name", void 0);
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: false }),
+    __metadata("design:type", String)
+], CardEntity.prototype, "collector_number", void 0);
+__decorate([
+    (0, typeorm_1.Column)("enum", { enum: card_rarity_enum_1.cardRarity, nullable: false }),
+    __metadata("design:type", String)
+], CardEntity.prototype, "rarity", void 0);
+__decorate([
+    (0, typeorm_1.Column)("json", { nullable: true }),
+    __metadata("design:type", Object)
+], CardEntity.prototype, "image_uris", void 0);
+__decorate([
+    (0, typeorm_1.Column)("json", { nullable: true }),
+    __metadata("design:type", Object)
+], CardEntity.prototype, "prices", void 0);
+__decorate([
+    (0, typeorm_1.Column)("varchar", { length: 255, nullable: true }),
+    __metadata("design:type", Object)
+], CardEntity.prototype, "scryfall_uri", void 0);
 exports.CardEntity = CardEntity = __decorate([
     (0, typeorm_1.Entity)("card")
 ], CardEntity);

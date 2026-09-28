@@ -14,6 +14,9 @@ const auth_controller_1 = __importDefault(require("../module/auth/controllers/au
 const middleware_1 = require("../middlewares/middleware");
 const encryption_1 = require("../../common/encryption");
 const scryfall_repository_1 = require("../module/scryfall/repository/scryfall.repository");
+const card_repository_1 = require("../module/card/repositories/card.repository");
+const card_service_1 = require("../module/card/services/card.service");
+const card_controller_1 = require("../module/card/controllers/card.controller");
 // Instancia para criptografia
 tsyringe_1.container.registerInstance("Encrypt", new encryption_1.Encrypt());
 // Instancia para middleware
@@ -30,4 +33,7 @@ tsyringe_1.container.registerInstance("AuthService", new auth_service_1.AuthServ
 tsyringe_1.container.registerInstance("AuthController", new auth_controller_1.default(tsyringe_1.container.resolve("AuthService")));
 // Instancias para card
 tsyringe_1.container.registerInstance("scryfallRepository", new scryfall_repository_1.ScryfallRepository());
+tsyringe_1.container.registerInstance("CardRepository", new card_repository_1.CardRepository());
+tsyringe_1.container.registerInstance("CardService", new card_service_1.CardService(tsyringe_1.container.resolve("CardRepository"), tsyringe_1.container.resolve("ScryfallRepository")));
+tsyringe_1.container.registerInstance("CardController", new card_controller_1.CardController(tsyringe_1.container.resolve("CardService")));
 //# sourceMappingURL=DIContainer.js.map

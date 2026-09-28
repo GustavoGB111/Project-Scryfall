@@ -1,6 +1,6 @@
 export interface CardImageUris {
   small?: string;
-  normal?: string;
+  normaç?: string;
   large?: string;
   png?: string;
   art_crop?: string;

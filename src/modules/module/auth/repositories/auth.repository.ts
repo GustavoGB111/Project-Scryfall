@@ -12,7 +12,7 @@ import {
   UserUpdatePasswordInputDto,
   UserUpdatePasswordOutputDto,
 } from "../dto/repository.dto/user-update-password.dto";
-import { getPinInputDto } from "../dto/repository.dto/pin-get-dto";
+import { getPinInputDto } from "../dto/repository.dto/pin-get.dto";
 import {
   UserRequestPinInputDto,
   UserRequestPinOutputDto,
@@ -78,7 +78,7 @@ export class AuthRepository extends IAuthRepository {
   async createPin(
     input: UserRequestPinInputDto,
   ): Promise<UserRequestPinOutputDto> {
-    const user = await this.userPinRepository.create({
+    const userPin = await this.userPinRepository.create({
       userIdPin: { userId: input.userId },
       userPin: input.userPin,
       userPinIv: input.userPinIv,
@@ -89,7 +89,7 @@ export class AuthRepository extends IAuthRepository {
       pinUsed: input.pinUsed,
       passwordReseted: input.passwordReseted,
     });
-    const { userIdPin } = await this.userPinRepository.save(user);
+    const { userIdPin } = await this.userPinRepository.save(userPin);
     return { userId: userIdPin.userId };
   }
 

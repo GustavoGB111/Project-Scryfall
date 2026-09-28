@@ -1,6 +1,6 @@
 import { UserEntity } from "../../../../../database/entities/UserEntity";
 import { UserPinEntity } from "../../../../../database/entities/UserPinEntity";
-import { getPinInputDto } from "../../dto/repository.dto/pin-get-dto";
+import { getPinInputDto } from "../../dto/repository.dto/pin-get.dto";
 import {
   UserRequestPinInputDto,
   UserRequestPinOutputDto,

@@ -9,6 +9,9 @@ import AuthController from "../module/auth/controllers/auth.controller";
 import { Middlewares } from "../middlewares/middleware";
 import { Encrypt } from "../../common/encryption";
 import { ScryfallRepository } from "../module/scryfall/repository/scryfall.repository";
+import { CardRepository } from "../module/card/repositories/card.repository";
+import { CardService } from "../module/card/services/card.service";
+import { CardController } from "../module/card/controllers/card.controller";
 
 // Instancia para criptografia
 container.registerInstance("Encrypt", new Encrypt());
@@ -52,3 +55,18 @@ container.registerInstance(
 
 // Instancias para card
 container.registerInstance("scryfallRepository", new ScryfallRepository());
+
+container.registerInstance("CardRepository", new CardRepository());
+
+container.registerInstance(
+  "CardService",
+  new CardService(
+    container.resolve("CardRepository"),
+    container.resolve("ScryfallRepository"),
+  ),
+);
+
+container.registerInstance(
+  "CardController",
+  new CardController(container.resolve("CardService")),
+);

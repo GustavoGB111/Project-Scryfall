@@ -5,48 +5,48 @@ import { CardPrices } from "./dto/cardPrices.dto";
 
 @Entity("card")
 export class CardEntity {
-  @PrimaryColumn("uuid", { name: "card_id" })
-  cardId!: string;
+  @PrimaryColumn("uuid", { nullable: false, unique: true })
+  id!: string;
 
-  @Column("varchar", { name: "name", length: 255, nullable: false })
-  cardName!: string;
+  @Column("varchar", { length: 255, nullable: false })
+  name!: string;
 
-  @Column("varchar", { name: "mana_cost", length: 255, nullable: true })
-  cardManaCost?: string;
+  @Column("varchar", { length: 255, nullable: true })
+  mana_cost!: string | null;
 
-  @Column("float", { name: "cmc", nullable: false })
-  cardCMC!: number;
+  @Column("float", { nullable: false })
+  cmc!: number;
 
-  @Column("varchar", { name: "type_line", length: 255, nullable: false })
-  cardTypeLine!: string;
+  @Column("varchar", { length: 255, nullable: false })
+  type_line!: string;
 
-  @Column("text", { name: "oracle_text", nullable: true })
-  cardOracleText?: string;
+  @Column("text", { nullable: true })
+  oracle_text!: string | null;
 
-  @Column("varchar", { name: "colors", nullable: true, array: true })
-  cardColors?: string[];
+  @Column("varchar", { nullable: true, array: true })
+  colors!: string[] | null;
 
-  @Column("varchar", { name: "color_identity", nullable: true, array: true })
-  cardColorIdentity?: string[];
+  @Column("varchar", { nullable: true, array: true })
+  color_identity!: string[] | null;
 
-  @Column("varchar", { name: "set_code", length: 255, nullable: false })
-  cardSet!: string;
+  @Column("varchar", { length: 255, nullable: false })
+  set_code!: string;
 
-  @Column("varchar", { name: "set_name", length: 255, nullable: false })
-  cardSetName!: string;
+  @Column("varchar", { length: 255, nullable: false })
+  set_name!: string;
 
-  @Column("varchar", { name: "collector_number", length: 255, nullable: false })
-  cardCollectorNumber!: string;
+  @Column("varchar", { length: 255, nullable: false })
+  collector_number!: string;
 
-  @Column("enum", { name: "rarity", enum: cardRarity, nullable: false })
-  cardRarity!: cardRarity;
+  @Column("enum", { enum: cardRarity, nullable: false })
+  rarity!: cardRarity;
 
-  @Column("json", { name: "image_uris", nullable: true })
-  cardImageUris?: CardImageUris;
+  @Column("json", { nullable: true })
+  image_uris!: CardImageUris | null;
 
-  @Column("json", { name: "prices", nullable: true })
-  cardPrices?: CardPrices;
+  @Column("json", { nullable: true })
+  prices!: CardPrices | null;
 
-  @Column("varchar", { name: "scryfall_uri", length: 255, nullable: true })
-  cardScryfallUri?: string;
+  @Column("varchar", { length: 255, nullable: true })
+  scryfall_uri!: string | null;
 }

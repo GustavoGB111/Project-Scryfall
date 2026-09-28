@@ -50,7 +50,7 @@ class AuthRepository extends auth_repository_interface_1.default {
     }
     // criar pin
     async createPin(input) {
-        const user = await this.userPinRepository.create({
+        const userPin = await this.userPinRepository.create({
             userIdPin: { userId: input.userId },
             userPin: input.userPin,
             userPinIv: input.userPinIv,
@@ -61,7 +61,7 @@ class AuthRepository extends auth_repository_interface_1.default {
             pinUsed: input.pinUsed,
             passwordReseted: input.passwordReseted,
         });
-        const { userIdPin } = await this.userPinRepository.save(user);
+        const { userIdPin } = await this.userPinRepository.save(userPin);
         return { userId: userIdPin.userId };
     }
     // update nas informações: userPin, userPinIv, userPinAuthtag, pinUsed, passwordReseted

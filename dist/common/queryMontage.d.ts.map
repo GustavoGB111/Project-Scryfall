@@ -1,0 +1,1 @@
+{"version":3,"file":"queryMontage.d.ts","sourceRoot":"","sources":["../../src/common/queryMontage.ts"],"names":[],"mappings":"AAAA,cAAM,mBAAmB;CAAG;AAE5B,qBAAa,YAAY;IAChB,WAAW,EAAE,mBAAmB,CAAC;gBAE5B,WAAW,EAAE,mBAAmB;CAG7C"}
